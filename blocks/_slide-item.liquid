@@ -1,12 +1,9 @@
 {%- assign fetch = 'low' -%}
-{%- assign image_loading = 'eager' -%}
-{%- assign block_index = section.blocks | find_index: 'id', block.id -%}
-{%- if block_index == 0 -%}
-  {%- if section.index <= 3 or request.page_type == 'index' -%}
+{%- if section.index <= 3 -%}
+  {%- assign block_index = section.blocks | find_index: 'id', block.id -%}
+  {%- if block_index == 0 -%}
     {%- assign fetch = 'high' -%}
   {%- endif -%}
-{%- elsif request.page_type == 'index' -%}
-  {%- assign image_loading = 'lazy' -%}
 {%- endif -%}
 <div id="block_id-{{ block.id }}" class="hdt-slider__slide hdt-slideshow_item slide-item_base hdt-oh" color-scheme="{{ block.settings.color_scheme }}" {{ block.shopify_attributes }} style="{% render 'block-style', settings: block.settings, type: 'background_content' %}">
   {%- if section.settings.image_height == 'adapt_image_first' or section.settings.image_height_mb == 'adapt_image_first' -%}
@@ -58,7 +55,7 @@
             echo '<source media="(max-width: 767px)" srcset="' | append: srcset | replace_first: 'style=', 'data-none='
           endunless
         endif
-        echo block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: image_loading, fetchpriority: fetch, class: img_class, sizes: sizes, widths: '400,600,800,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3200,3400,3600'
+        echo block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: 'eager', fetchpriority: fetch, class: img_class, sizes: sizes, widths: '400,600,800,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3200,3400,3600'
         echo '</picture>'
       else
         capture current
