@@ -37,9 +37,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    {%- if request.page_type == 'index' and content_for_layout contains '<template data-nichey-lcp-preload>' -%}
-      {{- content_for_layout | split: '<template data-nichey-lcp-preload>' | last | split: '</template>' | first -}}
-    {%- endif -%}
     <meta name="theme-color" content="">
 
     {% comment %} <link rel="canonical" href="{{ canonical_url }}"> {% endcomment %}

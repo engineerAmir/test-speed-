@@ -48,35 +48,14 @@
         echo '</div>'
       elsif block.settings.image != blank
         assign img_class = 'hdt-object-pos-mb'
-        assign desktop_image_tag = block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: 'eager', fetchpriority: fetch, class: img_class, sizes: sizes, widths: '400,600,800,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3200,3400,3600'
-        assign mobile_preload_srcset = blank
         echo '<picture class="hdt-media-wrapper">'
         if block.settings.image_mb != blank and block.settings.image_mb != block.settings.image
           assign srcset = block.settings.image_mb | image_url: width: block.settings.image_mb.width | image_tag: widths: '200,400,600,800,1000', alt: null | split: 'srcset="' | last
           unless srcset contains 'src='
-            assign mobile_preload_srcset = srcset | split: '"' | first
             echo '<source media="(max-width: 767px)" srcset="' | append: srcset | replace_first: 'style=', 'data-none='
           endunless
         endif
-        if request.page_type == 'index' and section.index == 1 and block_index == 0
-          assign desktop_preload_srcset = desktop_image_tag | split: 'srcset="' | last | split: '"' | first
-          echo '<template data-nichey-lcp-preload>'
-          if mobile_preload_srcset != blank
-            echo '<link rel="preload" as="image" fetchpriority="high" media="(max-width: 767px)" imagesizes="100vw" imagesrcset="' | append: mobile_preload_srcset | append: '">'
-            assign desktop_preload_media = ' media="(min-width: 768px)"'
-          else
-            assign desktop_preload_media = ''
-          endif
-          echo '<link rel="preload" as="image" fetchpriority="high"' | append: desktop_preload_media | append: ' imagesizes="' | append: sizes | append: '"'
-          if desktop_image_tag contains 'srcset="'
-            echo ' imagesrcset="' | append: desktop_preload_srcset | append: '"'
-          else
-            assign desktop_preload_url = block.settings.image | image_url: width: block.settings.image.width | escape
-            echo ' href="' | append: desktop_preload_url | append: '"'
-          endif
-          echo '></template>'
-        endif
-        echo desktop_image_tag
+        echo block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: 'eager', fetchpriority: fetch, class: img_class, sizes: sizes, widths: '400,600,800,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3200,3400,3600'
         echo '</picture>'
       else
         capture current
