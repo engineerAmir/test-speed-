@@ -92,7 +92,7 @@
       {%- comment -%}Keep unstructured descriptions accessible without duplicating parsed sections.{%- endcomment -%}
       {%- capture intro -%}{%- render 'nichey-description-part', description: product.description, part: 'intro' -%}{%- endcapture -%}
       {%- capture all_text -%}{%- render 'nichey-description-part', description: product.description, part: 'all' -%}{%- endcapture -%}
-      {%- if intro == all_text -%}{{ intro }}{%- endif -%}
+      {%- if intro == all_text -%}{{ product.description }}{%- endif -%}
     {%- endif -%}
   {%- endif -%}
 {%- endcapture -%}
