@@ -1,9 +1,15 @@
+{% doc %}
+  Existing PDP hero; summary uses the current product's excerpt or description intro.
+  @param {product} product - Current product
+  @param {section} section - Existing hero section
+{% enddoc %}
 {{ 'nichey-sticky-purchase.css' | asset_url | stylesheet_tag }}
 {{ 'nichey-product-hero.css' | asset_url | stylesheet_tag }}
 {{ 'nichey-hero-refinements.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'nichey-cart.js' | asset_url }}" defer></script>
 <script src="{{ 'nichey-product-hero.js' | asset_url }}" defer></script>
 {% assign variant = product.selected_or_first_available_variant %}
+{% assign trust_rendered = false %}{% assign services_rendered = false %}
 {% assign trust_blocks = section.blocks | where: 'type', 'trust' %}
 {% if product != blank %}
 <ny-product-hero id="NyHero-{{ section.id }}" class="ny-hero ny-hero-premium" data-section="{{ section.id }}" data-product-url="{{ product.url }}" data-error="{{ section.settings.error_label | escape }}" data-cart-error="{{ section.settings.cart_error | escape }}" data-updating="{{ section.settings.updating_label | escape }}" style="--ny-title:{{ section.settings.title_d }}px;--ny-title-t:{{ section.settings.title_t }}px;--ny-title-m:{{ section.settings.title_m }}px;--ny-hero-gap:{{ section.settings.hero_gap }}px;--ny-media-ratio:{{ section.settings.media_ratio }};--ny-media-fit:{{ section.settings.media_fit }};--ny-media-max:{{ section.settings.media_max_d }}px;--ny-media-max-m:{{ section.settings.media_max_m }}px;--ny-thumb-width:{{ section.settings.thumb_width }}px;--ny-purchase-gap:{{ section.settings.purchase_gap }}px;--ny-cta-primary:{{ section.settings.cta_primary }};--ny-cta-primary-text:{{ section.settings.cta_primary_text }};--ny-cta-secondary:{{ section.settings.cta_secondary }};--ny-cta-secondary-text:{{ section.settings.cta_secondary_text }}">
@@ -12,7 +18,11 @@
 <div class="ny-purchase">{% for block in section.blocks %}{% unless block.type == 'benefit' or block.type == 'control_icon' or block.type == 'gallery_media' %}{% capture module_content %}
 {% case block.type %}
 {% when 'title' %}{% if block.settings.vendor %}<p class="ny-eyebrow">{{ product.vendor | escape }}</p>{% endif %}{% if block.settings.badge != blank %}<p class="ny-sale">{{ block.settings.badge | escape }}</p>{% endif %}<h1>{{ product.title | escape }}</h1>
-{% when 'summary' %}{% if block.settings.text != blank %}<div class="ny-copy">{{ block.settings.text }}</div>{% else %}<div class="ny-copy">{{ product.description | strip_html | truncate: block.settings.length }}</div>{% endif %}
+{% when 'summary' %}
+{% if block.settings.text != blank %}<div class="ny-copy">{{ block.settings.text }}</div>{% else %}
+{% capture summary %}{% if product.metafields.theme.description_excerpt.value != blank %}{{ product.metafields.theme.description_excerpt | metafield_tag }}{% else %}{% render 'nichey-description-part', description: product.description, part: 'intro' %}{% endif %}{% endcapture %}
+{% assign summary = summary | replace: '<br>', ' ' | strip_html | strip %}{% if summary != blank %}<div class="ny-copy">{{ summary | truncate: block.settings.length | escape_once }}</div>{% endif %}
+{% endif %}
 {% when 'rating' %}{% render 'nichey-rating', product: product, section: section %}
 {% when 'price' %}{% render 'nichey-price', variant: variant, section: section %}
 {% when 'purchase' %}{% render 'nichey-product-form', product: product, section: section, block: block %}{% if trust_blocks.size == 0 %}{% render 'nichey-hero-services', section: section %}{% assign services_rendered = true %}{% endif %}

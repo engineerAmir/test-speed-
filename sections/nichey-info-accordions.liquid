@@ -2,6 +2,7 @@
 {% assign content = content | strip %}{% if content != blank %}
 {{ 'nichey-info-accordions.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'nichey-info-accordions.js' | asset_url }}" defer></script>
+<noscript><style>.ny-info-accordions .ny-info-content[hidden]{display:block}.ny-info-accordions .ny-info-title::after{display:none}</style></noscript>
 <div style="--ny-accordion-type:{{ section.settings.type_d }}px;--ny-accordion-type-m:{{ section.settings.type_m }}px">{{ content }}</div>
 {% endif %}
 {% schema %}
@@ -12,7 +13,7 @@
   "settings": [
     {
       "type": "paragraph",
-      "content": "Published-theme accordions, using current-product metafields first and the original description parser as fallback. Empty items are hidden."
+      "content": "Published-theme accordions, using current-product metafields first and headed product descriptions as fallback. Existing editorial headings are extracted automatically. Empty items are hidden."
     },
     {
       "type": "range",

@@ -1,0 +1,106 @@
+{% doc %}
+  Render one nonempty panel inside the existing PDP accordion.
+  @param {product} product - Current product
+  @param {section} section - Existing accordion section
+  @param {string} source - Information source
+  @param {block} [block] - Optional merchant-configured block
+{% enddoc %}
+{%- liquid
+  assign field = nil
+  assign ar = false
+  if request.locale.iso_code == 'ar'
+    assign ar = true
+  endif
+  case source
+    when 'benefits'
+      assign field = product.metafields.custom.benefits
+      assign title = 'Benefits'
+      if ar
+        assign title = 'الفوائد'
+      endif
+    when 'ingredients'
+      assign field = product.metafields.custom.ingredients
+      assign title = 'Key ingredients'
+      if ar
+        assign title = 'المكونات الرئيسية'
+      endif
+    when 'howto'
+      assign field = product.metafields.custom.how_to_use
+      assign title = 'How to use'
+      if ar
+        assign title = 'طريقة الاستخدام'
+      endif
+    when 'details'
+      assign title = 'Product details'
+      if ar
+        assign title = 'تفاصيل المنتج'
+      endif
+    when 'why'
+      assign title = 'Why we recommend it'
+      if ar
+        assign title = 'لماذا نرشحه'
+      endif
+    when 'suitability'
+      assign title = "Who it's for"
+      if ar
+        assign title = 'لمن يناسب هذا المنتج'
+      endif
+    when 'concerns'
+      assign title = 'Skin concerns'
+      if ar
+        assign title = 'مشكلات البشرة'
+      endif
+    when 'sensitive'
+      assign title = 'Sensitive skin compatibility'
+      if ar
+        assign title = 'مدى ملاءمته للبشرة الحساسة'
+      endif
+    when 'frequency'
+      assign title = 'How often to use'
+      if ar
+        assign title = 'عدد مرات الاستخدام'
+      endif
+    when 'pairing'
+      assign title = 'Routine pairing'
+      if ar
+        assign title = 'المنتجات المكملة للروتين'
+      endif
+    when 'faq'
+      assign title = 'Frequently asked questions'
+      if ar
+        assign title = 'الأسئلة الشائعة'
+      endif
+  endcase
+-%}
+{%- capture panel -%}
+  {%- if source == 'sensitive' -%}
+    <p class="ny-info-status">{% if ar %}غير مُتحقق منه في معلومات هذا المنتج بالمتجر. تواصل معنا للحصول على إرشادات خاصة بالمنتج.{% else %}Not verified in this product's store information. Contact us for product-specific guidance.{% endif %}</p>
+    {%- capture sensitive_notes -%}{%- render 'nichey-description-part', description: product.description, part: 'sensitive' -%}{%- endcapture -%}
+    {%- if sensitive_notes != blank -%}<p>{% if ar %}ملاحظات وصف المنتج (لم تُراجع بشكل مستقل):{% else %}Product description notes (not independently verified):{% endif %}</p>{{ sensitive_notes }}{%- endif -%}
+  {%- elsif field.value != blank -%}
+    {%- case field.type -%}
+      {%- when 'rich_text_field' -%}{{ field | metafield_tag }}
+      {%- when 'list.single_line_text_field', 'list.multi_line_text_field' -%}
+        <ul>{%- for item in field.value -%}<li>{{ item | escape | newline_to_br }}</li>{%- endfor -%}</ul>
+      {%- when 'single_line_text_field', 'multi_line_text_field' -%}
+        {%- assign field_html = field.value | escape | newline_to_br -%}
+        {%- render 'nichey-description-part', description: field_html, part: 'all' -%}
+    {%- endcase -%}
+  {%- else -%}
+    {%- render 'nichey-description-part', description: product.description, part: source -%}
+    {%- if source == 'details' -%}
+      {%- comment -%}Keep unstructured descriptions accessible without duplicating parsed sections.{%- endcomment -%}
+      {%- capture intro -%}{%- render 'nichey-description-part', description: product.description, part: 'intro' -%}{%- endcapture -%}
+      {%- capture all_text -%}{%- render 'nichey-description-part', description: product.description, part: 'all' -%}{%- endcapture -%}
+      {%- if intro == all_text -%}{{ intro }}{%- endif -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endcapture -%}
+{%- assign panel = panel | strip -%}
+{%- if panel != blank and title != blank -%}
+  {%- assign item_id = block.id | default: source -%}
+  <div class="ny-info-item"{% if block %} {{ block.shopify_attributes }}{% endif %}>
+    <h3><button id="NyAccordionButton-{{ section.id }}-{{ item_id }}" class="ny-info-title" type="button" aria-expanded="false" aria-controls="NyAccordionPanel-{{ section.id }}-{{ item_id }}">{{ block.settings.heading | default: title | escape }}</button></h3>
+    <div id="NyAccordionPanel-{{ section.id }}-{{ item_id }}" class="ny-info-content" role="region" aria-labelledby="NyAccordionButton-{{ section.id }}-{{ item_id }}" hidden>{{ panel }}</div>
+  </div>
+{%- endif -%}

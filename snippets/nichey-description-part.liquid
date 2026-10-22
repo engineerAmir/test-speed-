@@ -1,0 +1,82 @@
+{% doc %}
+  Extract a named, standalone heading from an existing product description.
+  Heading recognition is independent of storefront language. Never infer claims.
+  @param {string} description - Existing description or plain-text metafield HTML
+  @param {string} part - intro, benefits, ingredients, howto, details, why, suitability, concerns, sensitive, frequency, pairing, faq, or all
+{% enddoc %}
+{%- liquid
+  assign token = '___NICHEY_LINE___'
+  assign text = description | replace: '<br>', token | replace: '<br/>', token | replace: '<br />', token
+  assign text = text | replace: '</p>', token | replace: '</li>', token | replace: '</div>', token | replace: '</td>', token | replace: '</tr>', token
+  assign text = text | replace: '</h1>', token | replace: '</h2>', token | replace: '</h3>', token | replace: '</h4>', token | replace: '</h5>', token | replace: '</h6>', token
+  assign lines = text | strip_html | replace: '&nbsp;', ' ' | replace: '&#160;', ' ' | replace: ' ', ' ' | strip_newlines | split: token
+  assign current = 'intro'
+  assign selected = ''
+  assign bullet_token = '___NICHEY_BULLET___'
+  assign last_page = lines.size | divided_by: 50
+-%}
+{%- for page in (0..last_page) -%}
+{%- assign line_offset = page | times: 50 -%}
+{%- for raw_line in lines limit: 50 offset: line_offset -%}
+  {%- liquid
+    assign line = raw_line | strip
+    assign heading = line | downcase | remove: ':' | remove: '؟' | remove: '?' | replace: '’', "'" | replace: '&#39;', "'" | replace: '&apos;', "'"
+    assign next_part = ''
+    case heading
+      when 'benefits', 'الفوائد'
+        assign next_part = 'benefits'
+      when 'key ingredients', 'ingredients', 'المكونات الرئيسية', 'المكونات'
+        assign next_part = 'ingredients'
+      when 'how to use', 'directions', 'طريقة الاستخدام'
+        assign next_part = 'howto'
+      when 'product details', 'تفاصيل المنتج'
+        assign next_part = 'details'
+      when 'why we recommend it', 'why we recommend', 'لماذا نوصي به', 'لماذا نرشحه'
+        assign next_part = 'why'
+      when "who it's for", 'who is it for', 'suitable for', 'مناسب لمين', 'لمن يناسب', 'لمن يناسب هذا المنتج'
+        assign next_part = 'suitability'
+      when 'skin concerns', 'concerns', 'مشكلات البشرة', 'مشاكل البشرة'
+        assign next_part = 'concerns'
+      when 'sensitive skin', 'البشرة الحساسة'
+        assign next_part = 'sensitive'
+      when 'how often', 'frequency', 'usage frequency', 'عدد مرات الاستخدام', 'معدل الاستخدام'
+        assign next_part = 'frequency'
+      when 'pairing', 'routine pairing', 'pairs well with', 'what to pair it with', 'المنتجات المكملة', 'تنسيق الروتين'
+        assign next_part = 'pairing'
+      when 'faq', 'faqs', 'frequently asked questions', 'الأسئلة الشائعة'
+        assign next_part = 'faq'
+    endcase
+  -%}
+  {%- if next_part != blank and part != 'all' -%}
+    {%- assign current = next_part -%}
+  {%- elsif line != blank -%}
+    {%- if current == part or part == 'all' -%}
+      {%- assign first = line | slice: 0, 1 -%}
+      {%- if first == '•' or first == '–' or first == '-' -%}
+        {%- assign safe_line = line | remove_first: first | strip | escape_once -%}
+        {%- assign selected = selected | append: bullet_token | append: safe_line -%}
+      {%- else -%}
+        {%- assign safe_line = line | escape_once -%}
+        {%- if selected != blank -%}{%- assign selected = selected | append: token -%}{%- endif -%}
+        {%- assign selected = selected | append: safe_line -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- endfor -%}
+{%- if selected contains bullet_token -%}
+  {%- assign pieces = selected | split: bullet_token -%}
+  {%- assign start = selected | slice: 0, bullet_token.size -%}
+  {%- if start != bullet_token -%}<p>{{ pieces.first | replace: token, '<br>' }}</p>{%- endif -%}
+  {%- assign last_piece_page = pieces.size | divided_by: 50 -%}
+  <ul>{%- for piece_page in (0..last_piece_page) -%}
+    {%- assign piece_offset = piece_page | times: 50 -%}
+    {%- for piece in pieces limit: 50 offset: piece_offset -%}
+    {%- if forloop.first == false or piece_page > 0 or start == bullet_token -%}
+      {%- if piece != blank -%}<li>{{ piece | replace: token, '<br>' }}</li>{%- endif -%}
+    {%- endif -%}
+    {%- endfor -%}
+  {%- endfor -%}</ul>
+{%- elsif selected != blank -%}
+  <p>{{ selected | replace: token, '<br>' }}</p>
+{%- endif -%}
