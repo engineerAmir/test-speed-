@@ -1,0 +1,111 @@
+{% assign desc = product.description %}
+{% assign line_token = '___NICHEY_LINE___' %}
+
+{% comment %}
+توحيد تنسيق الـ HTML قبل تقسيم الديسكربشن.
+يدعم التنسيق القديم:
+<p><strong>BENEFITS</strong><br>• Benefit...</p>
+
+ويدعم التنسيق الجديد:
+<p>BENEFITS</p>
+<p>• Benefit...</p>
+{% endcomment %}
+
+{% assign clean_desc = desc %}
+
+{% assign clean_desc = clean_desc | replace: '<br>', line_token %}
+{% assign clean_desc = clean_desc | replace: '<br/>', line_token %}
+{% assign clean_desc = clean_desc | replace: '<br />', line_token %}
+
+{% assign clean_desc = clean_desc | replace: '</p>', line_token %}
+{% assign clean_desc = clean_desc | replace: '</li>', line_token %}
+{% assign clean_desc = clean_desc | replace: '</div>', line_token %}
+
+{% assign clean_desc = clean_desc | replace: '</h1>', line_token %}
+{% assign clean_desc = clean_desc | replace: '</h2>', line_token %}
+{% assign clean_desc = clean_desc | replace: '</h3>', line_token %}
+{% assign clean_desc = clean_desc | replace: '</h4>', line_token %}
+{% assign clean_desc = clean_desc | replace: '</h5>', line_token %}
+{% assign clean_desc = clean_desc | replace: '</h6>', line_token %}
+
+{% assign clean_desc = clean_desc | strip_html %}
+{% assign clean_desc = clean_desc | replace: '&nbsp;', ' ' %}
+{% assign clean_desc = clean_desc | replace: '&#160;', ' ' %}
+{% assign clean_desc = clean_desc | strip_newlines %}
+{% assign clean_desc = clean_desc | strip %}
+
+{% comment %} إزالة الـ line breaks المكررة الناتجة عن اختلاف HTML {% endcomment %}
+{% assign double_token = line_token | append: line_token %}
+{% assign clean_desc = clean_desc | replace: double_token, line_token %}
+{% assign clean_desc = clean_desc | replace: double_token, line_token %}
+{% assign clean_desc = clean_desc | replace: double_token, line_token %}
+{% assign clean_desc = clean_desc | replace: double_token, line_token %}
+
+
+{% comment %} تحديد العناوين بناءً على اللغة {% endcomment %}
+
+{% if request.locale.iso_code == 'ar' %}
+
+  {% assign split_benefits = 'الفوائد' %}
+  {% assign split_ingredients = 'المكونات الرئيسية' %}
+  {% assign split_howto = 'طريقة الاستخدام' %}
+  {% assign split_details = 'تفاصيل المنتج' %}
+
+  {% assign title_benefits = 'الفوائد' %}
+  {% assign title_ingredients = 'المكونات الرئيسية' %}
+  {% assign title_howto = 'طريقة الاستخدام' %}
+  {% assign title_details = 'تفاصيل المنتج' %}
+
+{% else %}
+
+  {% assign split_benefits = 'BENEFITS' %}
+  {% assign split_ingredients = 'KEY INGREDIENTS' %}
+  {% assign split_howto = 'HOW TO USE' %}
+  {% assign split_details = 'PRODUCT DETAILS' %}
+
+  {% assign title_benefits = 'BENEFITS' %}
+  {% assign title_ingredients = 'KEY INGREDIENTS' %}
+  {% assign title_howto = 'HOW TO USE' %}
+  {% assign title_details = 'PRODUCT DETAILS' %}
+
+{% endif %}
+
+
+{% comment %} تقسيم الديسكربشن بعد تنظيف الـ HTML {% endcomment %}
+
+{% assign benefits = clean_desc | split: split_benefits | last | split: split_ingredients | first %}
+{% assign ingredients = clean_desc | split: split_ingredients | last | split: split_howto | first %}
+{% assign howto = clean_desc | split: split_howto | last | split: split_details | first %}
+{% assign details = clean_desc | split: split_details | last %}
+
+
+{% comment %} إزالة أول line break بعد كل عنوان {% endcomment %}
+
+{% assign benefits = benefits | strip | remove_first: line_token %}
+{% assign ingredients = ingredients | strip | remove_first: line_token %}
+{% assign howto = howto | strip | remove_first: line_token %}
+{% assign details = details | strip | remove_first: line_token %}
+
+
+
+{% capture accordion_items %}
+{% for block in section.blocks %}
+  {% assign field = nil %}{% assign fallback = '' %}{% assign fallback_html = false %}
+  {% case block.settings.source %}
+  {% when 'benefits' %}{% assign field = product.metafields.custom.benefits %}{% assign title = title_benefits %}{% if clean_desc contains split_benefits %}{% assign fallback = benefits %}{% endif %}
+  {% when 'ingredients' %}{% assign field = product.metafields.custom.ingredients %}{% assign title = title_ingredients %}{% if clean_desc contains split_ingredients %}{% assign fallback = ingredients %}{% endif %}
+  {% when 'howto' %}{% assign field = product.metafields.custom.how_to_use %}{% assign title = title_howto %}{% if clean_desc contains split_howto %}{% assign fallback = howto %}{% endif %}
+  {% when 'details' %}{% assign title = title_details %}{% if clean_desc contains split_details %}{% assign fallback = details %}{% else %}{% assign fallback = product.description %}{% assign fallback_html = true %}{% endif %}
+  {% endcase %}
+  {% capture panel %}{% if field.value != blank %}{% if field.type == 'rich_text_field' %}{{ field | metafield_tag }}{% else %}{{ field.value | escape | newline_to_br }}{% endif %}{% elsif fallback != blank %}{% if fallback_html %}{{ fallback }}{% else %}{{ fallback | escape | replace: line_token, '<br>' }}{% endif %}{% endif %}{% endcapture %}
+  {% assign panel = panel | strip %}
+  {% if panel != blank %}
+  <div class="ny-info-item" {{ block.shopify_attributes }}>
+    <h3><button id="NyAccordionButton-{{ section.id }}-{{ block.id }}" class="ny-info-title" type="button" aria-expanded="false" aria-controls="NyAccordionPanel-{{ section.id }}-{{ block.id }}">{{ block.settings.heading | default: title | escape }}</button></h3>
+    <div id="NyAccordionPanel-{{ section.id }}-{{ block.id }}" class="ny-info-content" role="region" aria-labelledby="NyAccordionButton-{{ section.id }}-{{ block.id }}" hidden>{{ panel }}</div>
+  </div>
+  {% endif %}
+{% endfor %}
+{% endcapture %}
+{% assign accordion_items = accordion_items | strip %}
+{% if accordion_items != blank %}<ny-info-accordions class="ny-published-accordion">{{ accordion_items }}</ny-info-accordions>{% endif %}

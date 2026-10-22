@@ -1,0 +1,5 @@
+<div class="ny-intro" style="text-align:{{ section.settings.alignment }}">
+{% if section.settings.eyebrow != blank %}<p class="ny-eyebrow">{{ section.settings.eyebrow | escape }}</p>{% endif %}
+{% if section.settings.heading != blank %}<h2 id="NyHeading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>{% endif %}
+{% if section.settings.copy != blank %}<div class="ny-copy">{{ section.settings.copy }}</div>{% endif %}
+</div>

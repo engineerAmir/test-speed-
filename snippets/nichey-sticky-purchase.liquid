@@ -1,0 +1,26 @@
+{% if section.settings.sticky_purchase and product != blank %}
+{% assign sticky_variant = product.selected_or_first_available_variant %}
+{% assign sticky_form_id = 'NyStickyCheckout-' | append: section.id %}
+{{ 'hdt-sticky-atc.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'nichey-sticky-purchase.js' | asset_url }}" defer></script>
+{% comment %}Default main-product sticky layout adapted to this template's existing variant and product form.{% endcomment %}
+<ny-sticky-purchase class="hdt-sticky-btn-atc ny-sticky-purchase hdt-s-gradient" data-form="NyForm-{{ section.id }}" aria-label="{{ product.title | escape }} purchase options" aria-hidden="true" inert>
+  <div class="hdt-container ny-sticky-inner">
+    <div class="hdt-sticky-atc__product hdt-flex hdt-align-center">
+      <div class="hdt-sticky-atc__img hdt-radius-full hdt-oh hdt-relative">{% assign sticky_image = sticky_variant.featured_image | default: product.featured_image %}{% if sticky_image != blank %}{{ sticky_image | image_url: width: 160 | image_tag: loading: 'lazy', widths: '80,160', sizes: '64px', alt: '' }}{% endif %}</div>
+      <div class="hdt-sticky-atc__product-infos"><span class="hdt-sticky-atc__title hdt-text-base hdt-font-medium">{{ product.title | escape }}</span><span class="hdt-money hdt-text-base">{{ sticky_variant.price | money_with_currency }}</span></div>
+    </div>
+    <div class="hdt-sticky-atc__btns ny-sticky-actions">
+      <button type="submit" name="add" form="NyForm-{{ section.id }}" data-sticky-add class="hdt-sticky-atc__submit hdt-btn hdt-font-semibold" {% unless sticky_variant.available %}disabled{% endunless %}><span>{% if sticky_variant.available %}{{ 'products.product.add_to_cart' | t }}{% else %}{{ section.settings.sold_out_label | escape }}{% endif %}</span></button>
+      {% if section.settings.sticky_buy_now and section.settings.buy_now %}
+        {% form 'product', product, id: sticky_form_id, class: 'ny-sticky-checkout' %}
+          <input type="hidden" name="id" value="{{ sticky_variant.id }}">
+          <input type="hidden" name="quantity" value="{{ sticky_variant.quantity_rule.min | default: 1 }}">
+          {% if product.selling_plan_groups.size > 0 %}<input type="hidden" name="selling_plan" value="" disabled>{% endif %}
+          {% if sticky_variant.available %}{{ form | payment_button }}{% else %}<button type="button" class="hdt-btn" disabled>{{ section.settings.sold_out_label | escape }}</button>{% endif %}
+        {% endform %}
+      {% endif %}
+    </div>
+  </div>
+</ny-sticky-purchase>
+{% endif %}

@@ -1,0 +1,231 @@
+<section class="edit-section">
+
+  <!-- HEADER -->
+  <div class="edit-header">
+    
+    <div class="edit-left">
+      <h2>{{ section.settings.title }}</h2>
+      <p>{{ section.settings.subtitle }}</p>
+    </div>
+
+    <div class="edit-tabs">
+      <button class="tab-btn active" data-tab="tab1">
+        {{ section.settings.tab1_label }}
+      </button>
+
+      {% if section.settings.collection_2 != blank %}
+        <button class="tab-btn" data-tab="tab2">
+          {{ section.settings.tab2_label }}
+        </button>
+      {% endif %}
+    </div>
+
+  </div>
+
+  <div class="edit-container">
+
+    <!-- LEFT CARD (FULL HEIGHT) -->
+    <div class="edit-card">
+      <div class="edit-card-inner">
+        <h3>{{ section.settings.card_title }}</h3>
+        <p>{{ section.settings.card_text }}</p>
+        <a href="{{ section.settings.card_link }}" class="edit-btn">
+          {{ section.settings.card_btn }}
+        </a>
+      </div>
+    </div>
+
+    <!-- PRODUCTS -->
+    <div class="edit-products">
+
+      <!-- TAB 1 -->
+      <div class="tab-content active" id="tab1">
+        {% for product in collections[section.settings.collection_1].products limit: 8 %}
+          <div class="product-item">
+            {% render 'product-card', product: product %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- TAB 2 -->
+      {% if section.settings.collection_2 != blank %}
+      <div class="tab-content" id="tab2">
+        {% for product in collections[section.settings.collection_2].products limit: 8 %}
+          <div class="product-item">
+            {% render 'product-card', product: product %}
+          </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+    </div>
+
+  </div>
+
+</section>
+
+<style>
+.edit-section {
+  padding: 60px 0;
+  background: #fff;
+}
+
+/* HEADER */
+.edit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 25px;
+}
+
+.edit-left h2 {
+  font-size: 30px;
+  margin-bottom: 5px;
+}
+
+.edit-left p {
+  color: #666;
+}
+
+/* TABS */
+.edit-tabs {
+  display: flex;
+  gap: 20px;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  color: #888;
+  padding-bottom: 5px;
+}
+
+.tab-btn.active {
+  color: #000;
+  border-bottom: 2px solid #000;
+}
+
+/* LAYOUT */
+.edit-container {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 25px;
+  align-items: stretch;
+}
+
+/* LEFT CARD */
+.edit-card {
+  background: #e4e0d6;
+  border-radius: 18px;
+  display: flex;
+}
+
+.edit-card-inner {
+  margin: auto;
+  text-align: center;
+  padding: 30px;
+}
+
+.edit-card h3 {
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+.edit-card p {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.edit-btn {
+  background: #000;
+  color: #fff;
+  padding: 12px 25px;
+  border-radius: 999px;
+  text-decoration: none;
+}
+
+/* PRODUCTS */
+.edit-products {
+  overflow: hidden;
+}
+
+.tab-content {
+  display: none;
+  gap: 15px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.tab-content.active {
+  display: flex;
+}
+
+.product-item {
+  min-width: 250px;
+}
+
+/* MOBILE FIX 🔥 */
+@media(max-width:768px){
+
+  .edit-container {
+    grid-template-columns: 1fr;
+  }
+
+  .edit-card {
+    height: auto;
+    padding: 40px 20px;
+  }
+
+  .edit-products {
+    margin-top: 10px;
+  }
+
+  .product-item {
+    min-width: 70%;
+  }
+
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  const tabs = document.querySelectorAll('.tab-btn');
+
+  tabs.forEach(btn => {
+    btn.addEventListener('click', function(){
+      tabs.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+      document.getElementById(this.dataset.tab).classList.add('active');
+    });
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Edit Collection PRO",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "default": "The Edit: New + Loved" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Handpicked picks from just-in launches to best sellers." },
+
+    { "type": "collection", "id": "collection_1", "label": "Tab 1 Collection" },
+    { "type": "text", "id": "tab1_label", "label": "Tab 1 Label", "default": "New Arrivals" },
+
+    { "type": "collection", "id": "collection_2", "label": "Tab 2 Collection" },
+    { "type": "text", "id": "tab2_label", "label": "Tab 2 Label", "default": "Bestsellers" },
+
+    { "type": "text", "id": "card_title", "label": "Card Title", "default": "New Arrivals" },
+    { "type": "text", "id": "card_text", "label": "Card Text", "default": "Beauty’s latest. Your next must-have." },
+    { "type": "url", "id": "card_link", "label": "Card Link" },
+    { "type": "text", "id": "card_btn", "label": "Button Text", "default": "View All" }
+  ],
+  "presets": [
+    { "name": "Edit Collection PRO" }
+  ]
+}
+{% endschema %}

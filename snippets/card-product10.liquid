@@ -1,0 +1,348 @@
+{%- comment -%}
+  Renders a product card
+{%- endcomment -%}
+
+{%- liquid
+  unless product_url
+    assign product_url = card_product.url
+  endunless
+  assign featured_media = card_product.featured_media | default: settings.placeholder_img
+  assign color_count = 0
+  assign size_count = 0
+  
+  assign color_list = 'products.theme_settings.color' | t | downcase | strip | replace: ' ,', ',' | replace: ', ', ',' | split: ',' | uniq
+  assign size_list = 'products.theme_settings.size' | t | downcase | strip | replace: ' ,', ',' | replace: ', ', ',' | split: ',' | uniq
+  
+  if card_product.has_only_default_variant == false and settings.color_mode != 'hide' or settings.size_mode != 'hide'
+     assign available_variants = card_product.variants | where: "available"
+     for option in card_product.options_with_values
+        assign name_downcase = option.name | downcase
+        if settings.color_mode != 'hide' and color_list contains name_downcase and color_count == 0
+          assign color_option_index = 'option' | append: forloop.index
+          assign color_variants = option.values
+          assign color_variants_avai = available_variants | map: color_option_index | uniq
+          if settings.color_type == 'all'
+            assign color_count = color_variants.size
+          else
+            assign color_count = color_variants_avai.size
+          endif
+        elsif settings.size_mode != 'hide' and size_list contains name_downcase and size_count == 0
+          assign size_option_index = 'option' | append: forloop.index
+          assign size_variants_avai = available_variants | map: size_option_index | uniq
+          assign size_variants = option.values
+          if settings.size_type == 'all'
+            assign size_count = size_variants.size
+          else
+            if card_product.options_with_values.size == 1
+              assign size_variants = size_variants_avai
+            endif
+            assign size_count = size_variants_avai.size
+          endif
+        endif
+     endfor
+  endif
+-%}
+  
+  <hdt-card-product class="css-card hdt-card-product {{ class }}{% if card_product.available == false %} hdt-pr-sold_out{% endif %}">
+    <div class="hdt-card-product__wrapper hdt-relative hdt-oh">
+      
+      <div class="css-image-wrap hdt-card-product__media hdt-relative hdt-oh">
+        {%- render 'card-product-media', card_product: card_product, product_url: product_url, sizes: sizes, image_ratio: image_ratio -%}
+        
+        <div class="hdt-card-product__widget">
+          {%- render 'badges', product: card_product, use_variant: false -%}
+
+          <div class="css-wishlist-group hdt-absolute hdt-flex hdt-flex-col">
+            {%- liquid
+              echo btn_wishlist_code | replace_first: '19041994', card_product.id | replace_first: 'handle_nt_94', card_product.handle
+              if settings.compare_mode != "0"
+                render 'btn-compare', product_id: card_product.id, product_handle: card_product.handle, class: 'hdt-pr_btn hdt-card-product__btn-compare', placement: 'right'
+              endif -%}
+          </div>
+
+          <div class="css-cart-group hdt-absolute hdt-flex hdt-flex-col hdt-justify-center hdt-align-center">
+            {%- if settings.show_quick_view %}{% render 'btn-quick-view', class: 'hdt-pr_btn css-btn-override', product: card_product, section_id: section_id, disable_sr_only: true, attr: attr %}{% endif -%}
+            {%- if settings.show_ultra_btn %}{% render 'btn-ultra', class: 'hdt-pr_btn css-btn-override css-atc-override', product: card_product, product_url: product_url, section_id: section_id, disable_sr_only: true, show_qty: settings.show_qty, attr: attr %}{% endif -%}
+          </div>
+
+        </div>
+      </div>
+
+      <div class="css-info">
+        
+        {%- assign review_count = card_product.metafields.reviews.rating_count | default: card_product.metafields.judge_me.reviews_count | plus: 0 -%}
+        
+        {%- assign review_rating = 0.0 -%}
+        {%- if card_product.metafields.reviews.rating.value != blank -%}
+          {%- assign rating_val = card_product.metafields.reviews.rating.value -%}
+          {%- assign review_rating = rating_val.rating | default: rating_val -%}
+        {%- elsif card_product.metafields.judge_me.reviews_average != blank -%}
+          {%- assign review_rating = card_product.metafields.judge_me.reviews_average -%}
+        {%- endif -%}
+
+        <div class="css-rating" dir="ltr" style="justify-content: flex-start;">
+          <svg viewBox="0 0 24 24" fill="{% if review_count > 0 %}#FFC107{% else %}#e0e0e0{% endif %}" stroke="none">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+          </svg>
+          <span>{{ review_rating | round: 1 }}</span> 
+          <span class="css-reviews-count">({{ review_count }})</span>
+        </div>
+        
+        {%- liquid
+        if card_product.vendor.size > 0 and show_vendor
+          echo '<div class="css-vendor">'
+          render 'vendor' with card_product.vendor, class: 'hdt-inline-block hdt-text-base hdt-font-normal'
+          echo '</div>'
+        endif -%}
+        
+        <a data-pr-url href="{{ product_url }}" class="css-title hdt-card-product__title hdt-text-{{ settings.pr_title_size }} hdt-font-{{ settings.pr_title_weight }} hdt-line-clamp" data-instant>{{ card_product.title | escape }}</a>
+        
+        <div class="css-pricing-wrapper">
+          {%- liquid
+            render 'card-price', section_id: section_id, product: card_product, show_volume_note: true
+          -%}
+        </div>
+
+        {%- liquid
+          if settings.size_position == '1'
+            render 'size-list', size_variants: size_variants, size_variants_avai: size_variants_avai, size_count: size_count, product_url: product_url, class: 'hdt-justify-start hdt-size-list'
+          endif
+          render 'color-list', section_id: section_id, product: card_product, product_url: product_url, placement: 'top'
+        -%}
+      </div>
+    </div>
+  </hdt-card-product>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+  /* --- Image & Card Overrides --- */
+  .css-card {
+    background: transparent !important;
+    border: none !important;
+    display: block !important;
+  }
+
+  .css-image-wrap {
+    background: #fff !important;
+    border-radius: 8px !important;
+    padding: 0;
+    margin-bottom: 15px !important; /* تم التعديل لتطابق الكاروسيل الأصلي */
+    overflow: hidden;
+    display: block !important;
+  }
+
+  /* --- Positioning Icon Groups (Exact matching to 20px) --- */
+  .css-wishlist-group {
+    position: absolute !important;
+    top: 20px !important; /* مسافة 20 بيكسل مثل الكود الأصلي */
+    right: 20px !important; /* مسافة 20 بيكسل مثل الكود الأصلي */
+    left: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    z-index: 10 !important;
+    width: 38px !important; 
+  }
+
+  .css-cart-group {
+    position: absolute !important;
+    bottom: 20px !important; /* مسافة 20 بيكسل مثل الكود الأصلي */
+    right: 20px !important; /* مسافة 20 بيكسل مثل الكود الأصلي */
+    top: auto !important;
+    left: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    z-index: 10 !important;
+    width: 38px !important;
+  }
+
+  /* --- Universal Button Styling (Force Square 38x38) --- */
+  .css-wishlist-group > *,
+  .css-wishlist-group .hdt-pr_btn,
+  .css-cart-group .css-btn-override {
+    width: 38px !important;
+    height: 38px !important;
+    min-width: 38px !important;
+    max-width: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px !important;
+    border-radius: 6px !important;
+    background: #fff !important;
+    border: 1px solid #eee !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    position: relative !important;
+    overflow: hidden !important; 
+  }
+
+  .css-wishlist-group > *:hover,
+  .css-wishlist-group .hdt-pr_btn:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+  }
+
+  /* إخفاء نصوص القالب المزعجة */
+  .css-wishlist-group .hdt-pr_btn span:not([class*="icon"]):not(.hdt-icon),
+  .css-cart-group .css-btn-override span:not([class*="icon"]):not(.hdt-icon),
+  .css-wishlist-group .hdt-pr_btn .hdt-tooltip-text {
+    position: absolute !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    display: none !important;
+  }
+
+  /* --- Force Absolute Center & Thinner Stroke for Icons --- */
+  .css-wishlist-group svg,
+  .css-cart-group svg,
+  .css-wishlist-group i,
+  .css-cart-group i,
+  .css-wishlist-group .hdt-pr_btn::before {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 16px !important; /* تصغير الأيقونة لتطابق الأصلي */
+    height: 16px !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+    visibility: visible !important;
+    stroke-width: 1.5px !important; /* جعل الخطوط أنحف وأكثر أناقة */
+  }
+
+  /* ألوان أيقونات المفضلة (أسود) */
+  .css-wishlist-group .hdt-pr_btn svg,
+  .css-wishlist-group .hdt-pr_btn svg path,
+  .css-wishlist-group .hdt-pr_btn i,
+  .css-wishlist-group .hdt-pr_btn::before {
+    color: #1a1a1a !important;
+    fill: none !important; /* جعل القلب مفرغاً كما في الصورة */
+    stroke: #1a1a1a !important;
+  }
+
+  /* --- Add to Cart (Ultra Button) Specific Override --- */
+  .css-cart-group .css-atc-override {
+    background: #1a1a1a !important;
+    border: none !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15) !important;
+  }
+
+  /* لون أيقونة السلة (أبيض على خلفية سوداء) */
+  .css-cart-group .css-atc-override svg,
+  .css-cart-group .css-atc-override svg path,
+  .css-cart-group .css-atc-override i,
+  .css-cart-group .css-atc-override::before {
+    color: #fff !important;
+    fill: none !important;
+    stroke: #fff !important;
+  }
+
+  .css-cart-group .css-atc-override:hover {
+    background: #7c3030 !important;
+    transform: scale(1.05) !important;
+    box-shadow: 0 6px 14px rgba(124, 48, 48, 0.25) !important;
+  }
+
+  /* --- Info Area Styling --- */
+  .css-info {
+    position: relative !important;
+    display: block !important;
+    text-align: left !important;
+    padding: 0 !important; /* إزالة الـ padding الزائد */
+    background: transparent !important;
+  }
+
+  .css-vendor {
+    font-family: 'IBM Plex Sans', sans-serif !important;
+    font-size: 11px !important;
+    text-transform: uppercase !important;
+    color: #5a6650 !important;
+    font-weight: 700 !important;
+    margin-bottom: 4px !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  .css-title {
+    font-family: 'IBM Plex Sans', sans-serif !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    font-size: 13px !important; /* تم التعديل لتطابق الأصلي (13px بدلاً من 14px) */
+    color: #1a1a1a !important;
+    text-decoration: none !important;
+    line-height: 1.4 !important;
+    margin-bottom: 10px !important; /* مسافة متطابقة مع الأصلي */
+    height: 36px !important; /* ارتفاع ثابت متطابق مع الأصلي */
+    font-weight: 400 !important;
+    white-space: normal !important;
+  }
+
+  /* --- Aggressive Price Fix --- */
+  .css-pricing-wrapper .hdt-price,
+  .css-pricing-wrapper span.money,
+  .css-pricing-wrapper .hdt-money,
+  .css-pricing-wrapper .hdt-price__regular {
+    font-family: 'IBM Plex Serif', serif !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    color: #7c3030 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  /* السعر القديم (المشطوب) */
+  .css-pricing-wrapper .hdt-price__sale s,
+  .css-pricing-wrapper .hdt-price__sale s .money,
+  .css-pricing-wrapper .hdt-price__sale s .hdt-money {
+    font-size: 13px !important;
+    color: #999 !important;
+    text-decoration: line-through !important;
+    font-weight: 400 !important;
+  }
+ /* --- Rating Styling --- */
+  .css-rating {
+    font-family: 'IBM Plex Sans', sans-serif !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: #1a1a1a !important;
+    margin-bottom: 6px !important;
+    margin-top: 5px !important;
+  }
+
+  .css-rating svg {
+    width: 14px !important;
+    height: 14px !important;
+    min-width: 14px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .css-reviews-count {
+    color: #5a6650 !important;
+    font-weight: 400 !important;
+  }
+
+ /* --- Badge Fix: Move Discount Label to Left & Align --- */
+  .hdt-card-product__widget [class*="badge"],
+  .hdt-card-product__widget .hdt-badge {
+    position: absolute !important;
+    top: 14px !important; /* نفس ارتفاع زر المفضلة */
+    left: 10px !important; /* نقله لليسار */
+    right: auto !important; 
+    margin: 0 !important; /* إزالة أي هوامش افتراضية تدفعه للأسفل */
+    transform: none !important; /* إزالة أي تأثيرات تبعده عن مكانه */
+    z-index: 10 !important;
+  }
+</style>

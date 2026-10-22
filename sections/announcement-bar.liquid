@@ -1,0 +1,273 @@
+<!-- sections/announcement-bar.liquid -->
+<style>
+.lux-bar {
+  width: 100% !important;
+  max-width: none !important;
+  background-color: #1a1a1a !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  display: block !important;
+  position: relative !important;
+  z-index: 9999 !important;
+}
+
+.lux-bar-inner {
+  max-width: 1600px !important;
+  margin: 0 auto !important;
+  overflow: hidden !important;
+}
+
+.lux-track {
+  display: flex !important;
+  width: max-content !important;
+  animation: scrollLuxury calc(50s * {{ section.settings.speed }}) linear infinite !important;
+}
+
+.lux-track-ar {
+  animation: scrollLuxuryAR calc(50s * {{ section.settings.speed }}) linear infinite !important;
+}
+
+{% if section.settings.pausable %}
+.lux-track:hover {
+  animation-play-state: paused !important;
+}
+{% endif %}
+
+.lux-group {
+  display: flex !important;
+  gap: {{ section.settings.space_item }}px !important;
+  padding: 10px {{ section.settings.space_item | divided_by: 2 }}px !important;
+  flex-shrink: 0 !important;
+  align-items: center !important;
+}
+
+.lux-item {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  font-family: 'IBM Plex Sans', sans-serif !important;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.8px !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+  opacity: 0.95 !important;
+  line-height: 1 !important;
+}
+
+.lux-track-ar .lux-item {
+  letter-spacing: 0 !important;
+  direction: rtl !important;
+}
+
+/* حاوي الصورة الأساسية + الـ Overlay */
+.lux-icon-wrapper {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 17px !important;
+  height: 17px !important;
+  min-width: 17px !important;
+  transform: translateY(-0.5px) !important;
+}
+
+.lux-custom-icon {
+  width: 17px !important;
+  height: 17px !important;
+  object-fit: contain !important;
+  display: block !important;
+}
+
+/* صورة الـ Overlay الطافية */
+.lux-icon-overlay {
+  position: absolute !important;
+  top: -6px !important;
+  right: -7px !important;
+  width: 12px !important;
+  height: 12px !important;
+  object-fit: contain !important;
+  z-index: 2 !important;
+  pointer-events: none !important;
+}
+
+@keyframes scrollLuxury {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes scrollLuxuryAR {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(50%); }
+}
+
+@media (max-width: 990px) {
+  .lux-group {
+    gap: {{ section.settings.space_item | times: 0.7 }}px !important;
+    padding: 9px 10px !important;
+  }
+
+  .lux-item {
+    font-size: 12px !important;
+    gap: 7px !important;
+  }
+
+  .lux-icon-wrapper,
+  .lux-custom-icon {
+    width: 15px !important;
+    height: 15px !important;
+    min-width: 15px !important;
+    min-height: 15px !important;
+  }
+
+  .lux-icon-overlay {
+    width: 10px !important;
+    height: 10px !important;
+    top: -5px !important;
+    right: -5px !important;
+  }
+}
+</style>
+
+<div class="lux-bar">
+  <div class="lux-bar-inner">
+    <div class="lux-track {% if localization.language.iso_code == 'ar' or section.settings.direction == 'rtl' %}lux-track-ar{% endif %}">
+
+      {% capture group_items %}
+        <div class="lux-group">
+          {% for repeat in (1..4) %}
+            {% for block in section.blocks %}
+              {% if block.settings.text != blank %}
+                <div class="lux-item" {{ block.shopify_attributes }}>
+
+                  {% if block.settings.custom_icon != blank %}
+                    <div class="lux-icon-wrapper">
+                      <img src="{{ block.settings.custom_icon | image_url: width: 40 }}"
+                           alt=""
+                           class="lux-custom-icon"
+                           width="17"
+                           height="17"
+                           loading="lazy">
+
+                      {% if block.settings.overlay_image != blank %}
+                        <img src="{{ block.settings.overlay_image | image_url: width: 30 }}"
+                             alt=""
+                             class="lux-icon-overlay"
+                             width="12"
+                             height="12"
+                             loading="lazy">
+                      {% endif %}
+                    </div>
+                  {% endif %}
+
+                  <span>{{ block.settings.text }}</span>
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+        </div>
+      {% endcapture %}
+
+      {{ group_items }}
+      {{ group_items }}
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "range",
+      "id": "speed",
+      "min": 0.1,
+      "max": 2,
+      "step": 0.1,
+      "default": 0.8,
+      "label": "Speed factor (lower = faster)"
+    },
+    {
+      "type": "range",
+      "id": "space_item",
+      "min": 10,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Item gap space",
+      "default": 54
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "default": "ltr",
+      "label": "Scroll direction",
+      "options": [
+        { "value": "ltr", "label": "Left to Right" },
+        { "value": "rtl", "label": "Right to Left" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "pausable",
+      "default": true,
+      "label": "Pause animation on hover"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Free Shipping"
+        },
+        {
+          "type": "header",
+          "content": "Main Icon / Logo"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon",
+          "label": "Main icon image",
+          "info": "PNG/WebP, square, 40x40px or larger."
+        },
+        {
+          "type": "header",
+          "content": "Icon Overlay (Badge)"
+        },
+        {
+          "type": "image_picker",
+          "id": "overlay_image",
+          "label": "Overlay badge image (Optional)",
+          "info": "Shows only when a main icon image is set."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Bar",
+      "blocks": [
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "Free Shipping"
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "Limited Time"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

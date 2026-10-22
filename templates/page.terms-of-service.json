@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "terms-of-service",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

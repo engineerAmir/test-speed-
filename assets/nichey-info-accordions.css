@@ -1,0 +1,126 @@
+
+
+.ny-info-accordions .ny-published-accordion {
+  margin: 24px 0;
+}
+
+.ny-info-accordions .ny-info-item {
+  border: 1px solid #ececec;
+  border-radius: 14px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.ny-info-accordions .ny-info-title {
+  width: 100%;
+  border: 0;
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+  padding: 18px 50px 18px 18px;
+  position: relative;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+  color: #111;
+  text-transform: uppercase;
+}
+
+.ny-info-accordions .ny-info-title:after {
+  content: "+";
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.ny-info-accordions .ny-info-item.active .ny-info-accordions .ny-info-title {
+  background: #faf8f5;
+  border-bottom: 1px solid #eee;
+}
+
+.ny-info-accordions .ny-info-item.active .ny-info-accordions .ny-info-title:after {
+  content: "−";
+}
+
+.ny-info-accordions .ny-info-content {
+  display: none;
+  padding: 16px 18px 18px;
+  font-size: 13px;
+  line-height: 1.85;
+  color: #555;
+}
+
+.ny-info-accordions .ny-info-item.active .ny-info-accordions .ny-info-content {
+  display: block;
+}
+
+.ny-info-accordions .ny-info-content br {
+  display: block;
+  content: "";
+  margin-bottom: 7px;
+}
+
+
+/* RTL */
+
+html[dir="rtl"] .ny-info-accordions .ny-info-title {
+  text-align: right;
+  padding: 18px 18px 18px 50px;
+}
+
+html[dir="rtl"] .ny-info-accordions .ny-info-title:after {
+  right: auto;
+  left: 16px;
+}
+
+
+/* MOBILE */
+
+@media(max-width: 768px) {
+
+  .ny-info-accordions .ny-info-item {
+    border-radius: 12px;
+    margin-bottom: 8px;
+  }
+
+  .ny-info-accordions .ny-info-title {
+    padding: 16px 44px 16px 16px;
+    font-size: 11px;
+  }
+
+  html[dir="rtl"] .ny-info-accordions .ny-info-title {
+    padding: 16px 16px 16px 44px;
+  }
+
+  .ny-info-accordions .ny-info-title:after {
+    right: 14px;
+    width: 22px;
+    height: 22px;
+    font-size: 16px;
+  }
+
+  html[dir="rtl"] .ny-info-accordions .ny-info-title:after {
+    right: auto;
+    left: 14px;
+  }
+
+  .ny-info-accordions .ny-info-content {
+    padding: 14px 16px 16px;
+    font-size: 12px;
+    line-height: 1.75;
+  }
+
+}
+
+
+.ny-info-accordions{max-width:1280px;margin:0 auto;padding:0 20px;color:#111;box-sizing:border-box}.ny-info-accordions .ny-published-accordion{display:block}.ny-info-accordions h3{margin:0}.ny-info-accordions .ny-info-content:not([hidden]){display:block}.ny-info-accordions .ny-info-content[hidden]{display:none}.ny-info-accordions .ny-info-title{font-size:var(--ny-accordion-type,12px);text-align:start;padding-inline:18px 50px;min-height:56px}.ny-info-accordions .ny-info-title:focus-visible{outline:2px solid #7c3030;outline-offset:-4px}.ny-info-accordions .ny-info-content{overflow-wrap:anywhere}.ny-info-accordions .ny-info-content img{max-width:100%;height:auto}@media(max-width:749px){.ny-info-accordions{padding:0 16px}.ny-info-accordions .ny-info-title{font-size:var(--ny-accordion-type-m,12px);padding-inline:16px 44px}}

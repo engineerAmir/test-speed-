@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "payment",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

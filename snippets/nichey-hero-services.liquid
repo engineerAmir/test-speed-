@@ -1,0 +1,8 @@
+{% assign payment_block = section.blocks | where: 'type', 'payments' | first %}
+{% assign delivery_block = section.blocks | where: 'type', 'delivery' | first %}
+{% capture service_cards %}
+{% render 'nichey-hero-payments', section: section, block: payment_block %}
+{% render 'nichey-hero-delivery', section: section, block: delivery_block %}
+{% endcapture %}
+{% assign service_content = service_cards | strip %}
+{% if service_content != blank %}<div class="ny-hero-services" style="--ny-service-bg:{{ section.settings.service_background }};--ny-service-pad:{{ section.settings.service_padding }}px;--ny-service-gap:{{ section.settings.service_gap }}px;--ny-service-type:{{ section.settings.service_type }}px;--ny-installment-bg:{{ section.settings.installment_background }};--ny-installment-ink:{{ section.settings.installment_color }}">{{ service_cards }}</div>{% endif %}

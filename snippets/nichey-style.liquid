@@ -1,0 +1,19 @@
+{% comment %}Shared per-instance values only; structural CSS is cached separately.{% endcomment %}
+<style>
+#NySection-{{ section.id }} {
+--ny-width:{{ section.settings.width }}px;--ny-ink:{{ section.settings.ink }};--ny-muted:{{ section.settings.muted }};--ny-bg:{{ section.settings.background }};--ny-surface:{{ section.settings.surface }};--ny-line:{{ section.settings.line }};--ny-accent:{{ section.settings.accent }};--ny-button:{{ section.settings.button_color }};--ny-button-text:{{ section.settings.button_text }};--ny-radius:{{ section.settings.radius }}px;--ny-border:{{ section.settings.border }}px;--ny-card-pad:{{ section.settings.card_padding }}px;--ny-weight:{{ section.settings.weight }};
+{% assign sizes = 'd,t,m' | split: ',' %}{% for size in sizes %}{% capture suffix %}{% unless size == 'd' %}-{{ size }}{% endunless %}{% endcapture %}
+{% assign sides = 'pt,pe,pb,ps,mt,me,mb,ms' | split: ',' %}{% for side in sides %}{% assign key = side | append: '_' | append: size %}--ny-{{ side }}{{ suffix }}:{{ section.settings[key] }}px;{% endfor %}
+{% assign key = 'body_' | append: size %}--ny-body{{ suffix }}:{{ section.settings[key] }}px;
+{% assign key = 'heading_' | append: size %}--ny-heading{{ suffix }}:{{ section.settings[key] }}px;
+{% assign key = 'gap_' | append: size %}--ny-gap{{ suffix }}:{{ section.settings[key] }}px;
+{% assign key = 'columns_' | append: size %}--ny-cols{{ suffix }}:{{ section.settings[key] }};
+{% assign key = 'icon_' | append: size %}--ny-icon{{ suffix }}:{{ section.settings[key] }}px;
+{% endfor %}
+}
+{% unless request.design_mode %}
+{% unless section.settings.visible_d %}@media(min-width:1024px){#shopify-section-{{ section.id }}{display:none}}{% endunless %}
+{% unless section.settings.visible_t %}@media(min-width:750px) and (max-width:1023px){#shopify-section-{{ section.id }}{display:none}}{% endunless %}
+{% unless section.settings.visible_m %}@media(max-width:749px){#shopify-section-{{ section.id }}{display:none}}{% endunless %}
+{% endunless %}
+</style>

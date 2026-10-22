@@ -1,0 +1,220 @@
+{% doc %}
+  @prompt
+    Create a responsive Shopify specialist-support banner matching the references. Deep burgundy background, white text and subtle vertical dividers.
+    
+    Heading: “LET’S FIND YOUR FIT.”
+    Description: “Get help choosing products and customising your routine.”
+    White button: “Talk to a specialist” with a small WhatsApp icon.
+    
+    Show three numbered steps:
+    1. Tell us what you need
+    2. Explore your options
+    3. Choose your essentials
+    
+    Desktop: a thin horizontal banner, approximately 110–140px tall. Arrange heading on the left, description and button beside it, then the three steps in equal columns across the right. Vertically center all content.
+    
+    Mobile: heading, description and button at the top left, followed by three equal step columns in one row underneath. Use outlined circular numbers and subtle vertical separators. Keep the layout compact, approximately 300–340px tall.
+    
+    The button opens an editable specialist-contact URL only when clicked. Keep heading, description, button and steps as separate editable elements. Include controls for colors, typography, button icon, links, spacing, padding and separate desktop/mobile heights. Match the reference proportions without clipping text or adding excessive empty space.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-support-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    min-height: {{ block.settings.desktop_height }}px;
+    box-sizing: border-box;
+    padding: {{ block.settings.padding_y }}px {{ block.settings.padding_x }}px;
+    background: {{ block.settings.background_color }};
+    color: {{ block.settings.text_color }};
+    font-family: {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
+  }
+  .ai-support-{{ ai_gen_id }} *,
+  .ai-support-{{ ai_gen_id }} *::before,
+  .ai-support-{{ ai_gen_id }} *::after { box-sizing: border-box; }
+  .ai-support-{{ ai_gen_id }}__layout {
+    min-height: calc({{ block.settings.desktop_height }}px - {{ block.settings.padding_y | times: 2 }}px);
+    display: grid;
+    grid-template-columns: minmax(170px, 1.05fr) minmax(230px, 1.15fr) minmax(390px, 2fr);
+    align-items: center;
+    gap: {{ block.settings.column_gap }}px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  .ai-support-{{ ai_gen_id }}__intro { min-width: 0; }
+  .ai-support-{{ ai_gen_id }}__heading {
+    margin: 0;
+    color: inherit;
+    font-family: {{ block.settings.heading_font.family }}, {{ block.settings.heading_font.fallback_families }};
+    font-size: {{ block.settings.heading_size }}px;
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: .035em;
+  }
+  .ai-support-{{ ai_gen_id }}__contact {
+    min-width: 0;
+    padding-left: {{ block.settings.column_gap }}px;
+    border-left: 1px solid {{ block.settings.divider_color }};
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 12px;
+  }
+  .ai-support-{{ ai_gen_id }}__description { margin: 0; font-size: {{ block.settings.body_size }}px; line-height: 1.45; }
+  .ai-support-{{ ai_gen_id }}__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 40px;
+    padding: 9px 16px;
+    border: 1px solid {{ block.settings.button_background }};
+    border-radius: {{ block.settings.button_radius }}px;
+    background: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    font: 600 {{ block.settings.button_font_size }}px/{{ 1.2 }} {{ block.settings.body_font.family }}, {{ block.settings.body_font.fallback_families }};
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .ai-support-{{ ai_gen_id }}__button:hover { background: {{ block.settings.button_hover_color }}; border-color: {{ block.settings.button_hover_color }}; }
+  .ai-support-{{ ai_gen_id }}__button:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  .ai-support-{{ ai_gen_id }}__button svg { width: 17px; height: 17px; flex: 0 0 auto; }
+  .ai-support-{{ ai_gen_id }}__steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    min-width: 0;
+  }
+  .ai-support-{{ ai_gen_id }}__step {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 0;
+    min-height: 50px;
+    padding: 0 14px;
+    border-left: 1px solid {{ block.settings.divider_color }};
+  }
+  .ai-support-{{ ai_gen_id }}__number {
+    display: inline-flex;
+    flex: 0 0 31px;
+    width: 31px;
+    height: 31px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid {{ block.settings.number_border_color }};
+    border-radius: 50%;
+    color: {{ block.settings.number_text_color }};
+    font-size: 13px;
+    line-height: 1;
+  }
+  .ai-support-{{ ai_gen_id }}__step-text { margin: 0; font-size: {{ block.settings.step_size }}px; line-height: 1.35; }
+  @media screen and (max-width: 749px) {
+    .ai-support-{{ ai_gen_id }} {
+      min-height: {{ block.settings.mobile_height }}px;
+      padding: {{ block.settings.mobile_padding_y }}px {{ block.settings.mobile_padding_x }}px;
+    }
+    .ai-support-{{ ai_gen_id }}__layout {
+      min-height: calc({{ block.settings.mobile_height }}px - {{ block.settings.mobile_padding_y | times: 2 }}px);
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      gap: {{ block.settings.mobile_gap }}px;
+    }
+    .ai-support-{{ ai_gen_id }}__heading { font-size: {{ block.settings.mobile_heading_size }}px; }
+    .ai-support-{{ ai_gen_id }}__contact { border: 0; padding: 0; gap: 11px; }
+    .ai-support-{{ ai_gen_id }}__description { font-size: {{ block.settings.mobile_body_size }}px; }
+    .ai-support-{{ ai_gen_id }}__steps { width: 100%; margin-top: auto; }
+    .ai-support-{{ ai_gen_id }}__step { flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 8px; min-height: 80px; padding: 0 9px; }
+    .ai-support-{{ ai_gen_id }}__step:first-child { border-left: 0; padding-left: 0; }
+    .ai-support-{{ ai_gen_id }}__step-text { font-size: {{ block.settings.mobile_step_size }}px; }
+    .ai-support-{{ ai_gen_id }}__number { flex-basis: 29px; width: 29px; height: 29px; }
+  }
+{% endstyle %}
+
+<div class="ai-support-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-support-{{ ai_gen_id }}__layout">
+    <div class="ai-support-{{ ai_gen_id }}__intro">
+      <h2 class="ai-support-{{ ai_gen_id }}__heading">{{ block.settings.heading | escape }}</h2>
+    </div>
+    <div class="ai-support-{{ ai_gen_id }}__contact">
+      <p class="ai-support-{{ ai_gen_id }}__description">{{ block.settings.description | escape }}</p>
+      {% if block.settings.contact_url != blank %}
+        <a class="ai-support-{{ ai_gen_id }}__button" href="{{ block.settings.contact_url }}">
+          {% if block.settings.show_icon %}
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2A9.94 9.94 0 0 0 3.5 17.04L2 22l5.12-1.46A9.96 9.96 0 1 0 12.04 2Zm0 18.2a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.04.87.9-2.96-.2-.31a8.2 8.2 0 1 1 6.82 3.72Zm4.5-6.15c-.25-.12-1.48-.73-1.71-.81-.23-.08-.4-.12-.56.12-.17.25-.64.81-.79.98-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.48-1.39-1.73-.15-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.09s.9 2.42 1.02 2.59c.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.44.53.61.19 1.16.16 1.6.1.49-.07 1.48-.61 1.69-1.2.21-.59.21-1.09.15-1.2-.06-.1-.23-.17-.48-.29Z"/></svg>
+          {% endif %}
+          <span>{{ block.settings.button_label | escape }}</span>
+        </a>
+      {% else %}
+        <span class="ai-support-{{ ai_gen_id }}__button" aria-disabled="true">
+          {% if block.settings.show_icon %}<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2A9.94 9.94 0 0 0 3.5 17.04L2 22l5.12-1.46A9.96 9.96 0 1 0 12.04 2Zm0 18.2a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.04.87.9-2.96-.2-.31a8.2 8.2 0 1 1 6.82 3.72Zm4.5-6.15c-.25-.12-1.48-.73-1.71-.81-.23-.08-.4-.12-.56.12-.17.25-.64.81-.79.98-.14.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.48-1.39-1.73-.15-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.09s.9 2.42 1.02 2.59c.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.44.53.61.19 1.16.16 1.6.1.49-.07 1.48-.61 1.69-1.2.21-.59.21-1.09.15-1.2-.06-.1-.23-.17-.48-.29Z"/></svg>{% endif %}
+          <span>{{ block.settings.button_label | escape }}</span>
+        </span>
+      {% endif %}
+    </div>
+    <div class="ai-support-{{ ai_gen_id }}__steps" aria-label="How it works">
+      {% for i in (1..3) %}
+        {% assign step_text_key = 'step_' | append: i %}
+        <div class="ai-support-{{ ai_gen_id }}__step">
+          <span class="ai-support-{{ ai_gen_id }}__number" aria-hidden="true">0{{ i }}</span>
+          <p class="ai-support-{{ ai_gen_id }}__step-text">{{ block.settings[step_text_key] | escape }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Specialist support",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "LET’S FIND YOUR FIT." },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Get help choosing products and customising your routine." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Talk to a specialist" },
+    { "type": "url", "id": "contact_url", "label": "Specialist contact link" },
+    { "type": "checkbox", "id": "show_icon", "label": "Show WhatsApp icon", "default": true },
+    { "type": "text", "id": "step_1", "label": "Step 1", "default": "Tell us what you need" },
+    { "type": "text", "id": "step_2", "label": "Step 2", "default": "Explore your options" },
+    { "type": "text", "id": "step_3", "label": "Step 3", "default": "Choose your essentials" },
+    { "type": "header", "content": "Colors and typography" },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#641D2B" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#FFFFFF" },
+    { "type": "color", "id": "divider_color", "label": "Dividers", "default": "#A97880" },
+    { "type": "color", "id": "number_border_color", "label": "Number outline", "default": "#D8BFC3" },
+    { "type": "color", "id": "number_text_color", "label": "Number text", "default": "#FFFFFF" },
+    { "type": "color", "id": "button_background", "label": "Button background", "default": "#FFFFFF" },
+    { "type": "color", "id": "button_text_color", "label": "Button text", "default": "#4B1520" },
+    { "type": "color", "id": "button_hover_color", "label": "Button hover", "default": "#EDE4E5" },
+    { "type": "font_picker", "id": "heading_font", "label": "Heading font", "default": "poppins_n4" },
+    { "type": "font_picker", "id": "body_font", "label": "Body font", "default": "karla_n4" },
+    { "type": "range", "id": "heading_size", "label": "Heading size", "min": 16, "max": 32, "step": 1, "unit": "px", "default": 22 },
+    { "type": "range", "id": "mobile_heading_size", "label": "Mobile heading size", "min": 16, "max": 30, "step": 1, "unit": "px", "default": 21 },
+    { "type": "range", "id": "body_size", "label": "Description size", "min": 12, "max": 20, "step": 1, "unit": "px", "default": 14 },
+    { "type": "range", "id": "mobile_body_size", "label": "Mobile description size", "min": 12, "max": 19, "step": 1, "unit": "px", "default": 14 },
+    { "type": "range", "id": "step_size", "label": "Step text size", "min": 12, "max": 18, "step": 1, "unit": "px", "default": 14 },
+    { "type": "range", "id": "mobile_step_size", "label": "Mobile step text size", "min": 11, "max": 16, "step": 1, "unit": "px", "default": 12 },
+    { "type": "range", "id": "button_font_size", "label": "Button text size", "min": 12, "max": 18, "step": 1, "unit": "px", "default": 13 },
+    { "type": "header", "content": "Layout and spacing" },
+    { "type": "range", "id": "desktop_width_percent", "label": "Desktop width", "min": 50, "max": 100, "step": 5, "unit": "%", "default": 100 },
+    { "type": "range", "id": "desktop_height", "label": "Desktop height", "min": 100, "max": 180, "step": 5, "unit": "px", "default": 130 },
+    { "type": "range", "id": "mobile_height", "label": "Mobile height", "min": 250, "max": 380, "step": 10, "unit": "px", "default": 320 },
+    { "type": "range", "id": "padding_x", "label": "Desktop side padding", "min": 10, "max": 60, "step": 5, "unit": "px", "default": 30 },
+    { "type": "range", "id": "padding_y", "label": "Desktop vertical padding", "min": 5, "max": 35, "step": 5, "unit": "px", "default": 15 },
+    { "type": "range", "id": "mobile_padding_x", "label": "Mobile side padding", "min": 10, "max": 35, "step": 5, "unit": "px", "default": 20 },
+    { "type": "range", "id": "mobile_padding_y", "label": "Mobile vertical padding", "min": 10, "max": 35, "step": 5, "unit": "px", "default": 20 },
+    { "type": "range", "id": "column_gap", "label": "Desktop column gap", "min": 5, "max": 35, "step": 5, "unit": "px", "default": 15 },
+    { "type": "range", "id": "mobile_gap", "label": "Mobile content gap", "min": 8, "max": 30, "step": 2, "unit": "px", "default": 14 },
+    { "type": "range", "id": "button_radius", "label": "Button corner radius", "min": 0, "max": 20, "step": 2, "unit": "px", "default": 4 }
+  ],
+  "presets": [
+    { "name": "Specialist support" }
+  ],
+  "tag": null,
+  "class": "specialist-support-block"
+}
+{% endschema %}

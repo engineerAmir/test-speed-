@@ -1,0 +1,28 @@
+{% if section.settings.show_payments %}
+{% assign methods = section.blocks | where: 'type', 'payment_method' %}
+{% assign manual_keys = '|' %}
+{% for method in methods %}{% if method.settings.confirmed %}{% assign manual_keys = manual_keys | append: method.settings.provider | append: '|' %}{% endif %}{% endfor %}
+<div class="ny-card ny-hero-payments">
+<h3>{{ section.settings.payment_heading | default: block.settings.title | escape }}</h3>
+{% capture payment_content %}
+{% if section.settings.auto_payments %}{% for type in shop.enabled_payment_types %}{% assign provider_key = type | prepend: '|' | append: '|' %}{% unless manual_keys contains provider_key %}<li class="ny-payment-entry"><span class="ny-payment-content"><span class="ny-sr">{{ type | replace: '_', ' ' | escape }}</span>{{ type | payment_type_svg_tag }}</span></li>{% endunless %}{% endfor %}{% endif %}
+{% for method in methods %}{% render 'nichey-payment-entry', method: method %}{% endfor %}
+{% unless manual_keys contains '|cod|' %}{% if block.settings.manual != blank %}<li class="ny-payment-entry"><span class="ny-payment-content">{% render 'nichey-icon', name: 'box' %}<span>{{ block.settings.manual | escape }}</span></span></li>{% endif %}{% endunless %}
+{% if methods.size == 0 %}
+{% if section.settings.verified_cards %}{% unless shop.enabled_payment_types contains 'visa' %}<li class="ny-payment-entry"><span class="ny-payment-content"><span class="ny-sr">Visa</span>{{ 'visa' | payment_type_svg_tag }}</span></li>{% endunless %}{% unless shop.enabled_payment_types contains 'master' %}<li class="ny-payment-entry"><span class="ny-payment-content"><span class="ny-sr">Mastercard</span>{{ 'master' | payment_type_svg_tag }}</span></li>{% endunless %}{% endif %}
+{% if section.settings.verified_wallets and section.settings.wallet_label != blank %}<li class="ny-payment-entry"><span class="ny-payment-content">{% render 'nichey-icon', name: 'lock' %}<span>{{ section.settings.wallet_label | escape }}</span></span></li>{% endif %}
+{% endif %}
+{% endcapture %}{% assign visible_payments = payment_content | strip %}{% if visible_payments != blank %}<ul class="ny-payment-list" role="list">{{ payment_content }}</ul>{% endif %}
+{% if section.settings.cashback_text != blank %}<p class="ny-cashback" style="--ny-cashback-size:{{ section.settings.cashback_type | default: 11 }}px">{{ section.settings.cashback_text | escape }}</p>{% endif %}
+{% if block.settings.note != blank %}<p class="ny-muted ny-payment-note">{{ block.settings.note | escape }}</p>{% endif %}
+{% if section.settings.show_installments and section.settings.installment_text != blank %}
+{% capture installment_row %}
+{% if section.settings.installment_logo != blank %}{{ section.settings.installment_logo | image_url: width: 160 | image_tag: loading: 'lazy', alt: '', class: 'ny-installment-logo' }}{% elsif section.settings.installment_icon != 'none' %}{% render 'nichey-icon', name: section.settings.installment_icon %}{% endif %}
+<span class="ny-installment-copy"><span class="ny-installment-heading">{{ section.settings.installment_text | escape }}</span>{% if section.settings.installment_url != blank and section.settings.installment_details != blank %}<span class="ny-installment-description">{{ section.settings.installment_details | strip_html | escape }}</span>{% endif %}</span>
+{% endcapture %}
+{% if section.settings.installment_url != blank %}<a class="ny-installment-row" href="{{ section.settings.installment_url }}">{{ installment_row }}{% render 'nichey-icon', name: 'arrow' %}</a>
+{% elsif section.settings.installment_details != blank %}<details class="ny-installment-disclosure"><summary class="ny-installment-row">{{ installment_row }}{% render 'nichey-icon', name: 'arrow' %}</summary><div class="ny-installment-body ny-copy">{{ section.settings.installment_details }}</div></details>
+{% else %}<div class="ny-installment-row">{{ installment_row }}</div>{% endif %}
+{% endif %}
+</div>
+{% endif %}

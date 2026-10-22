@@ -1,0 +1,1032 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500&family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+.nq-scope {
+  --nq-onyx: #1a1a1a;
+  --nq-pearl: #f7f5f0;
+  --nq-crimson: #7c3030;
+  --nq-sage: #5a6650;
+  --nq-font-serif: 'IBM Plex Serif', serif;
+  --nq-font-sans: 'IBM Plex Sans', sans-serif;
+  --nq-border-radius: 8px;
+  --nq-transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* تنسيقات البانر الجديد */
+.nq-banner-trigger {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto 20px;
+  cursor: pointer;
+  border-radius: var(--nq-border-radius);
+  overflow: hidden;
+  transition: var(--nq-transition);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.nq-banner-trigger:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.nq-banner-trigger img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.nq-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(26, 26, 26, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--nq-transition);
+}
+
+.nq-overlay.nq-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.nq-modal {
+  background-color: var(--nq-pearl);
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  border-radius: var(--nq-border-radius);
+  overflow-y: auto;
+  position: relative;
+  transform: translateY(20px);
+  transition: var(--nq-transition);
+  box-shadow: 0 24px 48px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+}
+
+/* دعم الاتجاه العربي (RTL) */
+.nq-modal[dir="rtl"] {
+  text-align: right;
+}
+.nq-modal[dir="rtl"] .nq-back-btn svg {
+  transform: rotate(180deg);
+}
+.nq-modal[dir="rtl"] .nq-option-btn {
+  text-align: right;
+}
+
+.nq-overlay.nq-active .nq-modal {
+  transform: translateY(0);
+}
+
+.nq-modal::-webkit-scrollbar {
+  width: 6px;
+}
+.nq-modal::-webkit-scrollbar-track {
+  background: transparent;
+}
+.nq-modal::-webkit-scrollbar-thumb {
+  background-color: rgba(26,26,26,0.2);
+  border-radius: 10px;
+}
+
+.nq-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  border-bottom: 1px solid rgba(26,26,26,0.08);
+  position: sticky;
+  top: 0;
+  background-color: rgba(247, 245, 240, 0.95);
+  backdrop-filter: blur(4px);
+  z-index: 10;
+}
+
+.nq-back-btn, .nq-close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--nq-onyx);
+  font-family: var(--nq-font-sans);
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 8px 0;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nq-back-btn:hover, .nq-close-btn:hover {
+  opacity: 1;
+}
+
+.nq-back-btn svg { width: 14px; height: 14px; }
+.nq-close-btn svg { width: 20px; height: 20px; }
+
+.nq-brand {
+  font-family: var(--nq-font-serif);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--nq-onyx);
+  letter-spacing: 1px;
+}
+
+.nq-body {
+  padding: 40px 32px;
+  flex: 1;
+}
+
+.nq-step {
+  display: none;
+  animation: nqFadeIn 0.5s forwards;
+}
+
+.nq-step.nq-active {
+  display: block;
+}
+
+@keyframes nqFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.nq-step-subtitle {
+  font-family: var(--nq-font-sans);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--nq-sage);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.nq-step-title {
+  font-family: var(--nq-font-serif);
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--nq-onyx);
+  margin-bottom: 32px;
+  line-height: 1.3;
+}
+
+.nq-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nq-option-btn {
+  background: transparent;
+  border: 1px solid rgba(26,26,26,0.2);
+  border-radius: var(--nq-border-radius);
+  padding: 18px 24px;
+  text-align: left;
+  font-family: var(--nq-font-sans);
+  font-size: 16px;
+  color: var(--nq-onyx);
+  cursor: pointer;
+  transition: var(--nq-transition);
+}
+
+.nq-option-btn:hover {
+  border-color: var(--nq-onyx);
+  background-color: rgba(26,26,26,0.03);
+}
+
+/* Analysis Screen */
+.nq-analysis-container {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.nq-analysis-loader {
+  width: 100%;
+  height: 2px;
+  background-color: rgba(26,26,26,0.1);
+  margin: 40px 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.nq-analysis-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: var(--nq-sage);
+  width: 0%;
+  transition: width 2.5s linear;
+}
+.nq-modal[dir="rtl"] .nq-analysis-progress { left: auto; right: 0; }
+
+.nq-analysis-msg {
+  font-family: var(--nq-font-sans);
+  font-size: 15px;
+  color: var(--nq-onyx);
+  opacity: 0.8;
+  height: 24px;
+  transition: opacity 0.3s;
+}
+
+/* Results Screen */
+.nq-results-summary {
+  background-color: #fff;
+  border: 1px solid rgba(26,26,26,0.08);
+  border-radius: var(--nq-border-radius);
+  padding: 20px;
+  margin-bottom: 32px;
+  font-family: var(--nq-font-sans);
+}
+
+.nq-results-summary p {
+  margin: 6px 0;
+  font-size: 14px;
+  color: var(--nq-onyx);
+}
+
+.nq-results-summary span {
+  font-weight: 500;
+  color: var(--nq-sage);
+}
+
+.nq-routine {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.nq-routine-step-label {
+  font-family: var(--nq-font-sans);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--nq-onyx);
+  opacity: 0.6;
+  margin-bottom: 8px;
+}
+
+.nq-routine-step-label strong {
+  color: var(--nq-onyx);
+  font-weight: 600;
+  opacity: 1;
+  margin-left: 4px;
+  letter-spacing: 0;
+}
+.nq-modal[dir="rtl"] .nq-routine-step-label strong { margin-left: 0; margin-right: 4px; }
+
+.nq-product-card {
+  display: flex;
+  background: #fff;
+  border: 1px solid rgba(26,26,26,0.08);
+  border-radius: var(--nq-border-radius);
+  padding: 16px;
+  gap: 16px;
+  align-items: center;
+  transition: var(--nq-transition);
+  text-decoration: none;
+}
+
+.nq-product-card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  border-color: rgba(26,26,26,0.15);
+}
+
+.nq-product-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+  background-color: var(--nq-pearl);
+}
+
+.nq-product-info {
+  flex: 1;
+}
+
+.nq-product-title {
+  font-family: var(--nq-font-serif);
+  font-size: 15px;
+  color: var(--nq-onyx);
+  margin: 0 0 6px 0;
+  line-height: 1.4;
+}
+
+.nq-product-price {
+  font-family: var(--nq-font-sans);
+  font-size: 14px;
+  color: var(--nq-crimson);
+  margin: 0;
+}
+
+.nq-why {
+  background-color: var(--nq-onyx);
+  color: var(--nq-pearl);
+  padding: 32px;
+  border-radius: var(--nq-border-radius);
+  margin-bottom: 32px;
+}
+
+.nq-why h4 {
+  font-family: var(--nq-font-serif);
+  font-size: 20px;
+  font-weight: 300;
+  margin: 0 0 20px 0;
+}
+
+.nq-why ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-family: var(--nq-font-sans);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.nq-why li {
+  margin-bottom: 12px;
+  display: flex;
+  gap: 10px;
+}
+
+.nq-why li::before {
+  content: "✓";
+  color: var(--nq-sage);
+}
+
+.nq-cta-btn {
+  display: block;
+  width: 100%;
+  background-color: var(--nq-sage);
+  color: #fff;
+  font-family: var(--nq-font-sans);
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  padding: 20px;
+  border: none;
+  border-radius: var(--nq-border-radius);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: var(--nq-transition);
+}
+
+.nq-cta-btn:hover {
+  background-color: var(--nq-onyx);
+}
+
+.nq-restart {
+  display: block;
+  text-align: center;
+  margin-top: 24px;
+  font-family: var(--nq-font-sans);
+  font-size: 13px;
+  color: var(--nq-onyx);
+  text-decoration: underline;
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .nq-header { padding: 20px 24px; }
+  .nq-body { padding: 32px 24px; }
+  .nq-step-title { font-size: 24px; }
+  .nq-why { padding: 24px; }
+  .nq-product-img { width: 64px; height: 64px; }
+}
+.nq-scope [hidden] { display:none !important; }
+.nq-scope *, .nq-scope *::before, .nq-scope *::after { box-sizing:border-box; }
+.nq-banner-trigger { display:block; padding:0; border:0; background:transparent; }
+.nq-modal { color:var(--nq-onyx); }
+.nq-option-btn[aria-pressed="true"] { border-color:var(--nq-sage); background:rgba(90,102,80,0.08); }
+.nq-option-btn:focus-visible,.nq-scope button:focus-visible,.nq-scope a:focus-visible { outline:2px solid var(--nq-onyx); outline-offset:3px; }
+
+
+.nq-product-info { min-width:0; } .nq-product-title { overflow-wrap:anywhere; }
+
+.nq-empty { color:var(--nq-onyx); line-height:1.8; }
+@media(prefers-reduced-motion:reduce) { .nq-scope * { animation:none!important; transition:none!important; } }
+.nq-product-title a { color:inherit; text-decoration:none; }
+.nq-add-product { margin-top:12px; padding:10px 16px; border:0; border-radius:8px; background:var(--nq-sage); color:#fff; cursor:pointer; font:inherit; }
+.nq-add-product:disabled,.nq-cta-btn:disabled { opacity:.5; cursor:not-allowed; }
+.nq-cart-message { font:14px var(--nq-font-sans); color:var(--nq-sage); line-height:1.5; }
+.nq-cart-message[data-error="true"] { color:var(--nq-crimson); }
+.nq-view-cart { display:block; text-align:center; margin-top:16px; color:var(--nq-onyx); }
+.nq-atc-form { display:block; flex:0 0 auto; margin-inline-start:auto; }
+.nq-atc-form form { margin:0; padding:0; }
+.nq-cart-icon { display:flex; align-items:center; justify-content:center; width:46px; height:46px; padding:12px; background:#1a1a1a; color:#fff; border:0; border-radius:6px; box-shadow:0 4px 10px rgba(0,0,0,.15); cursor:pointer; }
+.nq-cart-icon svg { width:22px; height:22px; flex-shrink:0; }
+.nq-cart-icon:hover:not(:disabled) { background:#7c3030; }
+.nq-cart-icon:disabled { background:#8b8b8b; box-shadow:none; cursor:not-allowed; opacity:.55; width:auto; min-width:46px; }
+.nq-cart-icon span { font:600 10px var(--nq-font-sans); text-transform:uppercase; max-width:62px; }
+.nq-product-img { flex-shrink:0; }
+@media(max-width:400px) { .nq-product-card { gap:10px; padding:12px; } .nq-product-img { width:48px; height:48px; } }
+
+/* Keep theme form widths from squeezing product names. */
+.nq-scope .nq-routine { width:100%; min-width:0; }
+.nq-scope .nq-product-card { display:grid; grid-template-columns:64px minmax(0,1fr) 46px; gap:14px; width:100%; min-width:0; align-items:center; }
+.nq-scope .nq-product-img { grid-column:1; grid-row:1; width:64px; height:64px; object-fit:contain; }
+.nq-scope .nq-product-info { grid-column:2; grid-row:1; width:auto; min-width:0; max-width:none; }
+.nq-scope .nq-product-title,.nq-scope .nq-product-title a { display:block; width:100%; min-width:0; max-width:none; height:auto; white-space:normal; word-break:normal; overflow-wrap:break-word; writing-mode:horizontal-tb; font-size:15px; line-height:1.5; }
+.nq-scope .nq-atc-form { grid-column:3; grid-row:1; display:block; width:46px; min-width:0; max-width:46px; margin:0; position:static; }
+.nq-scope .nq-atc-form form { display:block; width:46px; min-width:0; max-width:46px; margin:0; padding:0; }
+.nq-scope .nq-cart-icon,.nq-scope .nq-cart-icon:disabled { width:46px; min-width:46px; max-width:46px; height:46px; padding:8px; }
+.nq-scope .nq-cart-icon span { white-space:normal; font-size:9px; line-height:1.2; }
+@media(max-width:400px) {
+ .nq-scope .nq-body { padding:24px 16px; }
+ .nq-scope .nq-product-card { grid-template-columns:48px minmax(0,1fr); gap:10px; padding:12px; }
+ .nq-scope .nq-product-img { width:48px; height:48px; }
+ .nq-scope .nq-atc-form { grid-column:2; grid-row:2; justify-self:end; }
+}
+.nq-signup { margin-top:32px; padding:24px; background:#fff; border:1px solid rgba(26,26,26,.12); border-radius:8px; font-family:var(--nq-font-sans); }
+.nq-signup h3 { font:24px var(--nq-font-serif); margin:0 0 12px; }
+.nq-signup p { font-size:14px; line-height:1.6; }
+.nq-signup label { display:block; margin:16px 0 6px; font-size:14px; }
+.nq-signup input:not([type="hidden"]) { display:block; width:100%; min-width:0; padding:14px; border:1px solid #aaa; border-radius:8px; background:#fff; color:#1a1a1a; font:16px var(--nq-font-sans); }
+.nq-signup input:focus-visible { outline:2px solid var(--nq-sage); outline-offset:2px; }
+.nq-signup .nq-cta-btn { margin-top:20px; }
+.nq-signup-errors { color:var(--nq-crimson); }
+</style>
+<div class="nq-scope" dir="ltr" lang="en" data-nichey-quiz data-section="{{ section.id }}" data-ar="false" data-root="{{ routes.root_url }}" data-currency="{{ cart.currency.iso_code }}" data-locale="en"><button type="button" class="nq-banner-trigger" id="nq-open-quiz-{{ section.id }}" aria-haspopup="dialog">
+  
+    <picture>
+      {% if section.settings.banner_image_mobile != blank %}
+        <source media="(max-width: 768px)" srcset="{% if section.settings.banner_image_mobile.width >= 320 %}{{ section.settings.banner_image_mobile | image_url: width: 320 }} 320w, {% endif %}{% if section.settings.banner_image_mobile.width >= 420 %}{{ section.settings.banner_image_mobile | image_url: width: 420 }} 420w, {% endif %}{% if section.settings.banner_image_mobile.width >= 640 %}{{ section.settings.banner_image_mobile | image_url: width: 640 }} 640w, {% endif %}{% if section.settings.banner_image_mobile.width >= 840 %}{{ section.settings.banner_image_mobile | image_url: width: 840 }} 840w, {% endif %}{% if section.settings.banner_image_mobile.width >= 1000 %}{{ section.settings.banner_image_mobile | image_url: width: 1000 }} 1000w, {% endif %}{% if section.settings.banner_image_mobile.width >= 1280 %}{{ section.settings.banner_image_mobile | image_url: width: 1280 }} 1280w, {% endif %}{% if section.settings.banner_image_mobile.width < 1280 %}{{ section.settings.banner_image_mobile | image_url: width: section.settings.banner_image_mobile.width }} {{ section.settings.banner_image_mobile.width }}w{% endif %}" sizes="100vw" width="{{ section.settings.banner_image_mobile.width }}" height="{{ section.settings.banner_image_mobile.height }}">
+      {% elsif section.settings.banner_image == blank %}
+        <source media="(max-width: 768px)" srcset="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/FULL_WIDTH_3_phone_size.webp?v=1781213262&width=320 320w, https://cdn.shopify.com/s/files/1/0815/5696/3547/files/FULL_WIDTH_3_phone_size.webp?v=1781213262&width=420 420w, https://cdn.shopify.com/s/files/1/0815/5696/3547/files/FULL_WIDTH_3_phone_size.webp?v=1781213262&width=640 640w, https://cdn.shopify.com/s/files/1/0815/5696/3547/files/FULL_WIDTH_3_phone_size.webp?v=1781213262&width=840 840w, https://cdn.shopify.com/s/files/1/0815/5696/3547/files/FULL_WIDTH_3_phone_size.webp?v=1781213262&width=1280 1280w" sizes="100vw" width="1600" height="480">
+      {% endif %}
+      {% if section.settings.banner_image != blank %}
+        <img src="{{ section.settings.banner_image | image_url: width: 1200 }}" srcset="{% if section.settings.banner_image.width >= 400 %}{{ section.settings.banner_image | image_url: width: 400 }} 400w, {% endif %}{% if section.settings.banner_image.width >= 800 %}{{ section.settings.banner_image | image_url: width: 800 }} 800w, {% endif %}{% if section.settings.banner_image.width >= 1200 %}{{ section.settings.banner_image | image_url: width: 1200 }} 1200w, {% endif %}{% if section.settings.banner_image.width >= 1600 %}{{ section.settings.banner_image | image_url: width: 1600 }} 1600w, {% endif %}{% if section.settings.banner_image.width >= 2000 %}{{ section.settings.banner_image | image_url: width: 2000 }} 2000w, {% endif %}{% if section.settings.banner_image.width < 2000 %}{{ section.settings.banner_image | image_url: width: section.settings.banner_image.width }} {{ section.settings.banner_image.width }}w{% endif %}" sizes="100vw" width="{{ section.settings.banner_image.width }}" height="{{ section.settings.banner_image.height }}" alt="{{ section.settings.banner_image.alt | default: 'Find Your Perfect Recommendations' | escape }}" loading="lazy">
+      {% else %}
+        <img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/FULL_WIDTH_3.webp?v=1780936123&width=1200" srcset="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/FULL_WIDTH_3.webp?v=1780936123&width=400 400w, https://cdn.shopify.com/s/files/1/0815/5696/3547/files/FULL_WIDTH_3.webp?v=1780936123&width=800 800w, https://cdn.shopify.com/s/files/1/0815/5696/3547/files/FULL_WIDTH_3.webp?v=1780936123&width=1200 1200w, https://cdn.shopify.com/s/files/1/0815/5696/3547/files/FULL_WIDTH_3.webp?v=1780936123&width=1600 1600w, https://cdn.shopify.com/s/files/1/0815/5696/3547/files/FULL_WIDTH_3.webp?v=1780936123&width=2000 2000w" sizes="100vw" width="1600" height="480" alt="Find Your Perfect Recommendations" loading="lazy">
+      {% endif %}
+    </picture>
+  
+</button>
+
+<div class="nq-overlay" id="nq-overlay-{{ section.id }}" hidden>
+  <div class="nq-modal" id="nq-modal-{{ section.id }}" role="dialog" aria-modal="true" aria-label="Skin quiz" tabindex="-1" >
+    
+    <div class="nq-header">
+      <button type="button" class="nq-back-btn" id="nq-back-{{ section.id }}" style="visibility: hidden;">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back
+      </button>
+      <div class="nq-brand">Nichey.</div>
+      <button type="button" class="nq-close-btn" id="nq-close-{{ section.id }}" aria-label="Close">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <div class="nq-body">
+      <div class="nq-step nq-active" data-step="1">
+        <span class="nq-step-subtitle">Step 1 of 4</span>
+        <h2 class="nq-step-title">How does your skin usually feel a few hours after cleansing?</h2>
+        <div class="nq-options">
+          <button type="button" class="nq-option-btn" data-key="type" data-val="dry">Dry</button>
+          <button type="button" class="nq-option-btn" data-key="type" data-val="normal">Normal</button>
+          <button type="button" class="nq-option-btn" data-key="type" data-val="combo">Combination</button>
+          <button type="button" class="nq-option-btn" data-key="type" data-val="oily">Oily</button>
+        </div>
+      </div>
+
+      <div class="nq-step" data-step="2">
+        <span class="nq-step-subtitle">Step 2 of 4</span>
+        <h2 class="nq-step-title">What's your biggest skin concern?</h2>
+        <div class="nq-options">
+          <button type="button" class="nq-option-btn" data-key="concern" data-val="acne">Breakouts, Pimples & Clogged Pores</button>
+          <button type="button" class="nq-option-btn" data-key="concern" data-val="darkspots">Dark Spots & Uneven Skin Tone</button>
+          <button type="button" class="nq-option-btn" data-key="concern" data-val="redness">Redness, Irritation & Sensitivity</button>
+          <button type="button" class="nq-option-btn" data-key="concern" data-val="aging">Fine Lines & Loss of Firmness</button>
+          <button type="button" class="nq-option-btn" data-key="concern" data-val="dehydration">Dryness, Dehydration & Tightness</button>
+          <button type="button" class="nq-option-btn" data-key="concern" data-val="dullness">Dullness & Lack of Glow</button>
+        </div>
+      </div>
+
+      <div class="nq-step" data-step="3"><span class="nq-step-subtitle">Step 3 of 4</span><h2 class="nq-step-title">How old are you?</h2><div class="nq-options"><button type="button" class="nq-option-btn" data-key="age" data-val="under25">Under 25</button><button type="button" class="nq-option-btn" data-key="age" data-val="25plus">25 & Above</button></div></div><div class="nq-step" data-step="4"><span class="nq-step-subtitle">Step 4 of 4</span><h2 class="nq-step-title">Are you pregnant?</h2><div class="nq-options"><button type="button" class="nq-option-btn" data-key="pregnancy" data-val="yes">Yes</button><button type="button" class="nq-option-btn" data-key="pregnancy" data-val="no">No</button></div></div><div class="nq-step" data-step="analysis">
+        <div class="nq-analysis-container">
+          <h2 class="nq-step-title">Analyzing your skin profile...</h2>
+          <div class="nq-analysis-loader">
+            <div class="nq-analysis-progress" id="nq-progress-{{ section.id }}"></div>
+          </div>
+          <div class="nq-analysis-msg" id="nq-msg-{{ section.id }}">Evaluating skin characteristics...</div>
+        </div>
+      </div>
+
+      <div class="nq-step" data-step="results">
+        <h2 class="nq-step-title" style="margin-bottom: 24px;">Your Personalized Recommendations</h2>
+        
+        <div class="nq-results-summary">
+          <p>Skin Type: <span id="nq-res-type-{{ section.id }}">-</span></p>
+          <p>Primary Concern: <span id="nq-res-concern-{{ section.id }}">-</span></p>
+<p>Age: <span id="nq-res-age-{{ section.id }}"></span></p><p>Pregnancy: <span id="nq-res-pregnancy-{{ section.id }}"></span></p></div><p class="nq-empty" id="nq-empty-{{ section.id }}" role="status" hidden></p><div class="nq-routine" id="nq-routine-container-{{ section.id }}"></div>
+
+        
+
+        
+        
+<p class="nq-cart-message" id="nq-cart-message-{{ section.id }}" role="status" aria-live="polite" hidden></p>
+<a class="nq-view-cart" id="nq-view-cart-{{ section.id }}" href="{{ routes.cart_url }}" hidden>View cart</a>
+<button type="button" class="nq-restart" id="nq-restart-{{ section.id }}">Retake Consultation</button>
+      </div>
+
+
+      {% if section.settings.enable_signup %}
+      <div class="nq-step nq-signup" data-step="signup" id="nq-signup-{{ section.id }}">
+        <h2 class="nq-step-title">{{ section.settings.signup_heading | escape }}</h2>
+        <p>{{ section.settings.signup_text | escape }}</p>
+        {% assign signup_form_id = 'nq-newsletter-' | append: section.id %}
+        {% form 'customer', id: signup_form_id, class: 'nq-newsletter-form' %}
+          <input type="hidden" name="contact[tags]" value="newsletter,nichey-quiz">
+          {% if form.posted_successfully? %}
+            <p role="status" tabindex="-1" data-signup-feedback data-signup-success>Thanks for signing up! If you receive a confirmation email, please confirm your subscription.</p><button type="button" class="nq-restart" data-signup-retake>Retake Consultation</button>
+          {% else %}
+            {% if form.errors %}<div class="nq-signup-errors" role="alert" tabindex="-1" data-signup-feedback>{{ form.errors | default_errors }}</div>{% endif %}
+            <label for="nq-signup-name-{{ section.id }}">Name</label>
+            <input id="nq-signup-name-{{ section.id }}" type="text" name="contact[first_name]" autocomplete="given-name" required maxlength="100" value="{{ customer.first_name | escape }}">
+            <label for="nq-signup-email-{{ section.id }}">Email</label>
+            <input id="nq-signup-email-{{ section.id }}" type="email" name="contact[email]" autocomplete="email" autocapitalize="off" autocorrect="off" required value="{{ form.email | default: customer.email | escape }}" aria-describedby="nq-signup-consent-{{ section.id }}">
+            <label for="nq-signup-phone-{{ section.id }}">Mobile number</label>
+            <input id="nq-signup-phone-{{ section.id }}" type="tel" name="contact[phone]" autocomplete="tel" inputmode="tel" required pattern="^\+?[0-9\s\-]{8,15}$" placeholder="01XXXXXXXXX" value="{{ form.phone | default: customer.phone | escape }}">
+            <label for="nq-signup-dob-{{ section.id }}">Date of birth</label>
+            <input id="nq-signup-dob-{{ section.id }}" type="date" name="nq_birthdate" autocomplete="bday" required max="{{ 'now' | date: '%Y-%m-%d' }}">
+            <p id="nq-signup-consent-{{ section.id }}">By subscribing, you agree to receive marketing emails from Nichey. You can unsubscribe at any time.</p>
+            <button type="submit" class="nq-cta-btn">{{ section.settings.signup_button | escape }}</button>
+          {% endif %}
+        {% endform %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<div hidden data-rules>
+{% for block in section.blocks %}
+<template data-rule data-type="{{ block.settings.type | escape }}" data-concern="{{ block.settings.concern | escape }}" data-goal="{{ block.settings.goal | escape }}" data-age="{{ block.settings.age | escape }}" data-pregnancy="{{ block.settings.pregnancy | escape }}">
+{% for product in block.settings.products %}
+{% assign quiz_variant = product.selected_or_first_available_variant %}
+<div class="nq-product-card">
+{% if product.featured_image %}<img class="nq-product-img" src="{{ product.featured_image | image_url: width: 240 }}" alt="{{ product.title | escape }}" width="80" height="80" loading="lazy">{% endif %}
+<div class="nq-product-info"><h4 class="nq-product-title"><a href="{{ product.url }}">{{ product.title | escape }}</a></h4><p class="nq-product-price">{{ product.price | money }}</p>{% unless product.available %}<span>Sold out</span>{% endunless %}</div><div class="nq-atc-form">
+{% assign product_form_id = 'product-form-quiz-' | append: section.id | append: '-' | append: block.id | append: '-' | append: product.id %}
+{% form 'product', product, id: product_form_id, class: 'nq-product-form', data-gift-card-recipient: false %}
+<input type="hidden" name="id" value="{{ quiz_variant.id }}">
+<input type="hidden" name="quantity" value="1">
+<button type="submit" name="add" class="nq-cart-icon" aria-label="{% if quiz_variant.available %}Add to cart{% else %}Out of stock{% endif %}" {% unless quiz_variant.available %}disabled{% endunless %} {% if product.requires_selling_plan %}disabled{% endif %}>
+{% if product.requires_selling_plan %}<span>Choose a plan</span>{% elsif quiz_variant.available %}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path><path d="M20 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path><path d="M12 10h4"></path><path d="M14 8v4"></path></svg>{% else %}<span>Out of stock</span>{% endif %}
+</button>{% endform %}</div></div>
+{% endfor %}</template>{% endfor %}</div>
+<textarea hidden data-overrides>{{ section.settings.combinations_json | escape }}</textarea>
+<script>(() => {
+  const root = document.currentScript.closest('[data-nichey-quiz]');
+  const id = root.dataset.section;
+  const ar = false;
+  const $ = name => root.querySelector('#nq-' + name + '-' + id);
+  const overlay = $('overlay'), modal = $('modal');
+  const steps = [...root.querySelectorAll('.nq-step')];
+  const keys = ['type','concern','age','pregnancy'];
+  let answers = {}, current = 0, generation = 0, previousFocus, oldOverflow;
+  let signupPassed=false;
+  const signupForm=root.querySelector('.nq-newsletter-form');
+  const pendingKey='nichey-quiz-signup:' + location.pathname + ':' + id;
+  function readPending() {
+    try {
+      const saved=JSON.parse(sessionStorage.getItem(pendingKey) || 'null');
+      if(!saved || Date.now()-saved.time > 30*60*1000) { sessionStorage.removeItem(pendingKey); return null; }
+      if(!keys.every(key => [...root.querySelectorAll('[data-key]')].some(button => button.dataset.key===key && button.dataset.val===saved.answers?.[key]))) return null;
+      return saved.answers;
+    } catch (_) { return null; }
+  }
+  signupForm?.addEventListener('submit', event => {
+    // Normalize Egyptian mobile numbers to international format (Shopify requires E.164)
+    const phoneInput = signupForm.querySelector('[name="contact[phone]"]');
+    if (phoneInput) {
+      let p = phoneInput.value.replace(/[\s\-()]/g, '');
+      if (/^01\d{9}$/.test(p)) p = '+20' + p.slice(1);
+      else if (/^20\d{10}$/.test(p)) p = '+' + p;
+      phoneInput.value = p;
+    }
+    // Shopify has no birthdate field, so save it as a customer tag
+    const dob = signupForm.querySelector('[name="nq_birthdate"]');
+    const tags = signupForm.querySelector('[name="contact[tags]"]');
+    if (dob?.value && tags) tags.value = 'newsletter,nichey-quiz,birthday:' + dob.value;
+
+    // Keep only quiz selections temporarily in this tab while Shopify handles the form.
+    try { sessionStorage.setItem(pendingKey,JSON.stringify({time:Date.now(),answers})); }
+    catch (_) {
+      event.preventDefault();
+      let message=signupForm.querySelector('[data-storage-error]');
+      if(!message) { message=document.createElement('p'); message.dataset.storageError=''; message.setAttribute('role','alert'); signupForm.append(message); }
+      message.textContent='Please allow browser storage and try again so we can keep your recommendations.';
+    }
+  });
+  $('routine-container').addEventListener('submit', async event => {
+    const form=event.target.closest('.nq-product-form');
+    if(!form) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    const button=form.querySelector('button[type="submit"]');
+    if(!button || button.disabled) return;
+    button.disabled=true; button.setAttribute('aria-busy','true');
+    const message=$('cart-message'); message.hidden=true;
+    try {
+      const response=await fetch(root.dataset.root.replace(/\/?$/, '/')+'cart/add.js',{method:'POST',headers:{Accept:'application/json'},body:new FormData(form)});
+      const result=await response.json();
+      if(!response.ok || result.status>=400) throw Error(typeof result.description==='string'?result.description:'Could not add this product. Please try again.');
+      message.textContent='Product added to your cart.'; message.dataset.error='false'; $('view-cart').hidden=false;
+      // Refresh the theme's cart contents without calling its drawer-open methods.
+      document.dispatchEvent(new CustomEvent('cart:refresh', { bubbles:true }));
+      document.dispatchEvent(new CustomEvent('cart:reload', { bubbles:true }));
+    } catch(error) { message.textContent=error.message || 'Could not add this product.'; message.dataset.error='true'; }
+    finally { message.hidden=false; button.disabled=false; button.removeAttribute('aria-busy'); }
+  }, true);
+  const rules = [...root.querySelectorAll('[data-rule]')];
+  let overrides = {}, configError = false;
+  try {
+    overrides = JSON.parse(root.querySelector('[data-overrides]')?.value.trim() || '{}');
+    if (!overrides || Array.isArray(overrides) || typeof overrides !== 'object') throw Error('Invalid configuration');
+  } catch (e) { configError = true; console.error('Skin quiz: invalid combinations JSON', e); }
+  function show(name) {
+    steps.forEach(step => step.classList.toggle('nq-active', step.dataset.step === name));
+    $('back').style.visibility = current > 0 && current < 4 ? 'visible' : 'hidden';
+    root.querySelectorAll('.nq-option-btn').forEach(btn => btn.setAttribute('aria-pressed', String(answers[btn.dataset.key] === btn.dataset.val)));
+    modal.scrollTop = 0;
+    const heading = root.querySelector('.nq-step.nq-active h2');
+    heading.tabIndex = -1;
+    if (!overlay.hidden) heading.focus();
+  }
+  function close() {
+    overlay.hidden = true;
+    overlay.classList.remove('nq-active');
+    document.body.style.overflow = oldOverflow || '';
+    previousFocus?.focus();
+  }
+  $('open-quiz').addEventListener('click', () => {
+    previousFocus = document.activeElement;
+    oldOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    overlay.hidden = false;
+    overlay.classList.add('nq-active');
+    modal.focus();
+  });
+  $('close').addEventListener('click', close);
+  overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+  overlay.addEventListener('keydown', e => {
+    if (e.key === 'Escape') close();
+    if (e.key !== 'Tab') return;
+    const visible = [...modal.querySelectorAll('button:not([disabled]),a[href],input:not([type=hidden]):not([disabled]),select:not([disabled]),textarea:not([disabled])')].filter(el => el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden');
+    const first=visible[0], last=visible[visible.length-1];
+    if (e.shiftKey && (document.activeElement === first || !visible.includes(document.activeElement))) { e.preventDefault(); last?.focus(); }
+    else if (!e.shiftKey && (document.activeElement === last || !visible.includes(document.activeElement))) { e.preventDefault(); first?.focus(); }
+  });
+  $('back').addEventListener('click', () => { if(current > 0 && current < 4) { current--; show(String(current+1)); } });
+  $('restart').addEventListener('click', () => { generation++; answers={}; current=0; $('routine-container').replaceChildren(); show('1'); });
+  root.querySelectorAll('.nq-option-btn').forEach(btn => btn.addEventListener('click', () => {
+    if (keys[current] !== btn.dataset.key) return;
+    answers[btn.dataset.key] = btn.dataset.val;
+    current++;
+    if(current < 4) show(String(current+1));
+    else if(signupForm && !signupPassed) show('signup');
+    else buildResults();
+  }));
+
+  // Returns EVERY block that matches the answers ("Any" = matches all answers).
+  // Order follows the block order in the theme editor.
+  function findRules(key) {
+    const values = key.split('|');
+    return rules.filter(rule => keys.every((field, index) => {
+      const value = (rule.dataset[field] || '').trim();
+      if (!value || value === 'unset' || value === 'all') return true;
+      return value === values[index];
+    }));
+  }
+
+  async function loadProduct(handle) {
+    if(typeof handle !== 'string' || !/^[a-z0-9][a-z0-9-]*$/.test(handle)) throw Error('Invalid product handle');
+    const base = root.dataset.root.replace(/\/?$/, '/');
+    const response = await fetch(base+'products/'+encodeURIComponent(handle)+'.js');
+    if(!response.ok) throw Error('Product unavailable');
+    const product = await response.json();
+    const card = document.createElement('div'); card.className='nq-product-card';
+    if(product.featured_image) { const img=document.createElement('img'); img.className='nq-product-img'; img.src=product.featured_image; img.alt=product.title; img.width=80; img.height=80; card.append(img); }
+    const info=document.createElement('div'); info.className='nq-product-info';
+    const title=document.createElement('h4'); title.className='nq-product-title';
+    const link=document.createElement('a'); link.href=base+'products/'+encodeURIComponent(handle); link.textContent=product.title; title.append(link);
+    const price=document.createElement('p'); price.className='nq-product-price'; price.textContent=new Intl.NumberFormat(root.dataset.locale,{style:'currency',currency:root.dataset.currency || 'EGP'}).format(product.price/100);
+    info.append(title,price);
+    const variant=product.variants.find(v=>v.available) || product.variants[0];
+    const wrapper=document.createElement('div'); wrapper.className='nq-atc-form';
+    const form=document.createElement('form'); form.method='post'; form.action=base+'cart/add'; form.className='nq-product-form';
+    for(const [name,value] of Object.entries({form_type:'product',utf8:'✓',id:String(variant?.id || ''),quantity:'1'})) {const input=document.createElement('input');input.type='hidden';input.name=name;input.value=value;form.append(input);}
+    const add=document.createElement('button'); add.type='submit'; add.name='add'; add.className='nq-cart-icon';
+    add.disabled=!variant?.available || product.requires_selling_plan;
+    add.setAttribute('aria-label',variant?.available?'Add to cart':'Out of stock');
+    if(add.disabled) {const label=document.createElement('span');label.textContent=product.requires_selling_plan?'Choose a plan':'Out of stock';add.append(label);}
+    else add.innerHTML="<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z\"></path><path d=\"M20 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z\"></path><path d=\"M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6\"></path><path d=\"M12 10h4\"></path><path d=\"M14 8v4\"></path></svg>";
+    form.append(add);wrapper.append(form);
+    if(!product.available) {const label=document.createElement('span');label.textContent=ar?'نفد المخزون':'Sold out';info.append(label);}
+    card.append(info,wrapper); return card;
+  }
+  async function buildResults() {
+    if(signupForm && !signupPassed) { show('signup'); return; }
+    const token=++generation;
+    $('cart-message').hidden=true;
+    $('view-cart').hidden=true;
+    show('analysis');
+    $('msg').textContent=ar?'جاري البحث عن المنتجات المحددة لإجاباتك...':'Finding the products selected for your answers...';
+    const container=$('routine-container'); container.replaceChildren();
+    const empty=$('empty'); empty.hidden=true;
+    keys.forEach(key => { const button=[...root.querySelectorAll('[data-key]')].find(b=>b.dataset.key===key && b.dataset.val===answers[key]); $('res-'+key).textContent=button?.textContent.trim() || ''; });
+    const key=keys.map(k=>answers[k]).join('|');
+    let failed=false;
+    try {
+      const matched=findRules(key);
+      if(matched.length) {
+        // Show every matching block; remove duplicate products across blocks.
+        const seen=new Set();
+        for(const rule of matched) {
+          const fragment=rule.content.cloneNode(true);
+          fragment.querySelectorAll('.nq-product-card').forEach(card => {
+            const href=card.querySelector('.nq-product-title a')?.getAttribute('href');
+            if(!href) return;
+            if(seen.has(href)) card.remove(); else seen.add(href);
+          });
+          container.append(fragment);
+        }
+      } else if(!configError && Object.prototype.hasOwnProperty.call(overrides,key)) {
+        const handles=overrides[key];
+        if(!Array.isArray(handles)) throw Error('Expected product list');
+        const cards=await Promise.all([...new Set(handles)].map(loadProduct));
+        if(token!==generation || !root.isConnected)return;
+        container.append(...cards);
+      }
+    } catch(e) { failed=true; console.error('Skin quiz: result unavailable', { combination: key, error: e }); }
+    if(token!==generation || !root.isConnected)return;
+    if(!container.querySelector('.nq-product-card')) {
+      empty.textContent=failed?(ar?'تعذر تحميل الترشيحات. يرجى المحاولة لاحقًا.':'Recommendations could not be loaded. Please try again later.'):(ar?'لم تُحدد منتجات لهذه الإجابات بعد. تواصلي معنا للمساعدة في اختيار المنتجات.':'Products have not been selected for these answers yet. Contact us for help.');
+      empty.hidden=false;
+    }
+    current=5; show('results');
+  }
+  const unload=e=>{if(e.detail.sectionId===id){generation++;if(!overlay.hidden)close();document.removeEventListener('shopify:section:unload',unload);}};
+  document.addEventListener('shopify:section:unload',unload);
+  root.querySelector('[data-signup-retake]')?.addEventListener('click', () => $('restart').click());
+  show('1');
+  const feedback=root.querySelector('[data-signup-feedback]');
+  const pending=readPending();
+  const returnedToSignup=location.hash === '#nq-newsletter-' + id;
+  if(feedback && pending && returnedToSignup) {
+    answers=pending;
+    current=4;
+    $('open-quiz').click();
+    if(root.querySelector('[data-signup-success]')) {
+      signupPassed=true;
+      try { sessionStorage.removeItem(pendingKey); } catch (_) {}
+      buildResults();
+    } else { show('signup'); feedback.focus(); }
+  }
+
+})();
+</script>
+</div>
+{% schema %}
+{
+  "name": "Nichey Skin Quiz",
+  "max_blocks": 50,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "Quiz banner image",
+      "info": "Clicking this image opens the quiz."
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image_mobile",
+      "label": "Mobile banner image",
+      "info": "Optional. If empty, your main banner image is used on mobile."
+    },
+    {
+      "type": "paragraph",
+      "content": "Choose answers and products for each block. Any matches every answer. Every block that matches the customer's answers is shown, and products are merged (duplicates removed)."
+    },
+    {
+      "type": "textarea",
+      "id": "combinations_json",
+      "label": "Advanced combinations JSON",
+      "info": "Optional fallback only. Used only when no combination block matches the customer's answers."
+    },
+    {
+      "type": "header",
+      "content": "Email signup"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_signup",
+      "label": "Require name and email before results",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "signup_heading",
+      "label": "Form heading",
+      "default": "Your recommendations are ready"
+    },
+    {
+      "type": "text",
+      "id": "signup_text",
+      "label": "Form description",
+      "default": "Enter your name and email to continue to your recommendations."
+    },
+    {
+      "type": "text",
+      "id": "signup_button",
+      "label": "Button text",
+      "default": "Continue"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "combination",
+      "name": "Combination & products",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Combination name"
+        },
+        {
+          "type": "select",
+          "id": "type",
+          "label": "Skin feel",
+          "default": "unset",
+          "options": [
+            {
+              "value": "unset",
+              "label": "Any"
+            },
+            {
+              "value": "dry",
+              "label": "Dry"
+            },
+            {
+              "value": "normal",
+              "label": "Normal"
+            },
+            {
+              "value": "combo",
+              "label": "Combination"
+            },
+            {
+              "value": "oily",
+              "label": "Oily"
+            }
+          ],
+          "info": "Any matches every answer to this question."
+        },
+        {
+          "type": "select",
+          "id": "concern",
+          "label": "Skin concern",
+          "default": "unset",
+          "options": [
+            {
+              "value": "unset",
+              "label": "Any"
+            },
+            {
+              "value": "acne",
+              "label": "Breakouts, Pimples & Clogged Pores"
+            },
+            {
+              "value": "darkspots",
+              "label": "Dark Spots & Uneven Skin Tone"
+            },
+            {
+              "value": "redness",
+              "label": "Redness, Irritation & Sensitivity"
+            },
+            {
+              "value": "aging",
+              "label": "Fine Lines & Loss of Firmness"
+            },
+            {
+              "value": "dehydration",
+              "label": "Dryness, Dehydration & Tightness"
+            },
+            {
+              "value": "dullness",
+              "label": "Dullness & Lack of Glow"
+            }
+          ],
+          "info": "Any matches every answer to this question."
+        },
+        {
+          "type": "select",
+          "id": "goal",
+          "label": "Skin goal (not asked in the quiz anymore)",
+          "default": "unset",
+          "options": [
+            {
+              "value": "unset",
+              "label": "Any"
+            },
+            {
+              "value": "clear",
+              "label": "Clear Skin"
+            },
+            {
+              "value": "bright",
+              "label": "Brighter Complexion"
+            },
+            {
+              "value": "barrier",
+              "label": "Stronger Barrier"
+            },
+            {
+              "value": "hydrate",
+              "label": "Deep Hydration"
+            },
+            {
+              "value": "glow",
+              "label": "Healthy Glow"
+            }
+          ],
+          "info": "The quiz no longer asks this question, so this setting is not used for matching anymore."
+        },
+        {
+          "type": "select",
+          "id": "age",
+          "label": "Age",
+          "default": "unset",
+          "options": [
+            {
+              "value": "unset",
+              "label": "Any"
+            },
+            {
+              "value": "under25",
+              "label": "Under 25"
+            },
+            {
+              "value": "25plus",
+              "label": "25 & Above"
+            }
+          ],
+          "info": "Any matches every answer to this question."
+        },
+        {
+          "type": "select",
+          "id": "pregnancy",
+          "label": "Pregnancy",
+          "default": "unset",
+          "options": [
+            {
+              "value": "unset",
+              "label": "Any"
+            },
+            {
+              "value": "yes",
+              "label": "Yes"
+            },
+            {
+              "value": "no",
+              "label": "No"
+            }
+          ],
+          "info": "Any matches every answer to this question."
+        },
+        {
+          "type": "product_list",
+          "id": "products",
+          "label": "Products",
+          "limit": 12
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nichey Skin Quiz"
+    }
+  ]
+}
+{% endschema %}

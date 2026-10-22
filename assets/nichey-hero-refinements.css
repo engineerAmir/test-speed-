@@ -1,0 +1,28 @@
+/* Only requested hero refinements; purchase, service and bundle styles are untouched. */
+.ny-section .ny-hero-premium .ny-trust-cards{display:flex;flex-wrap:nowrap;align-items:stretch;gap:var(--ny-trust-gap,8px);padding:0;background:transparent;border:0;border-radius:0;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;scrollbar-width:thin}
+.ny-section .ny-hero-premium .ny-trust-cards>div{flex:1 0 0;min-width:0;box-sizing:border-box;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:16px 10px;background:var(--ny-trust-bg,#fff);border:1px solid var(--ny-trust-border,#e9e9e7);border-radius:var(--ny-trust-radius,12px);text-align:center;overflow-wrap:normal}
+.ny-section .ny-hero-premium .ny-trust-cards .ny-icon{width:var(--ny-icon-size,28px);height:var(--ny-icon-size,28px);flex-shrink:0;margin-bottom:9px;color:var(--ny-icon-color,var(--ny-accent,#7c3030))}
+.ny-section .ny-hero-premium .ny-trust-cards h3{font-size:var(--ny-trust-heading,13px)!important;line-height:1.35;margin:0;font-weight:600}
+.ny-section .ny-hero-premium .ny-trust-cards p{font-size:12px!important;line-height:1.45;margin:6px 0 0}
+@media(min-width:750px){.ny-hero-premium .ny-gallery{grid-template-columns:minmax(0,1fr);gap:12px}.ny-hero-premium .ny-thumbs{order:2;flex-direction:row;max-height:none;overflow-x:auto;scroll-snap-type:x proximity;align-items:stretch}.ny-hero-premium .ny-thumb{flex:0 0 var(--ny-thumb-width,58px);min-width:0;scroll-snap-align:start}.ny-hero-premium .ny-stage{grid-row:1}.ny-hero-premium .ny-slide>img,.ny-hero-premium .ny-slide>video,.ny-hero-premium .ny-slide>iframe,.ny-hero-premium .ny-slide>model-viewer{max-height:var(--ny-media-max,560px)}}
+@media(max-width:749px){.ny-section .ny-hero-premium .ny-trust-cards{gap:var(--ny-trust-gap-m,8px)}.ny-section .ny-hero-premium .ny-trust-cards>div{flex:1 0 calc((100% - (var(--ny-trust-count,3) - 1)*var(--ny-trust-gap-m,8px))/var(--ny-trust-count,3));min-width:100px;padding:12px 8px}.ny-section .ny-hero-premium .ny-trust-cards .ny-icon{width:min(var(--ny-icon-size,28px),24px);height:min(var(--ny-icon-size,28px),24px);margin-bottom:8px;max-width:24px;max-height:24px}.ny-section .ny-hero-premium .ny-trust-cards h3{font-size:var(--ny-trust-heading-m,12px)!important}.ny-section .ny-hero-premium .ny-trust-cards p{font-size:12px}}
+/* The published card sizes its tooltip wrapper; give its nested native submit control the same hit area. */
+[id$="__product_recommendations"] .css-cart-group .hdt-card-product__btn-ultra{width:38px!important;height:38px!important;min-width:38px!important;min-height:38px!important;padding:0!important}
+
+/* Reference refinement: generous rounded cards, blue icons, horizontal mobile rail. */
+.ny-section .ny-hero-premium .ny-trust-cards{padding:12px;background:#fafafa;border-radius:26px;scroll-padding-inline:12px;scrollbar-width:none}
+.ny-section .ny-hero-premium .ny-trust-cards::-webkit-scrollbar{display:none}
+.ny-section .ny-hero-premium .ny-trust-cards>div{padding:22px 12px;min-height:154px;border-width:2px;justify-content:center}
+.ny-section .ny-hero-premium .ny-trust-cards .ny-icon{margin-bottom:14px}
+.ny-section .ny-hero-premium .ny-trust-cards h3{font-weight:600;line-height:1.3}
+@media(max-width:749px){.ny-section .ny-hero-premium .ny-trust-cards>div{flex:1 0 132px;min-width:132px;min-height:142px;padding:18px 10px}.ny-section .ny-hero-premium .ny-trust-cards .ny-icon{width:32px;height:32px;max-width:32px;max-height:32px;margin-bottom:12px}}
+
+/* Theme Editor controls for the reference trust-card presentation. */
+.ny-section .ny-hero-premium .ny-trust-cards{background:var(--ny-trust-outer-bg);border-radius:var(--ny-trust-outer-radius);padding:var(--ny-trust-outer-padding);scroll-padding-inline:var(--ny-trust-outer-padding)}
+.ny-section .ny-hero-premium .ny-trust-cards>div{padding:var(--ny-trust-padding-d) 12px;min-height:var(--ny-trust-height-d);border-width:var(--ny-trust-border-width)}
+.ny-section .ny-hero-premium .ny-trust-cards .ny-icon{margin-bottom:var(--ny-trust-icon-gap)}
+.ny-section .ny-hero-premium .ny-trust-cards h3{color:var(--ny-trust-text-color)}
+.ny-section .ny-hero-premium .ny-trust-cards p{font-size:var(--ny-trust-body-size)!important;color:var(--ny-trust-body-color)}
+@media(max-width:749px){.ny-section .ny-hero-premium .ny-trust-cards>div{flex-basis:var(--ny-trust-width-m);min-width:var(--ny-trust-width-m);min-height:var(--ny-trust-height-m);padding:var(--ny-trust-padding-m) 10px}.ny-section .ny-hero-premium .ny-trust-cards .ny-icon{width:var(--ny-trust-icon-m)!important;height:var(--ny-trust-icon-m)!important;max-width:var(--ny-trust-icon-m);max-height:var(--ny-trust-icon-m)}.ny-section .ny-hero-premium .ny-trust-cards[data-mobile-scroll="false"]>div{flex:1 1 0;min-width:0}}
+
+@media(min-width:750px){.ny-section .ny-hero-premium .ny-trust-cards{justify-content:center}.ny-section .ny-hero-premium .ny-trust-cards>div{flex:0 1 var(--ny-trust-width-d,140px)}}

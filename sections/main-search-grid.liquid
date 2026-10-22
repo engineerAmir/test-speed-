@@ -1,0 +1,2510 @@
+{{ 'hdt-main-pages.css' | asset_url | stylesheet_tag }}
+{{ 'facets.css' | asset_url | stylesheet_tag }}
+{{ 'hdt-widget.css' | asset_url | stylesheet_tag }}
+{{ 'hdt-pagination.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign products_id = 'products-' | append: section.id
+
+  assign col_mb = section.settings.col_mb | plus: 0
+  assign col_tb = section.settings.col_tb | plus: 0
+  assign col_dk = section.settings.col_dk | plus: 0
+
+  assign current_width = settings.page_width | append: 'px'
+  assign current_width_tb = '100vw'
+  assign current_width_mb = '100vw'
+
+  if section.settings.section_layout == "full_width"
+    assign current_width = '100vw - 100px'
+    assign current_width_tb = '100vw - 20px'
+    assign current_width_mb = '100vw - 10px'
+  endif
+
+  if section.settings.section_layout == 'container'
+    assign parent = 'hdt-container'
+    assign child = 'hdt-section-spacing hdt-s-gradient hdt-relative hdt-section-spacing-' | append: section.id
+  elsif section.settings.section_layout == 'wrapper_container'
+    assign parent = 'hdt-section-spacing hdt-s-gradient hdt-relative hdt-section-spacing-' | append: section.id
+    assign child = 'hdt-container'
+  else
+    assign parent = 'hdt-container-full hdt-section-spacing hdt-s-gradient hdt-relative hdt-section-spacing-' | append: section.id
+    assign child = ''
+  endif
+-%}
+
+{%- if section.settings.show_description and collection.description != blank -%}
+  {%- capture collection_description -%}
+    <div class="hdt-main-collection-description-wrap">
+      <div class="{{ parent }}">
+        <div class="{{ child }}">
+          <readmore-less-wrap class="hdt-contents hdt-collection-description" hdt-reveal="slide-in" timeline>
+            <div class="wrapper" wrap-content style="--max-height: {{ section.settings.read_more_height }}px;">
+              <readmore-less config='{"useReadMore": {{ section.settings.use_read_more | default: false }}, "readMoreHeight": {{ section.settings.read_more_height }} }'>
+                <div class="hdt-rte">
+                  {{ collection.description }}
+                </div>
+              </readmore-less>
+            </div>
+            <div class="hdt-form-wrapper">
+              <input type="checkbox" id="readmore-less-checkbox-{{ section.id }}" class="hdt-hidden">
+              <label for="readmore-less-checkbox-{{ section.id }}" data-more="{{ 'general.read_more' | t }}" data-less="{{ 'general.read_less' | t }}"></label>
+            </div>
+          </readmore-less-wrap>
+        </div>
+      </div>
+    </div>
+  {%- endcapture -%}
+{%- endif -%}
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;500;600;700&display=swap');
+
+  #shopify-section-{{ section.id }} {
+    --nichey-onyx: #1a1a1a;
+    --nichey-crimson: #7c3030;
+    --nichey-crimson-soft: rgba(124, 48, 48, 0.18);
+    --nichey-sage: #5a6650;
+    --nichey-border: #ececec;
+    --nichey-muted: #8b8b8b;
+    --nichey-sidebar: 255px;
+    --nichey-gap: 28px;
+    --nichey-filter-top-offset: 60px;
+    position: relative !important;
+    z-index: 1 !important;
+  }
+
+  #shopify-section-{{ section.id }},
+  #shopify-section-{{ section.id }} * {
+    font-family: 'IBM Plex Sans', sans-serif;
+  }
+
+  #shopify-section-{{ section.id }} .hdt-main-collection-content {
+    background: transparent !important;
+    overflow: visible !important;
+  }
+
+  #shopify-section-{{ section.id }} .hdt-section-spacing {
+    padding-top: 0;
+    padding-bottom: 42px;
+  }
+
+  #shopify-section-{{ section.id }} .hdt-container,
+  #shopify-section-{{ section.id }} .hdt-container-full {
+    max-width: 1480px;
+    margin-inline: auto;
+    background: transparent !important;
+    overflow: visible !important;
+  }
+
+  #shopify-section-{{ section.id }} .hdt-container-full {
+    padding-inline: 28px;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-collection-top {
+    display: grid;
+    grid-template-columns: var(--nichey-sidebar) minmax(0, 1fr) auto;
+    gap: var(--nichey-gap);
+    align-items: center;
+    margin-bottom: 22px;
+    background: transparent !important;
+    position: relative !important;
+    z-index: 50 !important;
+    overflow: visible !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-spacer {
+    width: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-collection-title {
+    margin: 0;
+    color: var(--nichey-onyx);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: left;
+    letter-spacing: -0.02em;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-sort-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative !important;
+    z-index: 60 !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-sort-form {
+    margin: 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+    z-index: 60 !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-sort-details {
+    position: relative !important;
+    width: 178px !important;
+    z-index: 60 !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-sort-details[open] {
+    z-index: 90 !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-sort-summary {
+    height: 40px !important;
+    width: 100% !important;
+    padding: 0 14px !important;
+    border: 1px solid #dddddd !important;
+    border-radius: 8px !important;
+    background: #fff !important;
+    color: #1a1a1a !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    cursor: pointer !important;
+    list-style: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    position: relative !important;
+    z-index: 61 !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-sort-summary::-webkit-details-marker {
+    display: none !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-sort-details[open] .nichey-sort-summary {
+    border-color: #dddddd !important;
+    box-shadow: none !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-sort-summary svg {
+    color: #1a1a1a !important;
+    transition: transform .2s ease !important;
+    flex: 0 0 auto !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-sort-details[open] .nichey-sort-summary svg {
+    transform: rotate(180deg) !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-sort-menu {
+    position: absolute !important;
+    top: calc(100% + 8px) !important;
+    right: 0 !important;
+    width: 100% !important;
+    background: #fff !important;
+    border: 1px solid #dddddd !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    z-index: 95 !important;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08) !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-sort-option {
+    width: 100% !important;
+    min-height: 36px !important;
+    padding: 8px 14px !important;
+    border: 0 !important;
+    background: #fff !important;
+    color: #1a1a1a !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    line-height: 1.25 !important;
+    text-align: left !important;
+    cursor: pointer !important;
+    outline: none !important;
+    box-shadow: none !important;
+    display: block !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-sort-option:hover,
+  #shopify-section-{{ section.id }} .nichey-sort-option.is-active {
+    background: rgba(124, 48, 48, 0.08) !important;
+    color: var(--nichey-crimson) !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-mobile-filter-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 14px;
+    border: 1px solid var(--nichey-border);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--nichey-onyx);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-mobile-filter-btn svg {
+    width: 15px;
+    height: 15px;
+    fill: var(--nichey-crimson);
+  }
+
+  #shopify-section-{{ section.id }} .hdt-shop-control,
+  #shopify-section-{{ section.id }} .hdt-control-layout,
+  #shopify-section-{{ section.id }} .hdt-control-filter,
+  #shopify-section-{{ section.id }} .nichey-active-filters,
+  #shopify-section-{{ section.id }} .hdt-active-filters,
+  #shopify-section-{{ section.id }} .hdt-active-filters__count,
+  #shopify-section-{{ section.id }} .hdt-active-filters__remove,
+  #shopify-section-{{ section.id }} .hdt-filter-current,
+  #shopify-section-{{ section.id }} .hdt-current-filters {
+    display: none !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-collection-layout {
+    display: grid;
+    grid-template-columns: var(--nichey-sidebar) minmax(0, 1fr);
+    gap: var(--nichey-gap);
+    align-items: start;
+    background: transparent !important;
+    position: relative !important;
+    z-index: 1 !important;
+    overflow: visible !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-sidebar {
+    width: 100%;
+    position: relative !important;
+    z-index: 50 !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-panel {
+    background: #fff !important;
+    border: 1px solid var(--nichey-border) !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    position: relative !important;
+    z-index: 50 !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-panel-header {
+    min-height: 56px !important;
+    padding: 0 16px !important;
+    border-bottom: 1px solid var(--nichey-border) !important;
+    background: #fff !important;
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    align-items: center !important;
+    gap: 12px !important;
+    position: relative !important;
+    z-index: 100 !important;
+    overflow: visible !important;
+    pointer-events: auto !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-title {
+    margin: 0 !important;
+    color: var(--nichey-onyx) !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    letter-spacing: -0.01em !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-header-actions {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    position: relative !important;
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+  }
+
+  /* ==================================================== 
+     تعديل زر Clear (تنسيق خط الـ Hover)
+  ==================================================== */
+  #shopify-section-{{ section.id }} .nichey-clear-real-btn {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: var(--nichey-crimson) !important;
+    font-family: 'IBM Plex Sans', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    display: inline-block !important; 
+    position: relative !important;
+    z-index: 999999 !important;
+    pointer-events: auto !important;
+    text-decoration: none !important; /* إلغاء الخط الافتراضي */
+  }
+
+  #shopify-section-{{ section.id }} .nichey-clear-real-btn:hover,
+  #shopify-section-{{ section.id }} .nichey-clear-real-btn:focus {
+    text-decoration: underline !important;
+    text-decoration-thickness: 1px !important; /* سمك الخط */
+    text-underline-offset: 3px !important; /* إبعاد الخط عن الحروف عشان ميقطعهاش */
+    background: transparent !important;
+    color: var(--nichey-crimson) !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-clear-real-btn::before,
+  #shopify-section-{{ section.id }} .nichey-clear-real-btn::after {
+    display: none !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-body {
+    background: #fff !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-form {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-group {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-bottom: 1px solid #ececec !important;
+    background: #fff !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-group:last-child {
+    border-bottom: 0 !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-summary {
+    min-height: 56px !important;
+    padding: 16px 16px !important;
+    margin: 0 !important;
+    list-style: none !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 18px !important;
+    color: #1a1a1a !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    background: #fff !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-summary::-webkit-details-marker {
+    display: none !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-arrow {
+    flex: 0 0 auto !important;
+    margin-left: auto !important;
+    color: var(--nichey-crimson) !important;
+    transition: transform .2s ease !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-group[open] .nichey-filter-arrow {
+    transform: rotate(180deg) !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-content {
+    padding: 0 16px 18px !important;
+    background: #fff !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-values {
+    max-height: 230px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding-right: 7px !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: #1a1a1a #e5e5e5 !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-values::-webkit-scrollbar {
+    width: 4px !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-values::-webkit-scrollbar-track {
+    background: #e5e5e5 !important;
+    border-radius: 999px !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-values::-webkit-scrollbar-thumb {
+    background: #1a1a1a !important;
+    border-radius: 999px !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-check {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin: 0 0 12px !important;
+    padding: 0 !important;
+    cursor: pointer !important;
+    color: #242424 !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    line-height: 1.45 !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-check:hover {
+    color: var(--nichey-crimson) !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-check.is-disabled {
+    opacity: .45 !important;
+    cursor: not-allowed !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-check input[type="checkbox"] {
+    position: absolute !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-checkbox-box {
+    width: 14px !important;
+    height: 14px !important;
+    min-width: 14px !important;
+    border: 1px solid #d7d7d7 !important;
+    background: #fff !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-check input[type="checkbox"]:checked + .nichey-checkbox-box,
+  #shopify-section-{{ section.id }} .nichey-filter-check.is-active .nichey-checkbox-box {
+    background: var(--nichey-crimson) !important;
+    border-color: var(--nichey-crimson) !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-check input[type="checkbox"]:checked + .nichey-checkbox-box::after,
+  #shopify-section-{{ section.id }} .nichey-filter-check.is-active .nichey-checkbox-box::after {
+    content: "" !important;
+    width: 7px !important;
+    height: 4px !important;
+    border-left: 1.5px solid #fff !important;
+    border-bottom: 1.5px solid #fff !important;
+    transform: rotate(-45deg) translate(1px, -1px) !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-check input[type="checkbox"]:checked ~ .nichey-filter-label-text,
+  #shopify-section-{{ section.id }} .nichey-filter-check.is-active .nichey-filter-label-text {
+    color: var(--nichey-crimson) !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-check.is-color-filter .nichey-checkbox-box {
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    border-radius: 3px !important;
+    background: var(--nichey-swatch-color, #ffffff) !important;
+    border: 1px solid rgba(26, 26, 26, 0.16) !important;
+    box-shadow: none !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-check.is-color-filter:hover .nichey-checkbox-box {
+    border-color: var(--nichey-crimson) !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-check.is-color-filter input[type="checkbox"]:checked + .nichey-checkbox-box,
+  #shopify-section-{{ section.id }} .nichey-filter-check.is-color-filter.is-active .nichey-checkbox-box {
+    background: var(--nichey-swatch-color, #ffffff) !important;
+    border-color: var(--nichey-crimson) !important;
+    box-shadow: 0 0 0 2px rgba(124, 48, 48, 0.12) !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-check.is-color-filter input[type="checkbox"]:checked + .nichey-checkbox-box::after,
+  #shopify-section-{{ section.id }} .nichey-filter-check.is-color-filter.is-active .nichey-checkbox-box::after {
+    content: "" !important;
+    position: absolute !important;
+    left: 4px !important;
+    top: 4px !important;
+    width: 7px !important;
+    height: 4px !important;
+    border-left: 1.6px solid #ffffff !important;
+    border-bottom: 1.6px solid #ffffff !important;
+    transform: rotate(-45deg) !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-check.is-color-filter.is-light-swatch input[type="checkbox"]:checked + .nichey-checkbox-box::after,
+  #shopify-section-{{ section.id }} .nichey-filter-check.is-color-filter.is-light-swatch.is-active .nichey-checkbox-box::after {
+    border-color: var(--nichey-crimson) !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-check.is-color-filter input[type="checkbox"]:checked ~ .nichey-filter-label-text,
+  #shopify-section-{{ section.id }} .nichey-filter-check.is-color-filter.is-active .nichey-filter-label-text {
+    color: var(--nichey-crimson) !important;
+    font-weight: 500 !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-price-filter {
+    padding-top: 8px !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-price-slider {
+    position: relative !important;
+    height: 28px !important;
+    margin: 0 0 18px !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-price-slider::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 13px !important;
+    height: 3px !important;
+    background: #4a4a4a !important;
+    border-radius: 999px !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-price-track {
+    position: absolute !important;
+    top: 13px !important;
+    height: 3px !important;
+    background: var(--nichey-crimson) !important;
+    border-radius: 999px !important;
+    z-index: 2 !important;
+    left: 0;
+    right: 0;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-range {
+    position: absolute !important;
+    top: 4px !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 18px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    pointer-events: none !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    z-index: 3 !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-range::-webkit-slider-runnable-track {
+    height: 3px !important;
+    background: transparent !important;
+    border: 0 !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-range::-webkit-slider-thumb {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    pointer-events: auto !important;
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 50% !important;
+    background: var(--nichey-crimson) !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    cursor: pointer !important;
+    margin-top: -6.5px !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-range::-moz-range-track {
+    height: 3px !important;
+    background: transparent !important;
+    border: 0 !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-range::-moz-range-thumb {
+    pointer-events: auto !important;
+    width: 16px !important;
+    height: 16px !important;
+    border-radius: 50% !important;
+    background: var(--nichey-crimson) !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    cursor: pointer !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-price-inputs {
+    display: grid !important;
+    grid-template-columns: auto 1fr auto 1fr !important;
+    gap: 10px !important;
+    align-items: center !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-price-label,
+  #shopify-section-{{ section.id }} .nichey-price-separator {
+    color: #1a1a1a !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-price-field {
+    height: 38px !important;
+    border: 1px solid #ececec !important;
+    border-radius: 6px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 0 7px !important;
+    background: #fff !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-price-field span {
+    color: #8b8b8b !important;
+    font-size: 11px !important;
+    white-space: nowrap !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-price-field input {
+    width: 100% !important;
+    min-width: 0 !important;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    background: transparent !important;
+    color: #1a1a1a !important;
+    font-size: 13px !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-price-field input::-webkit-outer-spin-button,
+  #shopify-section-{{ section.id }} .nichey-price-field input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-products-area {
+    position: relative !important;
+    z-index: 1 !important;
+    overflow: visible !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-products-grid {
+    display: grid;
+    grid-template-columns: repeat({{ col_mb }}, minmax(0, 1fr));
+    gap: 36px 20px;
+    align-items: start;
+    position: relative !important;
+    z-index: 1 !important;
+    overflow: visible !important;
+  }
+
+  @media (min-width: 768px) {
+    #shopify-section-{{ section.id }} .nichey-products-grid {
+      grid-template-columns: repeat({{ col_tb }}, minmax(0, 1fr));
+      gap: 38px 22px;
+    }
+  }
+
+  @media (min-width: 1150px) {
+    #shopify-section-{{ section.id }} .nichey-collection-top {
+      grid-template-columns: var(--nichey-sidebar) minmax(0, 1fr) auto !important;
+      align-items: center !important;
+      margin-bottom: 22px !important;
+      z-index: 50 !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-collection-layout {
+      margin-top: calc(var(--nichey-filter-top-offset) * -1) !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-collection-top {
+      pointer-events: none !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-collection-top .nichey-sort-wrap {
+      pointer-events: auto !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-products-area {
+      padding-top: var(--nichey-filter-top-offset) !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-products-grid {
+      grid-template-columns: repeat({{ col_dk }}, minmax(0, 1fr));
+      gap: 40px 24px;
+    }
+  }
+
+  #shopify-section-{{ section.id }} .css-card {
+    background: transparent;
+    border: none;
+    min-width: 0;
+    position: relative !important;
+    z-index: 1 !important;
+  }
+
+  #shopify-section-{{ section.id }} .css-image-wrap {
+    position: relative;
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    overflow: visible;
+    z-index: 1 !important;
+  }
+
+  #shopify-section-{{ section.id }} .css-image-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+  }
+
+  #shopify-section-{{ section.id }} .css-image-wrap img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    mix-blend-mode: darken;
+  }
+
+  #shopify-section-{{ section.id }} .css-icon-btn {
+    position: absolute;
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 6px !important;
+    background: #fff;
+    border: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #1a1a1a;
+    transition: all 0.2s ease;
+    z-index: 2 !important;
+    box-sizing: border-box;
+  }
+
+  #shopify-section-{{ section.id }} .css-icon-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  #shopify-section-{{ section.id }} .css-icon-btn:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+
+  #shopify-section-{{ section.id }} .css-wishlist {
+    top: 20px;
+    right: 20px;
+  }
+
+  #shopify-section-{{ section.id }} .css-atc-form {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 38px !important;
+    height: 38px !important;
+    left: auto;
+    margin: 0;
+    padding: 0;
+    z-index: 2 !important;
+  }
+
+  #shopify-section-{{ section.id }} .css-atc {
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: #1a1a1a;
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    z-index: 2 !important;
+  }
+
+  #shopify-section-{{ section.id }} .css-atc svg {
+    stroke: #fff;
+  }
+
+  #shopify-section-{{ section.id }} .css-atc:hover {
+    background: #7c3030;
+    transform: scale(1.05);
+    box-shadow: 0 6px 14px rgba(124, 48, 48, 0.25);
+    border: none;
+  }
+
+  #shopify-section-{{ section.id }} .css-atc:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  #shopify-section-{{ section.id }} .css-info {
+    text-align: left;
+  }
+
+  #shopify-section-{{ section.id }} .css-rating {
+    display: block;
+    min-height: 16px;
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+
+  #shopify-section-{{ section.id }} .css-rating .jdgm-widget {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #shopify-section-{{ section.id }} .css-rating .jdgm-prev-badge {
+    display: flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+  }
+
+  #shopify-section-{{ section.id }} .css-rating .jdgm-prev-badge__stars {
+    display: inline-flex !important;
+    align-items: center !important;
+    line-height: 1 !important;
+  }
+
+  #shopify-section-{{ section.id }} .css-rating .jdgm-star {
+    font-family: 'JudgemeStar' !important;
+    font-size: 12px !important;
+    line-height: 1 !important;
+    color: #FFC107 !important;
+    padding: 0 1px 0 0 !important;
+  }
+
+  #shopify-section-{{ section.id }} .css-rating .jdgm-prev-badge__text {
+    color: #5a6650 !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    line-height: 1.2 !important;
+    margin-left: 0 !important;
+  }
+
+  #shopify-section-{{ section.id }} .css-vendor {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #5a6650;
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  #shopify-section-{{ section.id }} .css-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 13px;
+    color: #1a1a1a;
+    text-decoration: none;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    height: 36px;
+  }
+
+  #shopify-section-{{ section.id }} .css-title:hover {
+    color: #7c3030;
+  }
+
+  #shopify-section-{{ section.id }} .css-pricing {
+    font-family: 'IBM Plex Serif', serif;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  #shopify-section-{{ section.id }} .css-old-price {
+    font-size: 13px;
+    color: #999;
+    text-decoration: line-through;
+  }
+
+  #shopify-section-{{ section.id }} .css-new-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: #7c3030;
+  }
+
+  #shopify-section-{{ section.id }} .css-discount {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: rgba(124, 48, 48, 0.1);
+    color: #7c3030;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-empty,
+  #shopify-section-{{ section.id }} .nichey-no-result {
+    min-height: 320px;
+    background: #fff;
+    border: 1px solid var(--nichey-border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--nichey-onyx);
+    font-size: 15px;
+    text-align: center;
+    padding: 30px;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-pagination {
+    margin: 34px auto 0 !important;
+    padding: 10px 0 0 !important;
+    width: 100% !important;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-pagination *,
+  #shopify-section-{{ section.id }} .nichey-pagination *::before,
+  #shopify-section-{{ section.id }} .nichey-pagination *::after {
+    box-sizing: border-box !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-pagination::before,
+  #shopify-section-{{ section.id }} .nichey-pagination::after,
+  #shopify-section-{{ section.id }} .nichey-pagination nav::before,
+  #shopify-section-{{ section.id }} .nichey-pagination nav::after,
+  #shopify-section-{{ section.id }} .nichey-pagination ul::before,
+  #shopify-section-{{ section.id }} .nichey-pagination ul::after,
+  #shopify-section-{{ section.id }} .nichey-pagination ol::before,
+  #shopify-section-{{ section.id }} .nichey-pagination ol::after,
+  #shopify-section-{{ section.id }} .nichey-pagination li::before,
+  #shopify-section-{{ section.id }} .nichey-pagination li::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-pagination nav,
+  #shopify-section-{{ section.id }} .nichey-pagination ul,
+  #shopify-section-{{ section.id }} .nichey-pagination ol,
+  #shopify-section-{{ section.id }} .nichey-pagination .hdt-pagination,
+  #shopify-section-{{ section.id }} .nichey-pagination .hdt-pagination__list,
+  #shopify-section-{{ section.id }} .nichey-pagination .pagination,
+  #shopify-section-{{ section.id }} .nichey-pagination .pagination__list {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-pagination li {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-pagination a,
+  #shopify-section-{{ section.id }} .nichey-pagination button,
+  #shopify-section-{{ section.id }} .nichey-pagination li > span,
+  #shopify-section-{{ section.id }} .nichey-pagination .page,
+  #shopify-section-{{ section.id }} .nichey-pagination .deco,
+  #shopify-section-{{ section.id }} .nichey-pagination .dots,
+  #shopify-section-{{ section.id }} .nichey-pagination .ellipsis,
+  #shopify-section-{{ section.id }} .nichey-pagination .hdt-pagination__item,
+  #shopify-section-{{ section.id }} .nichey-pagination .pagination__item {
+    min-width: 42px !important;
+    height: 40px !important;
+    padding: 0 14px !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(124, 48, 48, 0.22) !important;
+    background: #ffffff !important;
+    color: rgba(26, 26, 26, 0.72) !important;
+    font-family: 'IBM Plex Sans', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    line-height: 40px !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.22s ease !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-pagination a span,
+  #shopify-section-{{ section.id }} .nichey-pagination button span,
+  #shopify-section-{{ section.id }} .nichey-pagination li > span span,
+  #shopify-section-{{ section.id }} .nichey-pagination .hdt-pagination__item span,
+  #shopify-section-{{ section.id }} .nichey-pagination .pagination__item span {
+    min-width: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: inherit !important;
+    font: inherit !important;
+    line-height: inherit !important;
+    display: inline !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-pagination a:hover,
+  #shopify-section-{{ section.id }} .nichey-pagination button:hover,
+  #shopify-section-{{ section.id }} .nichey-pagination .hdt-pagination__item:hover,
+  #shopify-section-{{ section.id }} .nichey-pagination .pagination__item:hover {
+    background: rgba(124, 48, 48, 0.08) !important;
+    border-color: rgba(124, 48, 48, 0.38) !important;
+    color: var(--nichey-crimson) !important;
+    transform: translateY(-2px) !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-pagination [aria-current="page"],
+  #shopify-section-{{ section.id }} .nichey-pagination .current,
+  #shopify-section-{{ section.id }} .nichey-pagination .active,
+  #shopify-section-{{ section.id }} .nichey-pagination .is-active,
+  #shopify-section-{{ section.id }} .nichey-pagination .hdt-current,
+  #shopify-section-{{ section.id }} .nichey-pagination .hdt-pagination__item--current,
+  #shopify-section-{{ section.id }} .nichey-pagination .pagination__item--current,
+  #shopify-section-{{ section.id }} .nichey-pagination span[aria-current="page"],
+  #shopify-section-{{ section.id }} .nichey-pagination a[aria-current="page"] {
+    min-width: 44px !important;
+    height: 42px !important;
+    background: var(--nichey-crimson) !important;
+    border-color: var(--nichey-crimson) !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 24px rgba(124, 48, 48, 0.26) !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-pagination a[rel="next"],
+  #shopify-section-{{ section.id }} .nichey-pagination a[rel="prev"],
+  #shopify-section-{{ section.id }} .nichey-pagination .next,
+  #shopify-section-{{ section.id }} .nichey-pagination .prev,
+  #shopify-section-{{ section.id }} .nichey-pagination .hdt-pagination__item--next,
+  #shopify-section-{{ section.id }} .nichey-pagination .hdt-pagination__item--prev,
+  #shopify-section-{{ section.id }} .nichey-pagination .pagination__item--next,
+  #shopify-section-{{ section.id }} .nichey-pagination .pagination__item--prev {
+    min-width: 88px !important;
+    padding: 0 20px !important;
+    background: #ffffff !important;
+    color: var(--nichey-crimson) !important;
+    border-color: rgba(124, 48, 48, 0.28) !important;
+    font-weight: 800 !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-pagination a[rel="next"]:hover,
+  #shopify-section-{{ section.id }} .nichey-pagination a[rel="prev"]:hover,
+  #shopify-section-{{ section.id }} .nichey-pagination .next:hover,
+  #shopify-section-{{ section.id }} .nichey-pagination .prev:hover,
+  #shopify-section-{{ section.id }} .nichey-pagination .hdt-pagination__item--next:hover,
+  #shopify-section-{{ section.id }} .nichey-pagination .hdt-pagination__item--prev:hover,
+  #shopify-section-{{ section.id }} .nichey-pagination .pagination__item--next:hover,
+  #shopify-section-{{ section.id }} .nichey-pagination .pagination__item--prev:hover {
+    background: var(--nichey-crimson) !important;
+    border-color: var(--nichey-crimson) !important;
+    color: #ffffff !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-pagination .deco,
+  #shopify-section-{{ section.id }} .nichey-pagination .dots,
+  #shopify-section-{{ section.id }} .nichey-pagination .ellipsis,
+  #shopify-section-{{ section.id }} .nichey-pagination .nichey-pagination-dots-fix,
+  #shopify-section-{{ section.id }} .nichey-pagination li > span:not([aria-current]) {
+    min-width: 42px !important;
+    height: 40px !important;
+    padding: 0 14px !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(124, 48, 48, 0.18) !important;
+    background: #ffffff !important;
+    color: rgba(26, 26, 26, 0.55) !important;
+    font-family: 'IBM Plex Sans', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    line-height: 40px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: default !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-pagination .nichey-pagination-dots-fix,
+  #shopify-section-{{ section.id }} .nichey-pagination .nichey-pagination-dots-fix:hover {
+    background: #ffffff !important;
+    border-color: rgba(124, 48, 48, 0.18) !important;
+    color: rgba(26, 26, 26, 0.55) !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  #shopify-section-{{ section.id }} .nichey-filter-overlay {
+    display: none;
+  }
+
+  @media (max-width: 1149px) {
+    #shopify-section-{{ section.id }} .hdt-container,
+    #shopify-section-{{ section.id }} .hdt-container-full {
+      padding-inline: 16px;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-collection-top {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 14px 12px !important;
+      margin: 0 0 26px !important;
+      padding: 10px 0 0 !important;
+      position: relative !important;
+      z-index: 50 !important;
+      overflow: visible !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-filter-spacer {
+      display: none !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-mobile-filter-btn {
+      order: 1 !important;
+      display: inline-flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      flex: 0 0 auto !important;
+      width: auto !important;
+      min-width: 86px !important;
+      height: 40px !important;
+      margin: 0 !important;
+      padding: 0 14px !important;
+      border-radius: 8px !important;
+      background: #fff !important;
+      border: 1px solid #ececec !important;
+      color: #1a1a1a !important;
+      font-size: 13px !important;
+      font-weight: 600 !important;
+      position: relative !important;
+      z-index: 55 !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-sort-wrap {
+      order: 2 !important;
+      display: flex !important;
+      justify-content: flex-end !important;
+      align-items: center !important;
+      flex: 1 1 auto !important;
+      width: auto !important;
+      min-width: 0 !important;
+      margin-left: auto !important;
+      position: relative !important;
+      z-index: 60 !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-sort-details {
+      width: 150px !important;
+      max-width: 150px !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-sort-summary {
+      width: 100% !important;
+      height: 40px !important;
+      padding: 0 12px !important;
+      font-size: 12px !important;
+      white-space: nowrap !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-sort-summary span {
+      max-width: 108px !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      white-space: nowrap !important;
+      display: block !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-sort-menu {
+      width: 190px !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-collection-title {
+      order: 3 !important;
+      flex: 0 0 100% !important;
+      width: 100% !important;
+      margin: 4px 0 0 !important;
+      padding: 0 !important;
+      color: #1a1a1a !important;
+      font-size: 22px !important;
+      font-weight: 700 !important;
+      line-height: 1.15 !important;
+      letter-spacing: -0.02em !important;
+      text-align: center !important;
+      position: relative !important;
+      z-index: 1 !important;
+      user-select: none !important;
+      -webkit-user-select: none !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-collection-layout {
+      display: block;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-filter-sidebar {
+      position: fixed !important;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: min(88vw, 340px);
+      background: #fff;
+      z-index: 999999 !important;
+      transform: translateX(-105%);
+      transition: transform .28s ease;
+      overflow-y: auto;
+      box-shadow: 0 12px 40px rgba(0,0,0,.16);
+    }
+
+    #shopify-section-{{ section.id }} .nichey-filter-sidebar.is-open {
+      transform: translateX(0);
+    }
+
+    #shopify-section-{{ section.id }} .nichey-filter-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.35);
+      z-index: 999998;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-filter-overlay.is-open {
+      display: block;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-filter-panel {
+      min-height: 100%;
+      border-radius: 0 !important;
+      border: 0 !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-filter-panel-header {
+      position: sticky !important;
+      top: 0;
+    }
+
+    #shopify-section-{{ section.id }} .css-image-wrap {
+      height: 240px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    #shopify-section-{{ section.id }} .css-image-wrap {
+      height: 220px;
+    }
+
+    #shopify-section-{{ section.id }} .css-wishlist {
+      top: 12px;
+      right: 12px;
+    }
+
+    #shopify-section-{{ section.id }} .css-atc-form {
+      bottom: 14px;
+      right: 14px;
+    }
+
+    #shopify-section-{{ section.id }} .css-icon-btn {
+      width: 36px !important;
+      height: 36px !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-price-inputs {
+      grid-template-columns: auto 1fr auto 1fr !important;
+      gap: 7px !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-price-field {
+      padding: 0 5px !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-pagination {
+      margin-top: 26px !important;
+      padding-top: 6px !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-pagination nav,
+    #shopify-section-{{ section.id }} .nichey-pagination ul,
+    #shopify-section-{{ section.id }} .nichey-pagination ol,
+    #shopify-section-{{ section.id }} .nichey-pagination .hdt-pagination,
+    #shopify-section-{{ section.id }} .nichey-pagination .hdt-pagination__list,
+    #shopify-section-{{ section.id }} .nichey-pagination .pagination,
+    #shopify-section-{{ section.id }} .nichey-pagination .pagination__list {
+      gap: 7px !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-pagination a,
+    #shopify-section-{{ section.id }} .nichey-pagination button,
+    #shopify-section-{{ section.id }} .nichey-pagination li > span,
+    #shopify-section-{{ section.id }} .nichey-pagination .page,
+    #shopify-section-{{ section.id }} .nichey-pagination .deco,
+    #shopify-section-{{ section.id }} .nichey-pagination .dots,
+    #shopify-section-{{ section.id }} .nichey-pagination .ellipsis,
+    #shopify-section-{{ section.id }} .nichey-pagination .hdt-pagination__item,
+    #shopify-section-{{ section.id }} .nichey-pagination .pagination__item {
+      min-width: 36px !important;
+      height: 36px !important;
+      padding: 0 11px !important;
+      border-radius: 8px !important;
+      font-size: 13px !important;
+      line-height: 36px !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-pagination [aria-current="page"],
+    #shopify-section-{{ section.id }} .nichey-pagination .current,
+    #shopify-section-{{ section.id }} .nichey-pagination .active,
+    #shopify-section-{{ section.id }} .nichey-pagination .is-active,
+    #shopify-section-{{ section.id }} .nichey-pagination .hdt-current,
+    #shopify-section-{{ section.id }} .nichey-pagination .hdt-pagination__item--current,
+    #shopify-section-{{ section.id }} .nichey-pagination .pagination__item--current {
+      min-width: 38px !important;
+      height: 38px !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-pagination a[rel="next"],
+    #shopify-section-{{ section.id }} .nichey-pagination a[rel="prev"],
+    #shopify-section-{{ section.id }} .nichey-pagination .next,
+    #shopify-section-{{ section.id }} .nichey-pagination .prev,
+    #shopify-section-{{ section.id }} .nichey-pagination .hdt-pagination__item--next,
+    #shopify-section-{{ section.id }} .nichey-pagination .hdt-pagination__item--prev,
+    #shopify-section-{{ section.id }} .nichey-pagination .pagination__item--next,
+    #shopify-section-{{ section.id }} .nichey-pagination .pagination__item--prev {
+      min-width: 70px !important;
+      padding: 0 14px !important;
+    }
+  }
+
+  @media (max-width: 389px) {
+    #shopify-section-{{ section.id }} .nichey-collection-top {
+      gap: 12px 8px !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-sort-details {
+      width: 145px !important;
+      max-width: 145px !important;
+    }
+
+    #shopify-section-{{ section.id }} .nichey-sort-menu {
+      width: 185px !important;
+    }
+  }
+
+  @media (max-width: 1149px) {
+    body.nichey-filter-is-open-{{ section.id }} {
+      overflow: hidden !important;
+    }
+
+    body.nichey-filter-is-open-{{ section.id }} #shopify-section-{{ section.id }} {
+      position: relative !important;
+      z-index: 2147483647 !important;
+    }
+
+    body.nichey-filter-is-open-{{ section.id }} #shopify-section-{{ section.id }} .nichey-collection-top,
+    body.nichey-filter-is-open-{{ section.id }} #shopify-section-{{ section.id }} .nichey-mobile-filter-btn,
+    body.nichey-filter-is-open-{{ section.id }} #shopify-section-{{ section.id }} .nichey-sort-wrap,
+    body.nichey-filter-is-open-{{ section.id }} #shopify-section-{{ section.id }} .nichey-sort-form,
+    body.nichey-filter-is-open-{{ section.id }} #shopify-section-{{ section.id }} .nichey-sort-details,
+    body.nichey-filter-is-open-{{ section.id }} #shopify-section-{{ section.id }} .nichey-collection-title {
+      z-index: 0 !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    body.nichey-filter-is-open-{{ section.id }} #shopify-section-{{ section.id }} .nichey-collection-layout {
+      position: relative !important;
+      z-index: 2147483644 !important;
+    }
+
+    body.nichey-filter-is-open-{{ section.id }} #shopify-section-{{ section.id }} .nichey-products-area,
+    body.nichey-filter-is-open-{{ section.id }} #shopify-section-{{ section.id }} .nichey-products-grid,
+    body.nichey-filter-is-open-{{ section.id }} #shopify-section-{{ section.id }} .css-card,
+    body.nichey-filter-is-open-{{ section.id }} #shopify-section-{{ section.id }} .css-icon-btn,
+    body.nichey-filter-is-open-{{ section.id }} #shopify-section-{{ section.id }} .css-atc-form {
+      z-index: 0 !important;
+      pointer-events: none !important;
+    }
+
+    body.nichey-filter-is-open-{{ section.id }} #shopify-section-{{ section.id }} .nichey-filter-overlay {
+      display: block !important;
+      position: fixed !important;
+      inset: 0 !important;
+      background: rgba(0, 0, 0, 0.45) !important;
+      z-index: 2147483645 !important;
+    }
+
+    body.nichey-filter-is-open-{{ section.id }} #shopify-section-{{ section.id }} .nichey-filter-sidebar {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      bottom: 0 !important;
+      height: 100dvh !important;
+      max-height: 100dvh !important;
+      width: min(88vw, 360px) !important;
+      background: #fff !important;
+      z-index: 2147483646 !important;
+      transform: translateX(0) !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.22) !important;
+    }
+
+    body.nichey-filter-is-open-{{ section.id }} #shopify-section-{{ section.id }} .nichey-filter-panel {
+      min-height: 100dvh !important;
+      border-radius: 0 !important;
+      border: 0 !important;
+      position: relative !important;
+      z-index: 2147483646 !important;
+    }
+
+    body.nichey-filter-is-open-{{ section.id }} #shopify-section-{{ section.id }} .nichey-filter-panel-header {
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 2147483647 !important;
+      background: #fff !important;
+    }
+
+    body.nichey-filter-is-open-{{ section.id }} .hdt-bottom-nav,
+    body.nichey-filter-is-open-{{ section.id }} .hdt-sticky-cart,
+    body.nichey-filter-is-open-{{ section.id }} .hdt-sticky-atc,
+    body.nichey-filter-is-open-{{ section.id }} .bottom-navigation,
+    body.nichey-filter-is-open-{{ section.id }} .mobile-bottom-navigation,
+    body.nichey-filter-is-open-{{ section.id }} .shopify-section-header-sticky,
+    body.nichey-filter-is-open-{{ section.id }} .shopify-section-header-hidden,
+    body.nichey-filter-is-open-{{ section.id }} #shopify-section-header,
+    body.nichey-filter-is-open-{{ section.id }} header {
+      z-index: 1 !important;
+      pointer-events: none !important;
+    }
+  }
+
+  {% render 'spacing-vars', box: section %}
+</style>
+
+<div id="{{ section.id }}" main-content class="hdt-main-collection-content hdt-section-spacing hdt-section-spacing-{{ section.id }}">
+  {%- if section.settings.description_position == 'before' -%}
+    {{ collection_description }}
+  {%- endif -%}
+
+  {%- if request.page_type == 'search' -%}
+  <div class="{{ parent }}">
+    <div class="{{ child }}">
+      <div class="nichey-collection-top">
+        <div class="nichey-filter-spacer"></div>
+
+        {%- assign hide_search_title = false -%}
+        {%- if template.suffix == 'wishlist' -%}
+          {%- assign hide_search_title = true -%}
+        {%- endif -%}
+        {%- if search.terms != blank -%}
+          {%- assign __first3 = search.terms | strip | slice: 0, 3 -%}
+          {%- if __first3 == 'id:' -%}
+            {%- assign hide_search_title = true -%}
+          {%- endif -%}
+        {%- endif -%}
+        {%- unless hide_search_title -%}
+          <h1 class="nichey-collection-title">{{ 'general.search.search_results' | t }}{% if search.terms != blank %}: &ldquo;{{ search.terms | escape }}&rdquo;{% endif %}</h1>
+        {%- endunless -%}
+
+        <div class="nichey-sort-wrap">
+          {%- if section.settings.enable_sorting and search.results_count > 0 -%}
+            {%- liquid
+              assign sort_by = search.sort_by | default: search.default_sort_by | default: 'relevance'
+            -%}
+
+            <form class="nichey-sort-form" method="get" action="{{ routes.search_url }}">
+              <input type="hidden" name="q" value="{{ search.terms | escape }}">
+              <input type="hidden" name="type" value="product">
+              {%- for filter in search.filters -%}
+                {%- if filter.type == 'price_range' -%}
+                  {%- if filter.min_value.value -%}
+                    <input type="hidden" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}">
+                  {%- endif -%}
+                  {%- if filter.max_value.value -%}
+                    <input type="hidden" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}">
+                  {%- endif -%}
+                {%- else -%}
+                  {%- for value in filter.values -%}
+                    {%- if value.active -%}
+                      <input type="hidden" name="{{ value.param_name }}" value="{{ value.value }}">
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endif -%}
+              {%- endfor -%}
+
+              <details class="nichey-sort-details">
+                <summary class="nichey-sort-summary">
+                  <span>
+                    {%- for option in search.sort_options -%}
+                      {%- if option.value == sort_by -%}
+                        {{ option.name | escape }}
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </span>
+
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </summary>
+
+                <div class="nichey-sort-menu">
+                  {%- for option in search.sort_options -%}
+                    <button
+                      type="submit"
+                      name="sort_by"
+                      value="{{ option.value | escape }}"
+                      class="nichey-sort-option {% if option.value == sort_by %}is-active{% endif %}"
+                    >
+                      {{ option.name | escape }}
+                    </button>
+                  {%- endfor -%}
+                </div>
+              </details>
+            </form>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.enable_filtering -%}
+          <button type="button" class="nichey-mobile-filter-btn" data-nichey-filter-open>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M324.4 64C339.6 64 352 76.37 352 91.63C352 98.32 349.6 104.8 345.2 109.8L240 230V423.6C240 437.1 229.1 448 215.6 448C210.3 448 205.2 446.3 200.9 443.1L124.7 385.6C116.7 379.5 112 370.1 112 360V230L6.836 109.8C2.429 104.8 0 98.32 0 91.63C0 76.37 12.37 64 27.63 64H324.4zM496 400C504.8 400 512 407.2 512 416C512 424.8 504.8 432 496 432H336C327.2 432 320 424.8 320 416C320 407.2 327.2 400 336 400H496zM320 256C320 247.2 327.2 240 336 240H496C504.8 240 512 247.2 512 256C512 264.8 504.8 272 496 272H336C327.2 272 320 264.8 320 256zM496 80C504.8 80 512 87.16 512 96C512 104.8 504.8 112 496 112H400C391.2 112 384 104.8 384 96C384 87.16 391.2 80 400 80H496z"></path></svg>
+            <span>Filter</span>
+          </button>
+        {%- endif -%}
+      </div>
+
+      <div class="nichey-collection-layout">
+        {%- if section.settings.enable_filtering -%}
+          <div class="nichey-filter-overlay" data-nichey-filter-close></div>
+
+          <aside class="nichey-filter-sidebar" data-nichey-filter-sidebar>
+            <div class="nichey-filter-panel">
+              <div class="nichey-filter-panel-header">
+                <h2 class="nichey-filter-title">Filter by</h2>
+
+                <div class="nichey-filter-header-actions">
+                  <button
+                    type="button"
+                    class="nichey-clear-real-btn"
+                    data-nichey-clear-filters
+                    data-clear-url="{{ routes.search_url }}?q={{ search.terms | url_encode }}&type=product"
+                    aria-label="Clear all filters"
+                  >
+                    Clear
+                  </button>
+                </div>
+              </div>
+
+              <div class="nichey-filter-body">
+                <form id="NicheyFilters-{{ section.id }}" class="nichey-filter-form" method="get" action="{{ routes.search_url }}">
+                  <input type="hidden" name="q" value="{{ search.terms | escape }}">
+                  <input type="hidden" name="type" value="product">
+                  {%- if search.sort_by != blank -%}
+                    <input type="hidden" name="sort_by" value="{{ search.sort_by }}">
+                  {%- endif -%}
+
+                  {%- for filter in search.filters -%}
+                    {%- liquid
+                      assign default_open_filter = false
+
+                      if forloop.index <= 3
+                        assign default_open_filter = true
+                      endif
+                    -%}
+
+                    <details class="nichey-filter-group"{% if default_open_filter %} open{% endif %}>
+                      <summary class="nichey-filter-summary">
+                        <span>{{ filter.label }}</span>
+                        <svg class="nichey-filter-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none">
+                          <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </summary>
+
+                      <div class="nichey-filter-content">
+                        {%- case filter.type -%}
+                          {%- when 'boolean', 'list' -%}
+                            {%- liquid
+                              assign filter_label_downcase = filter.label | downcase
+                              assign is_color_filter = false
+
+                              if filter_label_downcase contains 'color' or filter_label_downcase contains 'colour' or filter_label_downcase contains 'لون'
+                                assign is_color_filter = true
+                              endif
+                            -%}
+
+                            <div class="nichey-filter-values">
+                              {%- for value in filter.values -%}
+                                {%- liquid
+                                  assign value_label_downcase = value.label | downcase
+                                  assign swatch_color = ''
+                                  assign light_swatch = false
+
+                                  if is_color_filter
+                                    if value_label_downcase contains 'black' or value_label_downcase contains 'اسود'
+                                      assign swatch_color = '#111111'
+                                    elsif value_label_downcase contains 'white' or value_label_downcase contains 'ابيض'
+                                      assign swatch_color = '#ffffff'
+                                      assign light_swatch = true
+                                    elsif value_label_downcase contains 'beige'
+                                      assign swatch_color = '#d8c4a3'
+                                      assign light_swatch = true
+                                    elsif value_label_downcase contains 'blue'
+                                      assign swatch_color = '#2f65b9'
+                                    elsif value_label_downcase contains 'navy'
+                                      assign swatch_color = '#0b1f3a'
+                                    elsif value_label_downcase contains 'red'
+                                      assign swatch_color = '#b32626'
+                                    elsif value_label_downcase contains 'green'
+                                      assign swatch_color = '#3f7a45'
+                                    elsif value_label_downcase contains 'pink'
+                                      assign swatch_color = '#e7a5b8'
+                                      assign light_swatch = true
+                                    elsif value_label_downcase contains 'brown'
+                                      assign swatch_color = '#7a4a2a'
+                                    elsif value_label_downcase contains 'grey' or value_label_downcase contains 'gray'
+                                      assign swatch_color = '#9b9b9b'
+                                    elsif value_label_downcase contains 'yellow'
+                                      assign swatch_color = '#f2d14b'
+                                      assign light_swatch = true
+                                    elsif value_label_downcase contains 'purple'
+                                      assign swatch_color = '#7650a8'
+                                    elsif value_label_downcase contains 'orange'
+                                      assign swatch_color = '#e88635'
+                                    elsif value_label_downcase contains 'gold'
+                                      assign swatch_color = '#c8a045'
+                                      assign light_swatch = true
+                                    elsif value_label_downcase contains 'silver'
+                                      assign swatch_color = '#c9c9c9'
+                                      assign light_swatch = true
+                                    else
+                                      assign swatch_color = '#f7f5f0'
+                                      assign light_swatch = true
+                                    endif
+                                  endif
+                                -%}
+
+                                <label
+                                  class="nichey-filter-check{% if value.active %} is-active{% endif %}{% if value.count == 0 and value.active == false %} is-disabled{% endif %}{% if is_color_filter %} is-color-filter{% endif %}{% if light_swatch %} is-light-swatch{% endif %}"
+                                  for="Filter-{{ section.id }}-{{ filter.param_name | escape }}-{{ forloop.index }}"
+                                  {% if is_color_filter %}style="--nichey-swatch-color: {{ swatch_color }};"{% endif %}
+                                >
+                                  <input
+                                    id="Filter-{{ section.id }}-{{ filter.param_name | escape }}-{{ forloop.index }}"
+                                    type="checkbox"
+                                    name="{{ value.param_name }}"
+                                    value="{{ value.value }}"
+                                    {% if value.active %}checked{% endif %}
+                                    {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                                  >
+
+                                  <span class="nichey-checkbox-box"></span>
+
+                                  <span class="nichey-filter-label-text">
+                                    {{ value.label | escape }} <span>({{ value.count }})</span>
+                                  </span>
+                                </label>
+                              {%- endfor -%}
+                            </div>
+
+                          {%- when 'price_range' -%}
+                            {%- liquid
+                              assign range_max = filter.range_max | money_without_currency | replace: ',', '' | plus: 0
+                              assign min_value = filter.min_value.value | money_without_currency | replace: ',', '' | plus: 0
+                              assign max_value = filter.max_value.value | money_without_currency | replace: ',', '' | plus: 0
+
+                              if range_max == blank or range_max == 0
+                                assign range_max = 1
+                              endif
+
+                              if min_value == blank
+                                assign min_value = 0
+                              endif
+
+                              if max_value == blank or max_value == 0
+                                assign max_value = range_max
+                              endif
+                            -%}
+
+                            <div class="nichey-price-filter" data-price-filter>
+                              <div class="nichey-price-slider" data-range-slider>
+                                <div class="nichey-price-track" data-price-track></div>
+
+                                <input
+                                  class="nichey-range nichey-range-min"
+                                  type="range"
+                                  min="0"
+                                  max="{{ range_max }}"
+                                  step="1"
+                                  value="{{ min_value }}"
+                                  data-range-min
+                                >
+
+                                <input
+                                  class="nichey-range nichey-range-max"
+                                  type="range"
+                                  min="0"
+                                  max="{{ range_max }}"
+                                  step="1"
+                                  value="{{ max_value }}"
+                                  data-range-max
+                                >
+                              </div>
+
+                              <div class="nichey-price-inputs">
+                                <span class="nichey-price-label">Price:</span>
+
+                                <div class="nichey-price-field">
+                                  <span>{{ cart.currency.iso_code }}</span>
+                                  <input
+                                    type="number"
+                                    min="0"
+                                    max="{{ range_max }}"
+                                    name="{{ filter.min_value.param_name }}"
+                                    value="{% if filter.min_value.value %}{{ min_value }}{% endif %}"
+                                    placeholder="0"
+                                    data-price-min
+                                  >
+                                </div>
+
+                                <span class="nichey-price-separator">-</span>
+
+                                <div class="nichey-price-field">
+                                  <span>{{ cart.currency.iso_code }}</span>
+                                  <input
+                                    type="number"
+                                    min="0"
+                                    max="{{ range_max }}"
+                                    name="{{ filter.max_value.param_name }}"
+                                    value="{% if filter.max_value.value %}{{ max_value }}{% endif %}"
+                                    placeholder="{{ range_max }}"
+                                    data-price-max
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                        {%- endcase -%}
+                      </div>
+                    </details>
+                  {%- endfor -%}
+                </form>
+              </div>
+            </div>
+          </aside>
+        {%- endif -%}
+
+        <main class="nichey-products-area">
+          {%- if search.performed != true or search.results_count == 0 -%}
+            <div class="nichey-empty">
+              <div>
+                <p>{{ 'general.search.no_product_results' | t }}</p>
+                <a href="{{ routes.all_products_collection_url }}">{{ 'sections.collection_template.continue_shopping' | t }}</a>
+              </div>
+            </div>
+          {%- else -%}
+            {%- paginate search.results by section.settings.products_count -%}
+              {%- if search.results.size == 0 -%}
+                <div class="nichey-no-result">
+                  {{ 'general.search.no_product_results' | t }}
+                </div>
+              {%- else -%}
+                <div id="{{ products_id }}" class="nichey-products-grid">
+                  {%- for product in search.results -%}
+                    {%- if product.object_type != 'product' -%}
+                      {%- continue -%}
+                    {%- endif -%}
+                    {%- liquid
+                      assign first_variant = product.selected_or_first_available_variant
+                      assign product_url = product.url
+                    -%}
+
+                    <div class="css-card">
+                      <div class="css-image-wrap">
+                        <a href="{{ product_url }}" class="css-image-link">
+                          {%- if product.featured_image != blank -%}
+                            <img
+                              src="{{ product.featured_image | image_url: width: 600 }}"
+                              alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                              loading="lazy"
+                              width="{{ product.featured_image.width }}"
+                              height="{{ product.featured_image.height }}">
+                          {%- else -%}
+                            {{ 'product-1' | placeholder_svg_tag }}
+                          {%- endif -%}
+                        </a>
+
+                        <hdt-wishlist class="css-icon-btn css-wishlist" role="button" data-id="{{ product.id }}" action="add" placement="left" tabindex="0">
+                          <svg width="24" height="24" aria-hidden="true" focusable="false" class="hdt-svg-pr-icon hdt-svg-wis" viewBox="0 0 24 24"><use xlink:href="#hdt-icon-pr-wis"></use></svg>
+                          <span class="sr-only">{{ 'general.wishlist.add_to_wishlist' | t }}</span>
+                        </hdt-wishlist>
+
+                        {%- if first_variant != blank -%}
+                          <form method="post" action="/cart/add" class="css-atc-form">
+                            <input type="hidden" name="id" value="{{ first_variant.id }}">
+                            <button type="submit" class="css-icon-btn css-atc" aria-label="Add to cart" {% unless product.available %}disabled{% endunless %}>
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path><path d="M20 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path><path d="M12 10h4"></path><path d="M14 8v4"></path></svg>
+                            </button>
+                          </form>
+                        {%- endif -%}
+                      </div>
+
+                      <div class="css-info">
+                        {%- assign judge_review_count = product.metafields.reviews.rating_count | default: product.metafields.judge_me.reviews_count | plus: 0 -%}
+                        <div class="css-rating">
+                          {%- if judge_review_count > 0 -%}
+                            <!-- Start of Judge.me code -->
+                            <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">
+                              {{ product.metafields.judgeme.badge }}
+                            </div>
+                            <!-- End of Judge.me code -->
+                          {%- else -%}
+                            <div class="jdgm-prev-badge css-rating-empty" aria-label="No reviews">
+                              <span class="jdgm-prev-badge__stars" aria-hidden="true">
+                                <span class="jdgm-star jdgm--off"></span>
+                                <span class="jdgm-star jdgm--off"></span>
+                                <span class="jdgm-star jdgm--off"></span>
+                                <span class="jdgm-star jdgm--off"></span>
+                                <span class="jdgm-star jdgm--off"></span>
+                              </span>
+                              <span class="jdgm-prev-badge__text">No reviews</span>
+                            </div>
+                          {%- endif -%}
+                        </div>
+
+                        {%- if product.vendor != blank -%}
+                          <div class="css-vendor">{{ product.vendor }}</div>
+                        {%- endif -%}
+
+                        <a href="{{ product_url }}" class="css-title">{{ product.title }}</a>
+
+                        <div class="css-pricing">
+                          {%- if product.compare_at_price > product.price -%}
+                            <s class="css-old-price">{{ product.compare_at_price | money }}</s>
+                            <span class="css-new-price">{{ product.price | money }}</span>
+                            {%- assign discount = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+                            <span class="css-discount">-{{ discount }}%</span>
+                          {%- else -%}
+                            <span class="css-new-price">{{ product.price | money }}</span>
+                          {%- endif -%}
+                        </div>
+                      </div>
+                    </div>
+                  {%- endfor -%}
+                </div>
+
+                {%- if paginate.pages > 1 -%}
+                  <div class="nichey-pagination">
+                    {%- render 'pagination', paginate: paginate, anchor: '', section_id: section.id, pagination_type: section.settings.pagination_type, append_id: products_id, paginate_pos: section.settings.paginate_pos, dis_pagination: section.settings.dis_pagination, lm_text: section.settings.btn_label -%}
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endpaginate -%}
+          {%- endif -%}
+        </main>
+      </div>
+    </div>
+  </div>
+  {%- endif -%}
+
+  {%- if section.settings.description_position == 'after' -%}
+    {{ collection_description }}
+  {%- endif -%}
+</div>
+
+<script>
+  (function() {
+    const sectionSelector = '#shopify-section-{{ section.id }}';
+    const bodyOpenClass = 'nichey-filter-is-open-{{ section.id }}';
+    let submitTimer;
+
+    function getSection() {
+      return document.querySelector(sectionSelector);
+    }
+
+    function getForm(section) {
+      return section ? section.querySelector('#NicheyFilters-{{ section.id }}') : null;
+    }
+
+    function closeSortDropdown(section) {
+      if (!section) return;
+
+      const sortDetails = section.querySelector('.nichey-sort-details');
+
+      if (sortDetails && sortDetails.open) {
+        sortDetails.removeAttribute('open');
+      }
+    }
+
+    function openFilter(section) {
+      if (!section) return;
+
+      const sidebar = section.querySelector('[data-nichey-filter-sidebar]');
+      const overlay = section.querySelector('[data-nichey-filter-close]');
+
+      if (!sidebar || !overlay) return;
+
+      closeSortDropdown(section);
+
+      sidebar.classList.add('is-open');
+      overlay.classList.add('is-open');
+
+      document.body.classList.add(bodyOpenClass);
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeFilter(section) {
+      section = section || getSection();
+
+      if (!section) return;
+
+      const sidebar = section.querySelector('[data-nichey-filter-sidebar]');
+      const overlay = section.querySelector('[data-nichey-filter-close]');
+
+      if (!sidebar || !overlay) return;
+
+      sidebar.classList.remove('is-open');
+      overlay.classList.remove('is-open');
+
+      document.body.classList.remove(bodyOpenClass);
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+    }
+
+    function submitFilters(form) {
+      if (!form) return;
+
+      clearTimeout(submitTimer);
+
+      submitTimer = setTimeout(function() {
+        form.submit();
+      }, 350);
+    }
+
+    function updatePriceSlider(priceFilter) {
+      if (!priceFilter) return;
+
+      const minRange = priceFilter.querySelector('[data-range-min]');
+      const maxRange = priceFilter.querySelector('[data-range-max]');
+      const minInput = priceFilter.querySelector('[data-price-min]');
+      const maxInput = priceFilter.querySelector('[data-price-max]');
+      const track = priceFilter.querySelector('[data-price-track]');
+
+      if (!minRange || !maxRange || !minInput || !maxInput || !track) return;
+
+      const maxLimit = Number(maxRange.max) || 100;
+      let minVal = Number(minRange.value) || 0;
+      let maxVal = Number(maxRange.value) || maxLimit;
+
+      if (minVal > maxVal - 1) {
+        minVal = maxVal - 1;
+        minRange.value = minVal;
+      }
+
+      if (maxVal < minVal + 1) {
+        maxVal = minVal + 1;
+        maxRange.value = maxVal;
+      }
+
+      const left = (minVal / maxLimit) * 100;
+      const right = 100 - ((maxVal / maxLimit) * 100);
+
+      track.style.left = left + '%';
+      track.style.right = right + '%';
+
+      minInput.value = minVal;
+      maxInput.value = maxVal;
+    }
+
+    function syncNumberToRange(priceFilter) {
+      if (!priceFilter) return;
+
+      const minRange = priceFilter.querySelector('[data-range-min]');
+      const maxRange = priceFilter.querySelector('[data-range-max]');
+      const minInput = priceFilter.querySelector('[data-price-min]');
+      const maxInput = priceFilter.querySelector('[data-price-max]');
+
+      if (!minRange || !maxRange || !minInput || !maxInput) return;
+
+      minRange.value = minInput.value || 0;
+      maxRange.value = maxInput.value || maxRange.max;
+
+      updatePriceSlider(priceFilter);
+    }
+
+    function initPriceSliders() {
+      const section = getSection();
+
+      if (!section) return;
+
+      section.querySelectorAll('[data-price-filter]').forEach(function(priceFilter) {
+        updatePriceSlider(priceFilter);
+      });
+    }
+
+    function fixPaginationDots(section) {
+      if (!section) return;
+
+      section.querySelectorAll('.nichey-pagination a, .nichey-pagination span, .nichey-pagination button').forEach(function(item) {
+        const text = item.textContent.trim();
+
+        if (text === '...' || text === '…') {
+          item.classList.add('nichey-pagination-dots-fix');
+          item.classList.remove('current', 'active', 'is-active', 'hdt-current', 'hdt-pagination__item--current', 'pagination__item--current');
+          item.removeAttribute('aria-current');
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const section = getSection();
+
+      initPriceSliders();
+      fixPaginationDots(section);
+    });
+
+    document.addEventListener('shopify:section:load', function() {
+      const section = getSection();
+
+      initPriceSliders();
+      fixPaginationDots(section);
+    });
+
+    document.addEventListener('click', function(event) {
+      const section = getSection();
+
+      if (!section) return;
+
+      const clearButton = event.target.closest('[data-nichey-clear-filters], .nichey-clear-real-btn');
+
+      if (clearButton && section.contains(clearButton)) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+
+        const href = clearButton.getAttribute('data-clear-url') || clearButton.getAttribute('href') || '{{ routes.search_url }}';
+
+        window.location.href = href;
+        return;
+      }
+
+      const paginationLink = event.target.closest('.nichey-pagination a[href]');
+
+      if (paginationLink && section.contains(paginationLink)) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+
+        window.location.href = paginationLink.href;
+        return;
+      }
+
+      const openButton = event.target.closest('[data-nichey-filter-open]');
+
+      if (openButton && section.contains(openButton)) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        openFilter(section);
+        return;
+      }
+
+      const closeButton = event.target.closest('[data-nichey-filter-close]');
+
+      if (closeButton && section.contains(closeButton)) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        closeFilter(section);
+        return;
+      }
+
+      const sortDetails = section.querySelector('.nichey-sort-details');
+
+      if (sortDetails && sortDetails.open && !sortDetails.contains(event.target)) {
+        closeSortDropdown(section);
+      }
+    }, true);
+
+    document.addEventListener('selectstart', function(event) {
+      const section = getSection();
+
+      if (!section) return;
+
+      if (
+        section.contains(event.target) &&
+        (
+          event.target.closest('.nichey-filter-panel-header') ||
+          event.target.closest('.nichey-clear-real-btn') ||
+          event.target.closest('.nichey-collection-title')
+        )
+      ) {
+        event.preventDefault();
+      }
+    });
+
+    document.addEventListener('keydown', function(event) {
+      const section = getSection();
+
+      if (!section) return;
+
+      const clearButton = event.target.closest('[data-nichey-clear-filters], .nichey-clear-real-btn');
+
+      if (clearButton && section.contains(clearButton) && (event.key === 'Enter' || event.key === ' ')) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const href = clearButton.getAttribute('data-clear-url') || clearButton.getAttribute('href') || '{{ routes.search_url }}';
+
+        window.location.href = href;
+        return;
+      }
+
+      if (event.key === 'Escape') {
+        closeFilter(section);
+        closeSortDropdown(section);
+      }
+    });
+
+    document.addEventListener('input', function(event) {
+      const section = getSection();
+
+      if (!section || !section.contains(event.target)) return;
+
+      const priceFilter = event.target.closest('[data-price-filter]');
+
+      if (!priceFilter) return;
+
+      if (event.target.matches('[data-range-min], [data-range-max]')) {
+        updatePriceSlider(priceFilter);
+      }
+    });
+
+    document.addEventListener('change', function(event) {
+      const section = getSection();
+
+      if (!section || !section.contains(event.target)) return;
+
+      const form = getForm(section);
+
+      if (!form) return;
+
+      if (event.target.matches('input[type="checkbox"]')) {
+        const label = event.target.closest('.nichey-filter-check');
+
+        if (label) {
+          label.classList.toggle('is-active', event.target.checked);
+        }
+
+        submitFilters(form);
+        return;
+      }
+
+      const priceFilter = event.target.closest('[data-price-filter]');
+
+      if (priceFilter && event.target.matches('[data-range-min], [data-range-max]')) {
+        updatePriceSlider(priceFilter);
+        submitFilters(form);
+        return;
+      }
+
+      if (priceFilter && event.target.matches('[data-price-min], [data-price-max]')) {
+        syncNumberToRange(priceFilter);
+        submitFilters(form);
+      }
+    });
+
+    window.addEventListener('scroll', function() {
+      const section = getSection();
+
+      if (!section) return;
+
+      closeSortDropdown(section);
+    }, { passive: true });
+
+    const section = getSection();
+    initPriceSliders();
+    fixPaginationDots(section);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Search page grid",
+  "class": "hdt-main-section hdt-main-section__collection",
+  "tag": "section",
+  "enabled_on": {
+    "templates": ["search"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show description collection",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "use_read_more",
+      "label": "Use read more",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "read_more_height",
+      "label": "Read more height",
+      "min": 100,
+      "max": 1000,
+      "step": 10,
+      "default": 300,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "description_position",
+      "label": "Position description collection",
+      "options": [
+        {
+          "value": "before",
+          "label": "Before main collection"
+        },
+        {
+          "value": "after",
+          "label": "After main collection"
+        }
+      ],
+      "default": "before"
+    },
+    {
+      "type": "header",
+      "content": "Product layout"
+    },
+    {
+      "type": "range",
+      "id": "products_count",
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "label": "Maximum items to show",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "col_dk",
+      "label": "Items per row (Desktop)",
+      "default": "5",
+      "options": [
+        {
+          "label": "3",
+          "value": "3"
+        },
+        {
+          "label": "4",
+          "value": "4"
+        },
+        {
+          "label": "5",
+          "value": "5"
+        },
+        {
+          "label": "6",
+          "value": "6"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "col_tb",
+      "label": "Items per row (Tablet)",
+      "default": "3",
+      "options": [
+        {
+          "label": "2",
+          "value": "2"
+        },
+        {
+          "label": "3",
+          "value": "3"
+        },
+        {
+          "label": "4",
+          "value": "4"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "col_mb",
+      "label": "Items per row (Mobile)",
+      "default": "2",
+      "options": [
+        {
+          "label": "1",
+          "value": "1"
+        },
+        {
+          "label": "2",
+          "value": "2"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Pagination products"
+    },
+    {
+      "type": "select",
+      "id": "pagination_type",
+      "label": "Pagination type",
+      "options": [
+        {
+          "value": "links",
+          "label": "Links"
+        },
+        {
+          "value": "load_more",
+          "label": "Load more"
+        },
+        {
+          "value": "infinite",
+          "label": "Infinite"
+        }
+      ],
+      "default": "links"
+    },
+    {
+      "type": "select",
+      "id": "paginate_pos",
+      "label": "Pagination position",
+      "default": "center",
+      "options": [
+        {
+          "value": "start",
+          "label": "Start"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "End"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "dis_pagination",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "Distance to boundary",
+      "default": 30
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Load more button label"
+    },
+    {
+      "type": "header",
+      "content": "Filtering and sorting"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "default": true,
+      "label": "Enable sorting"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "default": true,
+      "label": "Enable filtering"
+    },
+    {
+      "type": "header",
+      "content": "Section layout"
+    },
+    {
+      "type": "select",
+      "id": "section_layout",
+      "label": "Section width",
+      "options": [
+        {
+          "value": "container",
+          "label": "Container"
+        },
+        {
+          "value": "wrapper_container",
+          "label": "Wrapper container"
+        },
+        {
+          "value": "full_width",
+          "label": "Full width"
+        }
+      ],
+      "default": "full_width"
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "text",
+      "id": "mg",
+      "label": "Margin",
+      "default": ",,50px,",
+      "placeholder": ",,50px,"
+    },
+    {
+      "type": "text",
+      "id": "mg_mb",
+      "label": "Margin (Mobile)",
+      "default": ",,30px,",
+      "placeholder": ",,50px,"
+    },
+    {
+      "type": "text",
+      "id": "pd",
+      "label": "Padding",
+      "placeholder": "50px,,50px,"
+    },
+    {
+      "type": "text",
+      "id": "pd_mb",
+      "label": "Padding (Mobile)",
+      "placeholder": ",,50px,"
+    }
+  ]
+}
+{% endschema %}

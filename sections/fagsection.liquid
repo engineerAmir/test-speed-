@@ -1,0 +1,419 @@
+<div class="nc-faq-page">
+
+  <!-- HERO -->
+  <div class="nc-faq-hero">
+    <span class="nc-faq-tag">Support</span>
+    <h1>Frequently Asked<br>Questions</h1>
+    <p>Everything you need to know about shopping with Nichey.</p>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="nc-faq-wrap">
+    <div class="nc-faq-cats">
+      <button class="nc-cat active" onclick="filterFaq('all', this)">All</button>
+      <button class="nc-cat" onclick="filterFaq('orders', this)">Orders</button>
+      <button class="nc-cat" onclick="filterFaq('shipping', this)">Shipping</button>
+      <button class="nc-cat" onclick="filterFaq('returns', this)">Returns</button>
+      <button class="nc-cat" onclick="filterFaq('products', this)">Products</button>
+      <button class="nc-cat" onclick="filterFaq('account', this)">Account</button>
+    </div>
+
+    <div class="nc-faq-list">
+
+      <!-- ORDERS -->
+      <div class="nc-faq-item" data-cat="orders">
+        <button class="nc-faq-q" onclick="toggleFaq(this)">
+          <span>How do I place an order?</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nc-faq-a">
+          <p>Simply browse our collections, add your favourite items to cart, and proceed to checkout. We accept all major credit cards, Apple Pay, Google Pay, and PayPal. You'll receive a confirmation email as soon as your order is placed.</p>
+        </div>
+      </div>
+
+      <div class="nc-faq-item" data-cat="orders">
+        <button class="nc-faq-q" onclick="toggleFaq(this)">
+          <span>Can I modify or cancel my order?</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nc-faq-a">
+          <p>Orders can be modified or cancelled within 24 hours of placement. Please contact us immediately at <a href="mailto:hello@nichey.store">hello@nichey.store</a> with your order number and we'll do our best to help.</p>
+        </div>
+      </div>
+
+      <div class="nc-faq-item" data-cat="orders">
+        <button class="nc-faq-q" onclick="toggleFaq(this)">
+          <span>How do I use a promo code?</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nc-faq-a">
+          <p>Enter your promo code in the discount field at checkout and click Apply. The discount will be automatically deducted from your order total before payment.</p>
+        </div>
+      </div>
+
+      <div class="nc-faq-item" data-cat="orders">
+        <button class="nc-faq-q" onclick="toggleFaq(this)">
+          <span>What payment methods do you accept?</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nc-faq-a">
+          <p>We accept Visa, Mastercard, American Express, PayPal, Apple Pay, and Google Pay. All transactions are secured with SSL encryption for your safety.</p>
+        </div>
+      </div>
+
+      <!-- SHIPPING -->
+      <div class="nc-faq-item" data-cat="shipping">
+        <button class="nc-faq-q" onclick="toggleFaq(this)">
+          <span>How long does shipping take?</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nc-faq-a">
+          <p>Standard shipping within the UAE takes 3–5 business days. Express shipping (1–2 business days) is available at checkout. International orders typically arrive within 7–14 business days depending on destination.</p>
+        </div>
+      </div>
+
+      <div class="nc-faq-item" data-cat="shipping">
+        <button class="nc-faq-q" onclick="toggleFaq(this)">
+          <span>Do you offer free shipping?</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nc-faq-a">
+          <p>Yes! We offer free standard shipping on all orders over AED 400. For orders below this threshold, a flat shipping fee is calculated at checkout based on your location.</p>
+        </div>
+      </div>
+
+      <div class="nc-faq-item" data-cat="shipping">
+        <button class="nc-faq-q" onclick="toggleFaq(this)">
+          <span>How can I track my order?</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nc-faq-a">
+          <p>Once your order is dispatched, you'll receive a shipping confirmation email with a tracking number. Use this to monitor your delivery in real time through our carrier's website.</p>
+        </div>
+      </div>
+
+      <div class="nc-faq-item" data-cat="shipping">
+        <button class="nc-faq-q" onclick="toggleFaq(this)">
+          <span>Do you ship internationally?</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nc-faq-a">
+          <p>Yes, we ship to most countries worldwide. International shipping rates and delivery times are calculated at checkout based on your location. Please note that customs duties may apply depending on your country.</p>
+        </div>
+      </div>
+
+      <!-- RETURNS -->
+      <div class="nc-faq-item" data-cat="returns">
+        <button class="nc-faq-q" onclick="toggleFaq(this)">
+          <span>What is your return policy?</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nc-faq-a">
+          <p>We accept returns within 14 days of delivery. Items must be unused, unopened, and in their original packaging. To initiate a return, contact us at <a href="mailto:hello@nichey.store">hello@nichey.store</a> with your order number.</p>
+        </div>
+      </div>
+
+      <div class="nc-faq-item" data-cat="returns">
+        <button class="nc-faq-q" onclick="toggleFaq(this)">
+          <span>How long does a refund take?</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nc-faq-a">
+          <p>Once we receive and inspect the returned item, your refund will be processed within 5–7 business days. The amount will be returned to your original payment method.</p>
+        </div>
+      </div>
+
+      <div class="nc-faq-item" data-cat="returns">
+        <button class="nc-faq-q" onclick="toggleFaq(this)">
+          <span>What if I received a damaged or wrong item?</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nc-faq-a">
+          <p>We're so sorry! Please contact us within 48 hours of receiving your order at <a href="mailto:hello@nichey.store">hello@nichey.store</a> with photos of the item and your order number. We'll resolve this immediately at no cost to you.</p>
+        </div>
+      </div>
+
+      <!-- PRODUCTS -->
+      <div class="nc-faq-item" data-cat="products">
+        <button class="nc-faq-q" onclick="toggleFaq(this)">
+          <span>Are your products 100% authentic?</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nc-faq-a">
+          <p>Absolutely. Every product sold on Nichey is 100% genuine, sourced directly from official brand distributors and authorized suppliers. We never stock counterfeit or grey market products.</p>
+        </div>
+      </div>
+
+      <div class="nc-faq-item" data-cat="products">
+        <button class="nc-faq-q" onclick="toggleFaq(this)">
+          <span>How do I know which products are right for my skin?</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nc-faq-a">
+          <p>We have a personalized Skincare Quiz on our homepage that recommends products based on your skin type and concerns. You can also contact our team at <a href="mailto:hello@nichey.store">hello@nichey.store</a> for personalized recommendations.</p>
+        </div>
+      </div>
+
+      <div class="nc-faq-item" data-cat="products">
+        <button class="nc-faq-q" onclick="toggleFaq(this)">
+          <span>Do you offer gift wrapping?</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nc-faq-a">
+          <p>Yes! We offer gift wrapping and personalized notes for special occasions. Simply select the gift wrapping option at checkout and add your message.</p>
+        </div>
+      </div>
+
+      <!-- ACCOUNT -->
+      <div class="nc-faq-item" data-cat="account">
+        <button class="nc-faq-q" onclick="toggleFaq(this)">
+          <span>How do I create an account?</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nc-faq-a">
+          <p>Click the account icon at the top of any page and select "Create Account". Fill in your details and you're all set. Having an account lets you track orders, save your wishlist, and earn loyalty points.</p>
+        </div>
+      </div>
+
+      <div class="nc-faq-item" data-cat="account">
+        <button class="nc-faq-q" onclick="toggleFaq(this)">
+          <span>How does the Rewards Program work?</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nc-faq-a">
+          <p>Every AED 1 you spend earns 1 Rewards Point. Points can be redeemed for discounts on future purchases. Simply sign in to your account before checkout to automatically earn and apply points.</p>
+        </div>
+      </div>
+
+      <div class="nc-faq-item" data-cat="account">
+        <button class="nc-faq-q" onclick="toggleFaq(this)">
+          <span>Is my personal information secure?</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="nc-faq-a">
+          <p>Yes. We take your privacy seriously. All data is encrypted using SSL technology and we never share or sell your personal information to third parties. Read our full Privacy Policy for more details.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CONTACT CTA -->
+  <div class="nc-faq-cta">
+    <div class="nc-faq-cta-inner">
+      <div class="nc-faq-cta-icon">💬</div>
+      <h3>Still have questions?</h3>
+      <p>Our team is here to help. Reach out and we'll get back to you within 24 hours.</p>
+      <a href="/pages/contact-us" class="nc-faq-btn">Contact Us</a>
+    </div>
+  </div>
+
+</div>
+
+<style>
+.nc-faq-page {
+  font-family: inherit;
+  color: #1a1a1a;
+  background: #fff;
+}
+.nc-faq-hero {
+  text-align: center;
+  padding: 80px 20px 60px;
+  background: #fafafa;
+  border-bottom: 1px solid #f0f0f0;
+}
+.nc-faq-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #888;
+  margin-bottom: 16px;
+  padding: 6px 14px;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+}
+.nc-faq-hero h1 {
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 16px;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+}
+.nc-faq-hero p {
+  font-size: 16px;
+  color: #777;
+  margin: 0 auto;
+  max-width: 500px;
+}
+.nc-faq-wrap {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+.nc-faq-cats {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+.nc-cat {
+  padding: 8px 18px;
+  border: 1px solid #e0e0e0;
+  border-radius: 30px;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.nc-cat:hover {
+  border-color: #1a1a1a;
+  color: #1a1a1a;
+}
+.nc-cat.active {
+  background: #1a1a1a;
+  border-color: #1a1a1a;
+  color: #fff;
+}
+.nc-faq-list {
+  border-top: 1px solid #efefef;
+}
+.nc-faq-item {
+  border-bottom: 1px solid #efefef;
+  transition: opacity 0.2s;
+}
+.nc-faq-item.hidden {
+  display: none;
+}
+.nc-faq-q {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  color: #1a1a1a;
+  text-align: left;
+  gap: 20px;
+  font-family: inherit;
+  transition: color 0.2s;
+}
+.nc-faq-q:hover { color: #555; }
+.nc-faq-q svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+  color: #aaa;
+}
+.nc-faq-item.open .nc-faq-q svg {
+  transform: rotate(180deg);
+  color: #1a1a1a;
+}
+.nc-faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.2s ease;
+}
+.nc-faq-item.open .nc-faq-a {
+  max-height: 400px;
+}
+.nc-faq-a p {
+  padding: 0 40px 24px 0;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.8;
+  margin: 0;
+}
+.nc-faq-a a {
+  color: #1a1a1a;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.nc-faq-cta {
+  background: #f7f4f0;
+  padding: 80px 20px;
+  text-align: center;
+}
+.nc-faq-cta-inner {
+  max-width: 500px;
+  margin: 0 auto;
+}
+.nc-faq-cta-icon {
+  font-size: 36px;
+  margin-bottom: 16px;
+}
+.nc-faq-cta h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 12px;
+}
+.nc-faq-cta p {
+  font-size: 15px;
+  color: #777;
+  margin: 0 0 28px;
+  line-height: 1.6;
+}
+.nc-faq-btn {
+  display: inline-block;
+  padding: 13px 36px;
+  background: #1a1a1a;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: background 0.2s;
+}
+.nc-faq-btn:hover { background: #333; }
+@media(max-width: 768px) {
+  .nc-faq-hero { padding: 60px 20px 40px; }
+  .nc-faq-wrap { padding: 40px 16px; }
+  .nc-faq-q { font-size: 14px; padding: 18px 0; }
+  .nc-faq-a p { padding-right: 0; }
+  .nc-faq-cta { padding: 60px 20px; }
+}
+</style>
+
+<script>
+function toggleFaq(btn) {
+  var item = btn.parentElement;
+  var isOpen = item.classList.contains('open');
+  document.querySelectorAll('.nc-faq-item.open').forEach(function(el) {
+    el.classList.remove('open');
+  });
+  if (!isOpen) item.classList.add('open');
+}
+
+function filterFaq(cat, btn) {
+  document.querySelectorAll('.nc-cat').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.querySelectorAll('.nc-faq-item').forEach(function(item) {
+    if (cat === 'all' || item.dataset.cat === cat) {
+      item.classList.remove('hidden');
+    } else {
+      item.classList.add('hidden');
+      item.classList.remove('open');
+    }
+  });
+}
+</script>
+
+{% schema %}
+{
+  "name": "FAQ Page",
+  "settings": [],
+  "presets": [{ "name": "FAQ Page" }]
+}
+{% endschema %}

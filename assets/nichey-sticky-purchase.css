@@ -1,0 +1,30 @@
+/* Reuse the default template's native sticky-atc stylesheet and product layout. */
+.ny-sticky-purchase{visibility:hidden;pointer-events:none;background:rgb(var(--color-background,255 255 255));color:rgb(var(--color-foreground,25 25 25));padding-bottom:env(safe-area-inset-bottom);bottom:var(--ny-toolbar-offset,0px)}
+.ny-sticky-purchase[data-visible]{visibility:visible;pointer-events:auto;transform:translate3d(0,0,0)!important}
+.ny-sticky-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:10px}
+.ny-sticky-purchase .hdt-sticky-atc__product{min-width:0;flex:1}
+.ny-sticky-purchase .hdt-sticky-atc__product-infos{display:grid;gap:4px;min-width:0}
+.ny-sticky-purchase .hdt-sticky-atc__title{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ny-sticky-actions{display:flex;align-items:stretch;gap:10px;flex-shrink:0}
+.ny-sticky-actions>button,.ny-sticky-checkout{min-width:160px;flex:1;margin:0}
+.ny-sticky-checkout .shopify-payment-button__button{min-height:44px}
+.ny-sticky-checkout .shopify-payment-button__more-options{display:none}
+.ny-sticky-checkout shopify-accelerated-checkout{--shopify-accelerated-checkout-button-block-size:44px}
+body:has(ny-sticky-purchase[data-visible]){padding-bottom:90px}
+/* Remove local region typography so the theme's global element rules apply. */
+.ny-section .ny-hero-premium .ny-hero-services>.ny-hero-delivery{font:inherit;letter-spacing:inherit}
+.ny-section .ny-hero-premium .ny-delivery-table{font:inherit;letter-spacing:inherit}
+.ny-section .ny-hero-premium .ny-delivery-table th,.ny-section .ny-hero-premium .ny-delivery-table td{font:inherit;letter-spacing:inherit}
+@media(max-width:767px){.ny-sticky-inner{padding-inline:16px;gap:0}.ny-sticky-actions{width:100%;min-width:0}.ny-sticky-actions>button,.ny-sticky-checkout{min-width:0;width:0}.ny-sticky-purchase .hdt-sticky-atc__submit{min-width:0;padding-inline:10px}}
+@media(prefers-reduced-motion:reduce){.ny-sticky-purchase{transition:none}}
+
+.ny-section .ny-hero-premium .ny-hero-services .ny-cashback{font-size:var(--ny-cashback-size,11px)!important;line-height:1.4;margin:8px 0 0}
+/* Compact purchase rail leaves the existing WhatsApp button clear on the left. */
+.ny-sticky-purchase{left:88px!important;right:8px!important;width:auto!important;border-radius:6px 6px 0 0}
+.ny-sticky-purchase .ny-sticky-inner{padding-block:4px;padding-inline:8px;gap:12px}
+.ny-sticky-purchase .hdt-sticky-atc__img{width:32px;height:32px;min-width:32px}
+.ny-sticky-purchase .ny-sticky-actions{gap:6px}
+.ny-sticky-purchase .hdt-sticky-atc__submit,.ny-sticky-checkout .shopify-payment-button__button{height:40px;min-height:40px;padding:0 8px;font-size:12px!important;line-height:1.2}
+.ny-sticky-checkout shopify-accelerated-checkout{--shopify-accelerated-checkout-button-block-size:40px;margin:0!important}
+@media(max-width:749px){.ny-section .ny-routine-actions{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start;gap:8px}.ny-section .ny-routine-actions>.ny-button{height:var(--ny-routine-button,48px);min-height:var(--ny-routine-button,48px);padding:0 6px;box-sizing:border-box}.ny-section .ny-routine-native shopify-accelerated-checkout{--shopify-accelerated-checkout-button-block-size:var(--ny-routine-button,48px)}}
+@media(max-width:749px){.ny-section .ny-routine-native shopify-accelerated-checkout{margin:0!important}}

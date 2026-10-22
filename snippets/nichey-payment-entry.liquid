@@ -1,0 +1,12 @@
+{% assign label = method.settings.label %}
+{% if label == blank %}{% case method.settings.provider %}{% when 'visa' %}{% assign label = 'Visa' %}{% when 'master' %}{% assign label = 'Mastercard' %}{% when 'cod' %}{% assign label = 'Cash on Delivery' %}{% when 'wallet' %}{% assign label = 'Mobile Wallets' %}{% endcase %}{% endif %}
+{% if method.settings.confirmed and label != blank %}
+<li class="ny-payment-entry" {{ method.shopify_attributes }}>
+{% if method.settings.url != blank %}<a href="{{ method.settings.url }}" class="ny-payment-content">{% else %}<span class="ny-payment-content">{% endif %}
+{% if method.settings.logo != blank %}{{ method.settings.logo | image_url: width: 160 | image_tag: loading: 'lazy', alt: '', class: 'ny-provider-logo' }}
+{% elsif method.settings.provider == 'visa' or method.settings.provider == 'master' %}{{ method.settings.provider | payment_type_svg_tag }}
+{% else %}{% render 'nichey-icon', name: method.settings.symbol %}{% endif %}
+<span{% if method.settings.provider == 'visa' or method.settings.provider == 'master' %} class="ny-sr"{% endif %}>{{ label | escape }}</span>
+{% if method.settings.url != blank %}</a>{% else %}</span>{% endif %}
+</li>
+{% endif %}

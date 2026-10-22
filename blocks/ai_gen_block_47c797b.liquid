@@ -1,0 +1,655 @@
+{% doc %}
+  @prompt
+    Create a premium editorial blog hero section for a luxury beauty and skincare brand called NICHEY.
+    
+    Layout requirements:
+    
+    * Center aligned content.
+    * Small eyebrow text above the title: "BEAUTY JOURNAL".
+    * Large prominent heading: "NICHEY BEAUTY BLOG".
+    * Short subtitle: "Expert skincare guides, makeup tips, brand reviews, and beauty trends."
+    * Thin horizontal divider below the subtitle.
+    * Maximum content width: 700px.
+    * White background.
+    * No banner image.
+    * No buttons.
+    * Generous spacing but avoid excessive empty space.
+    
+    Typography:
+    
+    * Heading should be the visual focal point.
+    * Large title size (40-48px desktop).
+    * Medium weight luxury typography.
+    * Subtitle should be highly readable with softer gray color.
+    * Elegant letter spacing for the eyebrow text.
+    
+    Spacing:
+    
+    * Top padding: 80px.
+    * Bottom padding: 50px.
+    * Balanced vertical spacing between all elements.
+    
+    Style:
+    
+    * Premium beauty editorial aesthetic.
+    * Inspired by high-end skincare brands, beauty magazines, Sephora editorial pages, and luxury cosmetics websites.
+    * Minimal, elegant, modern, clean, and sophisticated.
+    * Focus on typography and whitespace.
+    * Fully responsive on mobile and desktop.
+    
+    Below the hero section, add a horizontal category filter navigation with pill-style tabs:
+    
+    All Articles | Skincare | Makeup | Hair Care | Body Care | Brands
+    
+    The active category should have a subtle beige background matching the Nichey brand aesthetic.
+    
+{% enddoc %}
+{%- liquid
+  assign ai_gen_id = block.id | replace: '_', '' | downcase
+  assign active_blog_tag = current_tags | first
+  assign active_blog_tag_handle = active_blog_tag | handleize
+  assign dynamic_heading = block.settings.heading_text
+
+  if active_blog_tag != blank
+    assign formatted_blog_tag = active_blog_tag | replace: '-', ' ' | upcase
+    assign dynamic_heading = 'NICHEY ' | append: formatted_blog_tag | append: ' BLOG'
+  endif
+-%}
+
+{% style %}
+  .ai-blog-hero-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    padding-top: {{ block.settings.padding_top }}px;
+    padding-bottom: {{ block.settings.padding_bottom }}px;
+  }
+
+  .ai-blog-hero-container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: center;
+  }
+
+  .ai-blog-hero-eyebrow-{{ ai_gen_id }} {
+    font-size: {{ block.settings.eyebrow_size }}px;
+    font-weight: {{ block.settings.eyebrow_weight }};
+    letter-spacing: {{ block.settings.eyebrow_spacing }}px;
+    text-transform: uppercase;
+    color: {{ block.settings.eyebrow_color }};
+    margin: 0 0 {{ block.settings.eyebrow_margin }}px 0;
+  }
+
+  .ai-blog-hero-heading-{{ ai_gen_id }} {
+    font-size: {{ block.settings.heading_size_mobile }}px;
+    font-weight: {{ block.settings.heading_weight }};
+    letter-spacing: {{ block.settings.heading_spacing }}px;
+    color: {{ block.settings.heading_color }};
+    margin: 0 0 {{ block.settings.heading_margin }}px 0;
+    line-height: 1.2;
+  }
+
+  .ai-blog-hero-subtitle-{{ ai_gen_id }} {
+    font-size: {{ block.settings.subtitle_size }}px;
+    font-weight: {{ block.settings.subtitle_weight }};
+    line-height: 1.6;
+    color: {{ block.settings.subtitle_color }};
+    margin: 0 0 {{ block.settings.subtitle_margin }}px 0;
+  }
+
+  .ai-blog-hero-divider-{{ ai_gen_id }} {
+    width: {{ block.settings.divider_width }}px;
+    height: {{ block.settings.divider_height }}px;
+    background-color: {{ block.settings.divider_color }};
+    margin: 0 auto;
+  }
+
+  .ai-blog-hero-categories-{{ ai_gen_id }} {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: {{ block.settings.category_gap }}px;
+    margin-top: {{ block.settings.categories_margin_top }}px;
+    padding: 0 20px;
+  }
+
+  .ai-blog-hero-category-{{ ai_gen_id }} {
+    font-size: {{ block.settings.category_font_size }}px;
+    font-weight: {{ block.settings.category_font_weight }};
+    color: {{ block.settings.category_text_color }};
+    background-color: {{ block.settings.category_bg_color }};
+    padding: {{ block.settings.category_padding_vertical }}px {{ block.settings.category_padding_horizontal }}px;
+    border-radius: {{ block.settings.category_border_radius }}px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: {{ block.settings.category_border_width }}px solid {{ block.settings.category_border_color }};
+    white-space: nowrap;
+  }
+
+  .ai-blog-hero-category-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.category_hover_bg }};
+    color: {{ block.settings.category_hover_text }};
+    border-color: {{ block.settings.category_hover_border }};
+  }
+
+  .ai-blog-hero-category-{{ ai_gen_id }}.active {
+    background-color: {{ block.settings.category_active_bg }};
+    color: {{ block.settings.category_active_text }};
+    border-color: {{ block.settings.category_active_border }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-blog-hero-heading-{{ ai_gen_id }} {
+      font-size: {{ block.settings.heading_size_desktop }}px;
+    }
+  }
+{% endstyle %}
+
+<blog-hero-{{ ai_gen_id }} class="ai-blog-hero-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-blog-hero-container-{{ ai_gen_id }}">
+    {% if block.settings.eyebrow_text != blank %}
+      <div class="ai-blog-hero-eyebrow-{{ ai_gen_id }}">
+        {{ block.settings.eyebrow_text }}
+      </div>
+    {% endif %}
+
+    {% if dynamic_heading != blank %}
+      <h1 class="ai-blog-hero-heading-{{ ai_gen_id }}">
+        {{ dynamic_heading }}
+      </h1>
+    {% endif %}
+
+    {% if block.settings.subtitle_text != blank %}
+      <div class="ai-blog-hero-subtitle-{{ ai_gen_id }}">
+        {{ block.settings.subtitle_text }}
+      </div>
+    {% endif %}
+
+    {% if block.settings.show_divider %}
+      <div class="ai-blog-hero-divider-{{ ai_gen_id }}"></div>
+    {% endif %}
+  </div>
+
+  {% if block.settings.show_categories %}
+    <div class="ai-blog-hero-categories-{{ ai_gen_id }}">
+      {% assign categories = block.settings.categories | split: '|' %}
+      {% for category in categories %}
+        {% assign category_parts = category | split: ':' %}
+        {% assign category_label = category_parts[0] | strip %}
+        {% assign category_url = category_parts[1] | strip %}
+        
+        {% if category_label != blank %}
+
+  {%- liquid
+    assign active_class = ''
+    assign category_handle = category_label | handleize
+
+    if active_blog_tag == blank and category_handle == 'all-articles'
+      assign active_class = ' active'
+    elsif active_blog_tag != blank and active_blog_tag_handle == category_handle
+      assign active_class = ' active'
+    endif
+  -%}
+
+  <a
+    href="{% if category_url != blank %}{{ category_url }}{% else %}#{% endif %}"
+    class="ai-blog-hero-category-{{ ai_gen_id }}{{ active_class }}"
+  >
+    {{ category_label }}
+  </a>
+
+{% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+</blog-hero-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class BlogHero{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.setupCategoryNavigation();
+      }
+
+      setupCategoryNavigation() {
+        const categories = this.querySelectorAll('.ai-blog-hero-category-{{ ai_gen_id }}');
+        
+        categories.forEach(category => {
+          category.addEventListener('click', (e) => {
+            if (category.getAttribute('href') === '#') {
+              e.preventDefault();
+            }
+            
+            categories.forEach(cat => cat.classList.remove('active'));
+            category.classList.add('active');
+          });
+        });
+      }
+    }
+
+    customElements.define('blog-hero-{{ ai_gen_id }}', BlogHero{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Blog hero editorial",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Maximum content width",
+      "min": 400,
+      "max": 1000,
+      "step": 50,
+      "unit": "px",
+      "default": 700
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 20,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Eyebrow text"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "eyebrow_text",
+      "label": "Eyebrow text",
+      "default": "BEAUTY JOURNAL"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "label": "Font size",
+      "min": 8,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_weight",
+      "label": "Font weight",
+      "min": 300,
+      "max": 700,
+      "step": 100,
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_spacing",
+      "label": "Letter spacing",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Color",
+      "default": "#999999"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_margin",
+      "label": "Bottom spacing",
+      "min": 5,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading_text",
+      "label": "Heading text",
+      "default": "NICHEY BEAUTY BLOG"
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Font size mobile",
+      "min": 24,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "heading_size_desktop",
+      "label": "Font size desktop",
+      "min": 30,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "heading_weight",
+      "label": "Font weight",
+      "min": 300,
+      "max": 700,
+      "step": 100,
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "label": "Letter spacing",
+      "min": 0,
+      "max": 5,
+      "step": 0.5,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Color",
+      "default": "#141414"
+    },
+    {
+      "type": "range",
+      "id": "heading_margin",
+      "label": "Bottom spacing",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Subtitle"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subtitle_text",
+      "label": "Subtitle text",
+      "default": "Expert skincare guides, makeup tips, brand reviews, and beauty trends."
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "subtitle_weight",
+      "label": "Font weight",
+      "min": 300,
+      "max": 600,
+      "step": 100,
+      "default": 400
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Color",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_margin",
+      "label": "Bottom spacing",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Divider"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_divider",
+      "label": "Show divider",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "divider_width",
+      "label": "Width",
+      "min": 20,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "divider_height",
+      "label": "Height",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Color",
+      "default": "#dddddd"
+    },
+    {
+      "type": "header",
+      "content": "Category navigation"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_categories",
+      "label": "Show categories",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "categories",
+      "label": "Categories",
+      "default": "All Articles:/blogs/news|Skincare:/blogs/news/tagged/skincare|Makeup:/blogs/news/tagged/makeup|Hair Care:/blogs/news/tagged/hair-care|Body Care:/blogs/news/tagged/body-care|Brands:/blogs/news/tagged/brands",
+      "info": "Format: Label:URL|Label:URL (separate with |)"
+    },
+    {
+      "type": "range",
+      "id": "categories_margin_top",
+      "label": "Top spacing",
+      "min": 20,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "category_gap",
+      "label": "Gap between items",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "category_font_size",
+      "label": "Font size",
+      "min": 11,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "category_font_weight",
+      "label": "Font weight",
+      "min": 300,
+      "max": 600,
+      "step": 100,
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "category_padding_vertical",
+      "label": "Vertical padding",
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "category_padding_horizontal",
+      "label": "Horizontal padding",
+      "min": 10,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "category_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 25
+    },
+    {
+      "type": "range",
+      "id": "category_border_width",
+      "label": "Border width",
+      "min": 0,
+      "max": 3,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Category default state"
+    },
+    {
+      "type": "color",
+      "id": "category_text_color",
+      "label": "Text color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "category_bg_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "category_border_color",
+      "label": "Border color",
+      "default": "#dddddd"
+    },
+    {
+      "type": "header",
+      "content": "Category hover state"
+    },
+    {
+      "type": "color",
+      "id": "category_hover_text",
+      "label": "Text color",
+      "default": "#141414"
+    },
+    {
+      "type": "color",
+      "id": "category_hover_bg",
+      "label": "Background color",
+      "default": "#f5f5f5"
+    },
+    {
+      "type": "color",
+      "id": "category_hover_border",
+      "label": "Border color",
+      "default": "#cccccc"
+    },
+    {
+      "type": "header",
+      "content": "Category active state"
+    },
+    {
+      "type": "color",
+      "id": "category_active_text",
+      "label": "Text color",
+      "default": "#141414"
+    },
+    {
+      "type": "color",
+      "id": "category_active_bg",
+      "label": "Background color",
+      "default": "#f5ebe0"
+    },
+    {
+      "type": "color",
+      "id": "category_active_border",
+      "label": "Border color",
+      "default": "#e8d5c4"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog hero editorial"
+    }
+  ]
+}
+{% endschema %}

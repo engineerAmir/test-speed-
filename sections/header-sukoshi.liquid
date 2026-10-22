@@ -1,0 +1,1246 @@
+<style>{{ 'header-sukoshi.css' | inline_asset_content }}</style>
+
+{%- comment -%} Language prefix used by all brand links (desktop + mobile) {%- endcomment -%}
+{%- assign lang_prefix = '' -%}
+{%- if localization.language.iso_code == 'ar' -%}
+  {%- assign lang_prefix = '/ar' -%}
+{%- endif -%}
+
+<style>
+  /* ========================================================
+     GLOBAL STYLES & RTL SUPPORT
+     ======================================================== */
+  .sukoshi-header {
+    border-bottom: none !important;
+    background: #fff;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    transform: none !important;
+    z-index: 10000;
+  }
+
+  ny-fixed-header {
+    display: block;
+    height: var(--sk-fixed-header-height, auto);
+  }
+  #main-sukoshi-header .sk-top-announcement {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: {{ section.settings.desktop_width_percent }}%;
+    height: {{ section.settings.bar_height }}px;
+    min-height: 0;
+    margin: 0 auto;
+    padding: 0 16px;
+    overflow: hidden;
+    background: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+    font-family: inherit;
+    font-size: {{ section.settings.text_size }}px;
+    line-height: 1.2;
+    text-align: center;
+  }
+  #main-sukoshi-header .sk-top-announcement__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 1200px;
+    min-width: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+  #main-sukoshi-header .sk-top-announcement__message {
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #main-sukoshi-header .sk-top-announcement__link {
+    flex-shrink: 0;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 700;
+    line-height: inherit;
+    white-space: nowrap;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  #main-sukoshi-header .sk-top-announcement__link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+  @media (max-width: 749px) {
+    #main-sukoshi-header .sk-top-announcement {
+      width: 100%;
+      height: {{ section.settings.mobile_bar_height }}px;
+      padding: 0 12px;
+      font-size: {{ section.settings.mobile_text_size }}px;
+    }
+  }
+
+  /* Independent announcements anchored to the physical left and right. */
+  #main-sukoshi-header .sk-top-announcement__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    direction: ltr;
+    max-width: none;
+    gap: 24px;
+  }
+  #main-sukoshi-header .sk-top-announcement__side {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+  #main-sukoshi-header .sk-top-announcement__side--left { justify-content: flex-start; text-align: left; direction: ltr; }
+  #main-sukoshi-header .sk-top-announcement__side--right { justify-content: flex-end; text-align: right; direction: ltr; }
+  #main-sukoshi-header .sk-top-announcement__message,
+  #main-sukoshi-header .sk-top-announcement__link { unicode-bidi: plaintext; }
+  @media (max-width: 749px) {
+    #main-sukoshi-header .sk-top-announcement {
+      height: auto;
+      min-height: {{ section.settings.mobile_bar_height }}px;
+      padding-block: 6px;
+      overflow: visible;
+    }
+    #main-sukoshi-header .sk-top-announcement__inner { gap: 12px; height: auto; overflow: visible; }
+    #main-sukoshi-header .sk-top-announcement__side { flex-wrap: wrap; gap: 4px 6px; }
+    #main-sukoshi-header .sk-top-announcement__message,
+    #main-sukoshi-header .sk-top-announcement__link { white-space: normal; overflow-wrap: anywhere; }
+  }
+  /* RTL / Language Specific Direction */
+  {% if localization.language.iso_code == 'ar' %}
+    .sukoshi-header, .mobile-overlay {
+      direction: rtl;
+      text-align: right;
+    }
+    .sk-search input[type="search"] {
+      padding-right: 38px !important;
+      padding-left: 12px !important;
+    }
+    .sk-search-icon {
+      right: 12px;
+      left: auto;
+    }
+    .predictive-item-img-wrapper {
+      margin-right: 0 !important;
+      margin-left: 14px !important;
+    }
+    .menu-item .custom-mega-menu {
+      text-align: right;
+    }
+    .menu-column-title:hover {
+      padding-right: 3px !important;
+      padding-left: 0 !important;
+    }
+    .menu-column-list a:hover {
+      padding-right: 5px !important;
+      padding-left: 0 !important;
+    }
+    .promo-text {
+      right: 15px;
+      left: auto;
+    }
+    .mobile-sub-link::before {
+      margin-left: 8px;
+    }
+    .mobile-sub-link {
+      padding: 13px 28px 13px 20px !important;
+    }
+    .mobile-sub-sub-link {
+      padding: 11px 44px 11px 20px !important;
+    }
+    .mobile-menu-btn {
+      margin-left: -4px !important;
+      margin-right: 0 !important;
+    }
+  {% else %}
+    .sukoshi-header, .mobile-overlay {
+      direction: ltr;
+      text-align: left;
+    }
+    .sk-search input[type="search"] {
+      padding-left: 38px !important;
+      padding-right: 12px !important;
+    }
+    .sk-search-icon {
+      left: 12px;
+      right: auto;
+    }
+    .predictive-item-img-wrapper {
+      margin-right: 14px !important;
+      margin-left: 0 !important;
+    }
+    .menu-item .custom-mega-menu {
+      text-align: left;
+    }
+    .menu-column-title:hover {
+      padding-left: 3px !important;
+      padding-right: 0 !important;
+    }
+    .menu-column-list a:hover {
+      padding-left: 5px !important;
+      padding-right: 0 !important;
+    }
+    .promo-text {
+      left: 15px;
+      right: auto;
+    }
+    .mobile-sub-link::before {
+      margin-right: 8px;
+    }
+    .mobile-sub-link {
+      padding: 13px 20px 13px 28px !important;
+    }
+    .mobile-sub-sub-link {
+      padding: 11px 20px 11px 44px !important;
+    }
+    .mobile-menu-btn {
+      margin-right: -4px !important;
+      margin-left: 0 !important;
+    }
+  {% endif %}
+
+  .sk-search input[type="search"] {
+    border-radius: 6px !important;
+    background-color: #f5f5f5 !important;
+    border: 1px solid transparent !important;
+    height: 44px !important;
+    width: 100% !important;
+  }
+  .sk-search input[type="search"]:focus {
+    background-color: #fff !important;
+    border-color: #eaeaea !important;
+    outline: none !important;
+  }
+  .sk-search input[type="search"]::-webkit-search-decoration,
+  .sk-search input[type="search"]::-webkit-search-results-button,
+  .sk-search input[type="search"]::-webkit-search-results-decoration {
+    display: none !important; -webkit-appearance: none !important;
+  }
+  .sk-search input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none !important; appearance: none !important;
+    height: 15px; width: 15px;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2374747c' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'%3E%3C/line%3E%3Cline x1='6' y1='6' x2='18' y2='18'%3E%3C/line%3E%3C/svg%3E");
+    background-size: contain; background-position: center; background-repeat: no-repeat;
+    background-color: transparent !important; border: none !important; cursor: pointer; transition: opacity 0.2s;
+  }
+  .sk-search form { position: relative; display: flex; align-items: center; width: 100%; }
+  .sk-search-icon { position: absolute; width: 16px; height: 16px; color: #777; pointer-events: none; }
+
+  .predictive-results { position: absolute; top: calc(100% + 8px); left: 0; width: 100%; background: #ffffff; border: 1px solid #eaeaea; border-radius: 6px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); z-index: 1000; display: none; overflow: hidden; }
+  .predictive-results.active { display: block; }
+  .predictive-results-inner { max-height: 400px; overflow-y: auto; }
+  .predictive-item { display: flex; align-items: center; padding: 12px 16px; border-bottom: 1px solid #f5f5f5; text-decoration: none; color: #333; transition: background-color 0.2s ease; }
+  .predictive-item:last-child { border-bottom: none; }
+  .predictive-item:hover { background-color: #fafafa; }
+  .predictive-item-img-wrapper { width: 50px; height: 50px; flex-shrink: 0; border-radius: 4px; overflow: hidden; background: #f9f9f9; display: flex; align-items: center; justify-content: center; border: 1px solid #f0f0f0; }
+  .predictive-item-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+  .predictive-item-info { display: flex; flex-direction: column; gap: 4px; }
+  .predictive-item-title { font-size: 13.5px; font-weight: 500; color: #111; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .predictive-item-price { font-size: 13px; font-weight: 600; color: #111; }
+  .predictive-view-all { display: block; text-align: center; padding: 12px; background: #fdfdfd; color: #111; font-size: 13px; font-weight: 600; text-decoration: none; border-top: 1px solid #eaeaea; transition: background-color 0.2s ease; }
+  .predictive-view-all:hover { background: #f4f4f4; }
+  .predictive-no-results { padding: 20px; text-align: center; color: #777; font-size: 13.5px; }
+
+  /* --- Navigation & Mega Menu --- */
+  .sk-nav { position: static !important; max-width: none !important; margin: 0 auto !important; display: flex; justify-content: center; }
+  .sk-nav ul { display: flex; align-items: center; justify-content: center; list-style: none; padding: 0; margin: 0; gap: 0; }
+  .sk-nav > ul > li { position: static !important; padding: 0; margin: 0; }
+  .sk-nav .menu-item > a, .sk-nav .menu-special > a {
+    font-family: 'IBM Plex Sans', sans-serif !important;
+    font-size: 15px !important; letter-spacing: 0.3px !important; text-transform: none !important;
+    color: #1a1a1a !important; text-decoration: none !important; font-weight: 400 !important;
+    position: relative; padding: 25px 16px; transition: opacity 0.3s ease !important;
+    display: inline-flex; align-items: center; gap: 6px; width: max-content;
+  }
+  .sk-nav .menu-item:hover > a, .sk-nav .menu-special:hover > a { opacity: 0.6 !important; }
+  .menu-item.has-dropdown > a::after { content: ""; display: inline-block; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 4px solid #1a1a1a; transition: transform 0.3s ease; margin-top: 2px; }
+  .menu-item.has-dropdown.is-active > a::after { transform: rotate(180deg); }
+
+  .menu-item .custom-mega-menu {
+    visibility: hidden; opacity: 0; pointer-events: none; 
+    position: absolute; top: 100%; 
+    left: 50% !important; right: auto !important;
+    transform: translateX(-50%) translateY(10px);
+    width: 100vw !important; max-width: 1600px !important;
+    min-height: 400px; max-height: 500px; overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.98) !important; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    z-index: 999; box-shadow: 0 12px 32px rgba(0,0,0,0.08); border: 1px solid rgba(0,0,0,0.06); border-radius: 0 0 12px 12px;
+    padding: 30px 40px; transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    display: flex !important; justify-content: space-between; gap: 40px; box-sizing: border-box;
+  }
+  .menu-item.has-dropdown.is-active .custom-mega-menu { visibility: visible; opacity: 1; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+  .menu-item.has-dropdown.no-animate .custom-mega-menu { transition: none !important; }
+
+  /* ---- Mega Menu Links ---- */
+  .mega-menu-links { display: flex; flex-wrap: wrap; gap: 30px 60px; flex: 1; align-content: flex-start; }
+  .mega-menu-links.col-first { flex-direction: column; flex-wrap: wrap; gap: 20px 60px; max-height: 280px; }
+  .mega-menu-links.col-first .menu-column { flex: 0 0 auto; }
+  .mega-menu-links.col-body { flex-direction: column; flex-wrap: wrap; gap: 20px 60px; max-height: 280px; }
+  .mega-menu-links.col-body .menu-column { flex: 0 0 auto; }
+  .mega-menu-links.col-frag { flex-direction: column; flex-wrap: wrap; gap: 20px 60px; max-height: 280px; }
+  .mega-menu-links.col-frag .menu-column { flex: 0 0 auto; }
+
+  .menu-column { min-width: 140px; flex: 0 1 auto; }
+  .menu-column.empty-column { min-width: max-content; }
+  .menu-column-title { font-size: 14px !important; font-weight: 700 !important; color: #1a1a1a !important; margin-bottom: 15px !important; text-transform: uppercase !important; letter-spacing: 0.5px !important; border-bottom: 2px solid rgba(0,0,0,0.08); padding-bottom: 8px; display: block; text-decoration: none !important; transition: color 0.3s ease, padding 0.3s ease !important; }
+  .menu-column-title.no-sublinks { border-bottom: none !important; padding-bottom: 0 !important; margin-bottom: 0 !important; }
+  .menu-column-title:hover { color: #555555 !important; }
+  .menu-column-list { list-style: none !important; padding: 0 !important; margin: 0 !important; display: block !important; }
+  .menu-column-list li { margin-bottom: 12px !important; display: block !important; }
+  .menu-column-list a { color: #555555 !important; font-size: 13.5px !important; text-decoration: none !important; transition: color 0.3s ease, padding 0.3s ease !important; font-family: 'IBM Plex Sans', sans-serif !important; font-weight: 400 !important; display: block !important; }
+  .menu-column-list a:hover { color: #000000 !important; font-weight: 500 !important; }
+
+  /* --- Mega Menu Promos --- */
+  .mega-menu-promos { display: flex; gap: 20px; flex-shrink: 0; }
+  .mega-menu-promo { width: 220px; height: 100%; border-radius: 8px; overflow: hidden; position: relative; }
+  .promo-link-wrapper { display: block; width: 100%; height: 100%; text-decoration: none; }
+  .mega-menu-promo img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; transition: transform 0.5s ease; }
+  .mega-menu-promo:hover img { transform: scale(1.05); }
+  .promo-text { position: absolute; bottom: 15px; background: rgba(255,255,255,0.95); padding: 8px 12px; border-radius: 6px; display: flex; flex-direction: column; pointer-events: none; }
+  .promo-text span { font-size: 12px; color: #666; }
+  .promo-text strong { font-size: 14px; color: #000; }
+  .menu-special a { color: #1a1a1a !important; }
+
+  /* ========================================================
+     BRANDS GRID
+     ======================================================== */
+  .brands-grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 15px; flex: 1; align-content: flex-start; max-height: 248px; overflow: visible; padding: 4px; }
+  .brand-rect-item { display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eaeaea; border-radius: 8px; height: 70px; padding: 10px; transition: all 0.3s ease; text-decoration: none; text-align: center; }
+  .brand-rect-item img { max-width: 100%; max-height: 100%; object-fit: contain; transition: transform 0.3s ease; }
+  .brand-rect-item:hover { border-color: #d0d0d0; box-shadow: 0 4px 12px rgba(0,0,0,0.06); transform: translateY(-2px); }
+  .brand-rect-item:hover img { transform: scale(1.05); }
+  .see-more-grid-btn { color: #1a1a1a !important; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* ========================================================
+     MOBILE OVERLAY
+     ======================================================== */
+  .mobile-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0; 
+    height: 100dvh; 
+    z-index: 100000; 
+    background: #ffffff;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .mobile-overlay.is-open { display: flex; }
+
+  .mobile-overlay-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px; border-bottom: 1px solid #f0f0f0; flex-shrink: 0; background: #fff;
+  }
+  .mobile-overlay-logo img { height: 28px; width: auto; display: block; }
+  .mobile-close-btn {
+    width: 36px; height: 36px; border: 1px solid #e8e8e8; background: #f7f7f7; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; color: #1a1a1a;
+    padding: 0; flex-shrink: 0; -webkit-tap-highlight-color: transparent;
+  }
+  .mobile-close-btn:active { background: #1a1a1a; border-color: #1a1a1a; color: #fff; }
+  .mobile-close-btn svg { width: 18px; height: 18px; display: block; }
+
+  .mobile-overlay-body {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 50px; 
+  }
+
+  .mobile-menu { list-style: none; padding: 0; margin: 0; }
+  .mobile-item { border-bottom: 1px solid #f0f0f0; }
+
+  .mobile-parent {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 20px; background: #fff; width: 100%; box-sizing: border-box;
+    user-select: none; -webkit-tap-highlight-color: transparent; text-decoration: none;
+  }
+
+  .mobile-parent-link {
+    font-family: 'IBM Plex Sans', sans-serif !important; font-size: 13.5px !important; font-weight: 700 !important; color: #1a1a1a !important; letter-spacing: 0.8px !important; text-transform: uppercase !important; flex: 1; text-decoration: none !important;
+  }
+  .mobile-chevron {
+    width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; color: #bbb; flex-shrink: 0; transition: transform 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+  }
+  .mobile-chevron svg { width: 16px; height: 16px; display: block; pointer-events: none; }
+  {% if localization.language.iso_code == 'ar' %}
+    .mobile-chevron svg { transform: scaleX(-1); }
+  {% endif %}
+  .mobile-parent.is-open .mobile-chevron { transform: rotate(90deg); color: #333; }
+
+  .mobile-sub { display: none; list-style: none; padding: 0; margin: 0; background: #f9f9f9; border-top: 1px solid #efefef; }
+  .mobile-sub-link { display: flex; align-items: center; gap: 10px; font-family: 'IBM Plex Sans', sans-serif !important; font-size: 13.5px !important; font-weight: 500 !important; color: #444 !important; text-decoration: none !important; border-bottom: 1px solid rgba(0,0,0,0.04) !important; -webkit-tap-highlight-color: transparent; }
+  .mobile-sub-link::before { content: ""; width: 4px; height: 4px; background: #ccc; border-radius: 50%; flex-shrink: 0; }
+  .mobile-sub-link:active { background: #f0f0f0 !important; color: #111 !important; }
+  .mobile-sub li:last-child .mobile-sub-link { border-bottom: none !important; }
+
+  .mobile-sub-sub { list-style: none; padding: 0; margin: 0; background: #f2f2f2; }
+  .mobile-sub-sub-link { display: block; font-size: 12.5px !important; color: #666 !important; text-decoration: none !important; border-bottom: 1px solid rgba(0,0,0,0.03) !important; -webkit-tap-highlight-color: transparent; }
+  .mobile-sub-sub li:last-child .mobile-sub-sub-link { border-bottom: none !important; }
+
+  .mobile-brands-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 15px; }
+  .mobile-brand-item { display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #eaeaea; border-radius: 8px; height: 55px; padding: 8px; text-decoration: none; transition: transform 0.2s; text-align: center; }
+  .mobile-brand-item:active { transform: scale(0.95); }
+  .mobile-brand-item img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .mobile-see-more-btn { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #111 !important; }
+
+  /* ========================================================
+     CART ICON BADGE (Desktop + Mobile)
+     ======================================================== */
+  .icon-btn.cart-icon,
+  .mobile-cart-btn {
+    position: relative;
+  }
+  .sk-cart-count {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    background: #1a1a1a;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Sans', sans-serif;
+    pointer-events: none;
+  }
+  {% if localization.language.iso_code == 'ar' %}
+    .sk-cart-count { right: auto; left: -8px; }
+  {% endif %}
+
+  /* ========================================================
+     DESKTOP
+     ======================================================== */
+  @media (min-width: 991px) {
+    .mobile-top-row { display: none !important; }
+    .mobile-overlay { display: none !important; }
+    .sk-header-top { display: flex !important; align-items: center !important; justify-content: space-between !important; padding: 15px 40px !important; border-bottom: 1px solid rgba(26,26,26,0.06) !important; position: relative !important; }
+    .sk-logo.desktop-logo { flex-shrink: 0 !important; display: block !important; }
+    .sk-logo.desktop-logo img { max-height: 48px !important; width: auto !important; }
+    .sk-search { flex: 1 !important; max-width: 600px !important; margin: 0 40px !important; }
+    .sk-links.desktop-links { display: flex !important; align-items: center !important; gap: 24px !important; flex-shrink: 0 !important; }
+    .sk-links.desktop-links a,
+    .sk-links.desktop-links button.icon-btn { display: flex !important; align-items: center !important; text-decoration: none !important; color: #1a1a1a !important; }
+    .account-box { gap: 10px !important; }
+    .account-box svg { width: 22px !important; height: 22px !important; }
+    .account-text { display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: flex-start !important; }
+    .account-text strong { font-size: 14px !important; font-weight: 600 !important; line-height: 1.2 !important; }
+    .icon-btn img { width: 22px !important; height: auto !important; }
+  }
+
+  /* ========================================================
+     MOBILE — STICKY HEADER
+     ======================================================== */
+  @media (max-width: 990px) {
+    .sukoshi-header {
+      background: #fff; transition: none !important;
+    }
+    .sk-nav { display: none !important; }
+    .desktop-links, .desktop-logo { display: none !important; }
+    .sk-header-top { display: block !important; padding: 12px 16px !important; }
+    .mobile-top-row { display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; width: 100% !important; margin: 0 0 8px 0 !important; padding: 0 !important; }
+    .sk-logo.mobile-logo { flex: 0 0 auto !important; display: flex !important; margin: 0 !important; padding: 0 !important; }
+    .sk-logo.mobile-logo img { max-height: 32px !important; width: auto !important; }
+    .mobile-actions { display: flex !important; flex-direction: row !important; align-items: center !important; justify-content: flex-end !important; gap: 12px !important; flex-wrap: nowrap !important; margin: 0 !important; padding: 0 !important; }
+    .mobile-icons { display: flex !important; flex-direction: row !important; align-items: center !important; gap: 12px !important; flex-wrap: nowrap !important; margin: 0 !important; padding: 0 !important; order: 1 !important; }
+    .mobile-icons a,
+    .mobile-icons button.mobile-cart-btn { display: flex !important; align-items: center !important; }
+    .header-icon { width: 22px !important; height: auto !important; margin: 0 !important; }
+    .mobile-menu-btn { background: none !important; border: none !important; padding: 0 !important; margin: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important; cursor: pointer !important; color: #1a1a1a !important; position: static !important; height: auto !important; width: auto !important; order: 2 !important; }
+    .mobile-menu-btn svg { width: 28px !important; height: 28px !important; display: block !important; }
+    .mobile-bottom-row { display: none !important; }
+    .sk-search { width: 100% !important; }
+  }
+</style>
+
+<style>
+  /* Apply editor sizes directly so theme typography cannot break inheritance. */
+  #main-sukoshi-header .sk-top-announcement {
+    --sk-announcement-text-size: {{ section.settings.text_size | default: 14 }}px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  #main-sukoshi-header .sk-top-announcement,
+  #main-sukoshi-header .sk-top-announcement .sk-top-announcement__inner,
+  #main-sukoshi-header .sk-top-announcement .sk-top-announcement__side,
+  #main-sukoshi-header .sk-top-announcement .sk-top-announcement__message,
+  #main-sukoshi-header .sk-top-announcement .sk-top-announcement__link {
+    font-size: var(--sk-announcement-text-size) !important;
+  }
+  @media (max-width: 749px) {
+    #main-sukoshi-header .sk-top-announcement {
+      --sk-announcement-text-size: {{ section.settings.mobile_text_size | default: 13 }}px;
+    }
+  }
+</style>
+
+<ny-fixed-header>
+<header class="sukoshi-header" id="main-sukoshi-header">
+  {% if section.settings.show_announcement %}
+    {% capture announcement_left %}
+      {% if section.settings.message != blank %}
+        <p class="sk-top-announcement__message">{{ section.settings.message | escape }}</p>
+      {% endif %}
+      {% if section.settings.link_label != blank and section.settings.link_url != blank %}
+        <a class="sk-top-announcement__link" href="{{ section.settings.link_url | escape }}">{{ section.settings.link_label | escape }}</a>
+      {% endif %}
+    {% endcapture %}
+    {% capture announcement_right %}
+      {% if section.settings.message_right != blank %}
+        <p class="sk-top-announcement__message">{{ section.settings.message_right | escape }}</p>
+      {% endif %}
+      {% if section.settings.link_label_right != blank and section.settings.link_url_right != blank %}
+        <a class="sk-top-announcement__link" href="{{ section.settings.link_url_right | escape }}">{{ section.settings.link_label_right | escape }}</a>
+      {% endif %}
+    {% endcapture %}
+    {% assign announcement_left = announcement_left | strip %}
+    {% assign announcement_right = announcement_right | strip %}
+    {% if announcement_left != blank or announcement_right != blank %}
+      <div class="sk-top-announcement" role="region" aria-label="{% if localization.language.iso_code == 'ar' %}إعلانات المتجر{% else %}Store announcements{% endif %}">
+        <div class="sk-top-announcement__inner">
+          <div class="sk-top-announcement__side sk-top-announcement__side--left" dir="auto">{{ announcement_left }}</div>
+          <div class="sk-top-announcement__side sk-top-announcement__side--right" dir="auto">{{ announcement_right }}</div>
+        </div>
+      </div>
+    {% endif %}
+  {% endif %}
+  <div class="sk-header-top">
+
+    <div class="sk-logo desktop-logo">
+      <a href="{{ routes.root_url }}">
+        <img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/1..png?v=1779628115&width=300" alt="{{ shop.name }}">
+      </a>
+    </div>
+
+    <div class="mobile-top-row">
+      <div class="sk-logo mobile-logo">
+        <a href="{{ routes.root_url }}">
+          <img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/1..png?v=1779628115&width=300" alt="{{ shop.name }}">
+        </a>
+      </div>
+      <div class="mobile-actions">
+        <div class="mobile-icons">
+          {% form 'localization', class: 'mobile-language-form' %}
+            {% if localization.language.iso_code == 'ar' %}
+              <input type="hidden" name="locale_code" value="en">
+            {% else %}
+              <input type="hidden" name="locale_code" value="ar">
+            {% endif %}
+
+            <button type="submit" class="mobile-language-btn" aria-label="{% if localization.language.iso_code == 'ar' %}English{% else %}العربية{% endif %}" style="background:none; border:none; padding:0; cursor:pointer;">
+              <img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/foreign-language.png?v=1773440217&width=66" class="header-icon" width="22" height="22" alt="" />
+            </button>
+          {% endform %}
+          <a href="{{ routes.account_url }}" aria-label="{% if localization.language.iso_code == 'ar' %}حسابي{% else %}Account{% endif %}">
+            <img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/user-avatar.png?v=1776357090&width=66" class="header-icon" width="22" height="22" alt="" />
+          </a>
+          <!-- CART BUTTON (MOBILE) — opens drawer instead of /cart -->
+          <button
+            type="button"
+            class="mobile-cart-btn"
+            aria-controls="CartDrawer"
+            aria-label="{% if localization.language.iso_code == 'ar' %}السلة{% else %}Cart{% endif %}"
+            style="background:none; border:none; padding:0; margin:0; cursor:pointer; position:relative;"
+          >
+            <img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/basket.png?v=1773083513&width=66" class="header-icon" width="22" height="22" alt="" />
+            <span class="sk-cart-count" data-sk-cart-count style="display: {% if cart.item_count > 0 %}flex{% else %}none{% endif %};">{{ cart.item_count }}</span>
+          </button>
+        </div>
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="{% if localization.language.iso_code == 'ar' %}القائمة{% else %}Menu{% endif %}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="sk-search">
+      <form action="{{ routes.search_url }}" method="get">
+        <input type="hidden" name="type" value="product">
+        <svg class="sk-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input
+          type="search"
+          name="q"
+          placeholder="{% if localization.language.iso_code == 'ar' %}ابحث عن المنتجات...{% else %}Search products...{% endif %}"
+          autocomplete="off">
+      </form>
+    </div>
+
+    <div class="sk-links desktop-links">
+      <a href="{{ routes.account_url }}" class="account-box">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="8" r="4" stroke="currentColor" fill="none"/>
+          <path d="M4 20c1.5-4 6-6 8-6s6.5 2 8 6" stroke="currentColor" fill="none"/>
+        </svg>
+        <div class="account-text">
+          {% if customer %}
+            <strong>
+              {% if localization.language.iso_code == 'ar' %}
+                مرحبًا، {{ customer.first_name }}
+              {% else %}
+                Hi, {{ customer.first_name }}
+              {% endif %}
+            </strong>
+          {% else %}
+            <strong>
+              {% if localization.language.iso_code == 'ar' %}
+                تسجيل الدخول
+              {% else %}
+                Sign In
+              {% endif %}
+            </strong>
+          {% endif %}
+        </div>
+      </a>
+      {% form 'localization', class: 'language-form' %}
+        {% if localization.language.iso_code == 'ar' %}
+          <input type="hidden" name="locale_code" value="en">
+        {% else %}
+          <input type="hidden" name="locale_code" value="ar">
+        {% endif %}
+
+        <button type="submit" class="icon-btn language-icon" aria-label="{% if localization.language.iso_code == 'ar' %}English{% else %}العربية{% endif %}" style="background:none; border:none; padding:0; cursor:pointer;">
+          <img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/foreign-language.png?v=1773440217&width=66" class="header-icon" width="22" height="22" alt="" />
+        </button>
+      {% endform %}
+      {%- if settings.wishlist_mode != '0' -%}
+        <hdt-wishlist-a class="hdt-contents">
+          <a href="{{ routes.search_url }}/?view=wishlist" class="icon-btn wishlist-icon" aria-label="{% if localization.language.iso_code == 'ar' %}المفضلة{% else %}Wishlist{% endif %}">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="dimgray" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+          </a>
+        </hdt-wishlist-a>
+      {%- endif -%}
+      <!-- CART BUTTON (DESKTOP) — opens drawer instead of /cart -->
+      <button
+        type="button"
+        class="icon-btn cart-icon"
+        aria-controls="CartDrawer"
+        aria-label="{% if localization.language.iso_code == 'ar' %}السلة{% else %}Cart{% endif %}"
+        style="background:none; border:none; padding:0; cursor:pointer;"
+      >
+        <img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/basket.png?v=1773083513&width=66" class="header-icon" width="22" height="22" alt="" />
+        <span class="sk-cart-count" data-sk-cart-count style="display: {% if cart.item_count > 0 %}flex{% else %}none{% endif %};">{{ cart.item_count }}</span>
+      </button>
+    </div>
+  </div>
+
+  <nav class="sk-nav">
+    <ul>
+      {% for link in section.settings.menu.links %}
+        {% assign title_upper = link.title | upcase %}
+        {% if title_upper == 'MEN' or title_upper == 'TOOLS' or title_upper == 'رجال' or title_upper == 'أدوات' %}{% continue %}{% endif %}
+        
+        {% assign link_title_down = link.title | downcase | strip %}
+        {% assign is_brands_link = false %}
+        {% if link_title_down == 'brands' or link_title_down == 'الماركات' or link_title_down == 'العلامات التجارية' or link.url contains 'brands' %}
+          {% assign is_brands_link = true %}
+        {% endif %}
+
+        <li class="menu-item {% if link.links != blank or is_brands_link %}has-dropdown{% endif %}">
+          <a href="{{ link.url }}">{{ link.title }}</a>
+
+          {% if is_brands_link %}
+            <div class="custom-mega-menu">
+              <div class="brands-grid-container">
+
+                <a href="{{ lang_prefix }}/collections/COSRX" class="brand-rect-item"><img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/COSRX.webp?v=1780667390&width=260" alt="COSRX" loading="lazy"></a>
+                <a href="{{ lang_prefix }}/collections/Medicube" class="brand-rect-item"><img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/LOGO_medicube_5c532850-bfed-48eb-90aa-c0754dc93707.avif?v=1775562133&width=260" alt="Medicube" loading="lazy"></a>
+                <a href="{{ lang_prefix }}/collections/some-by-mi" class="brand-rect-item"><img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/Some_By_Mi.webp?v=1780667390&width=260" alt="Some By Mi" loading="lazy"></a>
+                <a href="{{ lang_prefix }}/collections/CELIMAX" class="brand-rect-item"><img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/CELIMAX.webp?v=1780667390&width=260" alt="CELIMAX" loading="lazy"></a>
+                <a href="{{ lang_prefix }}/collections/Anua" class="brand-rect-item"><img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/Anua.webp?v=1780667389&width=260" alt="Anua" loading="lazy"></a>
+                <a href="{{ lang_prefix }}/collections/round-lab" class="brand-rect-item"><img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/ROUND_LAB.webp?v=1780667390&width=260" alt="ROUND LAB" loading="lazy"></a>
+                <a href="{{ lang_prefix }}/collections/AXIS-Y" class="brand-rect-item"><img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/Axis-Y.webp?v=1780667390&width=260" alt="Axis-Y" loading="lazy"></a>
+                <a href="{{ lang_prefix }}/collections/MARY-MAY" class="brand-rect-item"><img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/Mary_May.webp?v=1780667390&width=260" alt="Mary&May" loading="lazy"></a>
+                <a href="{{ lang_prefix }}/collections/Skin1004" class="brand-rect-item"><img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/LOGO_SKIN1004.webp?v=1775562132&width=260" alt="Skin1004" loading="lazy"></a>
+                <a href="{{ lang_prefix }}/collections/Eqqualberry" class="brand-rect-item"><img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/Eqqualberry.webp?v=1780667390&width=260" alt="Eqqualberry" loading="lazy"></a>
+                <a href="{{ lang_prefix }}/collections/TirTir" class="brand-rect-item"><img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/Tir_Tir.webp?v=1780667390&width=260" alt="Tir Tir" loading="lazy"></a>
+                <a href="{{ lang_prefix }}/collections/dr-melaxin" class="brand-rect-item"><img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/dr_melaxin.png?v=1780930945&width=260" alt="Dr Melaxin" loading="lazy"></a>
+                <a href="{{ lang_prefix }}/collections/dr-althea" class="brand-rect-item"><img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/dr_althea.png?v=1780930958&width=260" alt="Dr Althea" loading="lazy"></a>
+                <a href="{{ lang_prefix }}/collections/brands" class="brand-rect-item see-more-grid-btn">
+                  {% if localization.language.iso_code == 'ar' %}عرض الكل &larr;{% else %}See All &rarr;{% endif %}
+                </a>
+              </div>
+              <div class="mega-menu-promos">
+                <div class="mega-menu-promo">
+                  <a href="{{ lang_prefix }}/collections/best-sellers" class="promo-link-wrapper">
+                    <img src="https://nichey.store/cdn/shop/files/78_08ffdad1-c299-4ea8-b5b5-6efa3f204398.png?v=1776703285&width=990" alt="Best Seller" loading="lazy">
+                    <div class="promo-text">
+                      <span>{% if localization.language.iso_code == 'ar' %}الأكثر مبيعاً{% else %}Best Seller{% endif %}</span>
+                      <strong>{% if localization.language.iso_code == 'ar' %}تسوق الكل{% else %}Shop All{% endif %}</strong>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          {% elsif link.links != blank %}
+            {% assign is_col_skin = false %}
+            {% assign is_col_body = false %}
+            {% assign is_col_frag = false %}
+            {% if link_title_down contains 'skin care' or link_title_down contains 'makeup tools' or link_title_down contains 'العناية بالبشرة' or link_title_down contains 'أدوات المكياج' %}
+              {% assign is_col_skin = true %}
+            {% elsif link_title_down contains 'body' or link_title_down contains 'bath' or link_title_down contains 'الجسم' or link_title_down contains 'الاستحمام' %}
+              {% assign is_col_body = true %}
+            {% elsif link_title_down contains 'fragrances' or link_title_down contains 'عطور' %}
+              {% assign is_col_frag = true %}
+            {% endif %}
+
+            <div class="custom-mega-menu">
+              <div class="mega-menu-links {% if is_col_skin %}col-first{% elsif is_col_body %}col-body{% elsif is_col_frag %}col-frag{% endif %}">
+                {% for child in link.links %}
+                  {% assign child_title_lower = child.title | downcase | strip %}
+                  {% assign col_order = forloop.index %}
+
+                  {% if is_col_body %}
+                    {% if child_title_lower contains 'bath' or child_title_lower contains 'استحمام' %}{% assign col_order = 1 %}
+                    {% elsif child_title_lower contains 'targeted' or child_title_lower contains 'مستهدف' %}{% assign col_order = 2 %}
+                    {% elsif child_title_lower contains 'moisturizers' or child_title_lower contains 'مرطبات' %}{% assign col_order = 3 %}
+                    {% elsif child_title_lower contains 'personal' or child_title_lower contains 'شخصية' %}{% assign col_order = 4 %}
+                    {% endif %}
+                  {% elsif is_col_frag %}
+                    {% if child_title_lower contains "women" or child_title_lower contains "نسائي" %}{% assign col_order = 1 %}
+                    {% elsif child_title_lower contains "men" or child_title_lower contains "رجالي" %}{% assign col_order = 2 %}
+                    {% elsif child_title_lower contains "mist" or child_title_lower contains "معطر" %}{% assign col_order = 3 %}
+                    {% elsif child_title_lower contains "premium" or child_title_lower contains "فاخر" %}{% assign col_order = 4 %}
+                    {% elsif child_title_lower contains "home" or child_title_lower contains "منزلي" %}{% assign col_order = 5 %}
+                    {% endif %}
+                  {% endif %}
+
+                  <div class="menu-column {% if child.links == blank %}empty-column{% endif %}" style="order: {{ col_order }};">
+                    <a href="{{ child.url }}" class="menu-column-title {% if child.links == blank %}no-sublinks{% endif %}">{{ child.title }}</a>
+                    {% if child.links != blank %}
+                      <ul class="menu-column-list">
+                        {% for grandchild in child.links %}
+                          <li><a href="{{ grandchild.url }}">{{ grandchild.title }}</a></li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+
+              <div class="mega-menu-promos">
+                {% if link_title_down contains 'skin care' or link_title_down contains 'العناية بالبشرة' %}
+                  <div class="mega-menu-promo">
+                    <a href="{{ lang_prefix }}/collections/best-sellers" class="promo-link-wrapper">
+                      <img src="https://nichey.store/cdn/shop/files/Ma_nyoBifidaBiomeConcentrateSerum35ml.jpg?v=1776446897&width=713" alt="Best Seller Skin Care" loading="lazy">
+                      <div class="promo-text">
+                        <span>{% if localization.language.iso_code == 'ar' %}الأكثر مبيعاً{% else %}Best Seller{% endif %}</span>
+                        <strong>{% if localization.language.iso_code == 'ar' %}تسوق الآن{% else %}Shop Now{% endif %}</strong>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="mega-menu-promo">
+                    <a href="{{ lang_prefix }}/collections/best-sellers" class="promo-link-wrapper">
+                      <img src="https://nichey.store/cdn/shop/files/ff_dab9d444-e277-4352-b40f-46be5bb4d1a8.png?v=1776771126&width=990" alt="New Arrivals Skin Care" loading="lazy">
+                      <div class="promo-text">
+                        <span>{% if localization.language.iso_code == 'ar' %}وصل حديثاً{% else %}New Arrival{% endif %}</span>
+                        <strong>{% if localization.language.iso_code == 'ar' %}تسوق الآن{% else %}Shop Now{% endif %}</strong>
+                      </div>
+                    </a>
+                  </div>
+                {% elsif link_title_down contains 'makeup' or link_title_down contains 'مكياج' %}
+                  <div class="mega-menu-promo">
+                    <a href="{{ lang_prefix }}/collections/best-sellers" class="promo-link-wrapper">
+                      <img src="https://nichey.store/cdn/shop/files/download_25.jpg?v=1775503601&width=713" alt="Best Seller Makeup" loading="lazy">
+                      <div class="promo-text">
+                        <span>{% if localization.language.iso_code == 'ar' %}الأكثر مبيعاً{% else %}Best Seller{% endif %}</span>
+                        <strong>{% if localization.language.iso_code == 'ar' %}تسوق الآن{% else %}Shop Now{% endif %}</strong>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="mega-menu-promo">
+                    <a href="{{ lang_prefix }}/collections/best-sellers" class="promo-link-wrapper">
+                      <img src="https://nichey.store/cdn/shop/files/c3068404fd2a0bb56601de6796e8f255.png?v=1775343934&width=990" alt="New Arrivals Makeup" loading="lazy">
+                      <div class="promo-text">
+                        <span>{% if localization.language.iso_code == 'ar' %}وصل حديثاً{% else %}New Arrival{% endif %}</span>
+                        <strong>{% if localization.language.iso_code == 'ar' %}تسوق الآن{% else %}Shop Now{% endif %}</strong>
+                      </div>
+                    </a>
+                  </div>
+                {% else %}
+                  <div class="mega-menu-promo">
+                    <a href="{{ lang_prefix }}/collections/best-sellers" class="promo-link-wrapper">
+                      <img src="https://nichey.store/cdn/shop/files/MANYO_FACTORY_Bifida_Biome_Complex_Ampoule_1_7_fl_oz_50ml_Korean_Skincare_Facial_Skin_Rejuvenating_with_10-types-of_Hyaluronic_Acid_for_Women_and_Men.jpg?v=1775829382&width=600" alt="Best Seller" loading="lazy">
+                      <div class="promo-text">
+                        <span>{% if localization.language.iso_code == 'ar' %}الأكثر مبيعاً{% else %}Best Seller{% endif %}</span>
+                        <strong>{% if localization.language.iso_code == 'ar' %}تسوق الآن{% else %}Shop Now{% endif %}</strong>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="mega-menu-promo">
+                    <a href="{{ lang_prefix }}/collections/best-sellers" class="promo-link-wrapper">
+                      <img src="https://nichey.store/cdn/shop/files/f7990b6cd6fc42e5c56d78cf58003432.png?v=1775498046&width=990" alt="New Arrivals" loading="lazy">
+                      <div class="promo-text">
+                        <span>{% if localization.language.iso_code == 'ar' %}وصل حديثاً{% else %}New Arrival{% endif %}</span>
+                        <strong>{% if localization.language.iso_code == 'ar' %}تسوق الآن{% else %}Shop Now{% endif %}</strong>
+                      </div>
+                    </a>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+</header>
+</ny-fixed-header>
+
+<script>
+(() => {
+  if (customElements.get('ny-fixed-header')) return;
+  class NicheyFixedHeader extends HTMLElement {
+    connectedCallback() {
+      this.frame = requestAnimationFrame(() => {
+        this.frame = 0;
+        if (!this.isConnected) return;
+        const header = this.querySelector('.sukoshi-header');
+        if (!header) return;
+        const measure = () => {
+          const height = Math.ceil(header.getBoundingClientRect().height) + 'px';
+          if (this.style.getPropertyValue('--sk-fixed-header-height') !== height) {
+            this.style.setProperty('--sk-fixed-header-height', height);
+          }
+        };
+        this.observer = new ResizeObserver(measure);
+        this.observer.observe(header);
+        measure();
+      });
+    }
+    disconnectedCallback() {
+      cancelAnimationFrame(this.frame);
+      this.observer?.disconnect();
+    }
+  }
+  customElements.define('ny-fixed-header', NicheyFixedHeader);
+})();
+</script>
+
+<div id="mobile-overlay" class="mobile-overlay" role="dialog" aria-modal="true" aria-label="{% if localization.language.iso_code == 'ar' %}قائمة التنقل{% else %}Navigation Menu{% endif %}">
+  <div class="mobile-overlay-header">
+    <a href="{{ routes.root_url }}" class="mobile-overlay-logo">
+      <img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/1..png?v=1779628115&width=300" alt="{{ shop.name }}" loading="lazy">
+    </a>
+    <button id="mobile-close-btn" class="mobile-close-btn" aria-label="{% if localization.language.iso_code == 'ar' %}إغلاق القائمة{% else %}Close menu{% endif %}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+
+  <div class="mobile-overlay-body">
+    <ul class="mobile-menu">
+      {% for link in section.settings.menu.links %}
+        {% assign title_upper = link.title | upcase %}
+        {% if title_upper == 'MEN' or title_upper == 'TOOLS' or title_upper == 'رجال' or title_upper == 'أدوات' %}{% continue %}{% endif %}
+
+        {% assign link_title_down = link.title | downcase | strip %}
+        {% assign is_brands_link = false %}
+        {% if link_title_down == 'brands' or link_title_down == 'الماركات' or link_title_down == 'العلامات التجارية' or link.url contains 'brands' %}
+          {% assign is_brands_link = true %}
+        {% endif %}
+
+        <li class="mobile-item">
+          {% if link.links != blank or is_brands_link %}
+            <div class="mobile-parent">
+              <a href="{{ link.url }}" class="mobile-parent-link">{{ link.title }}</a>
+              <span class="mobile-chevron">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </span>
+            </div>
+          {% else %}
+            <div class="mobile-parent">
+              <a href="{{ link.url }}" class="mobile-parent-link">{{ link.title }}</a>
+            </div>
+          {% endif %}
+
+          {% if is_brands_link %}
+            <ul class="mobile-sub">
+              <li>
+                <div class="mobile-brands-grid">
+                  <a href="{{ lang_prefix }}/collections/COSRX" class="mobile-brand-item"><img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/COSRX.webp?v=1780667390&width=260" alt="COSRX" loading="lazy"></a>
+                  <a href="{{ lang_prefix }}/collections/Medicube" class="mobile-brand-item"><img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/LOGO_medicube_5c532850-bfed-48eb-90aa-c0754dc93707.avif?v=1775562133&width=260" alt="Medicube" loading="lazy"></a>
+                  <a href="{{ lang_prefix }}/collections/some-by-mi" class="mobile-brand-item"><img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/Some_By_Mi.webp?v=1780667390&width=260" alt="Some By Mi" loading="lazy"></a>
+                  <a href="{{ lang_prefix }}/collections/CELIMAX" class="mobile-brand-item"><img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/CELIMAX.webp?v=1780667390&width=260" alt="CELIMAX" loading="lazy"></a>
+                  <a href="{{ lang_prefix }}/collections/dr-melaxin" class="mobile-brand-item"><img src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/dr_melaxin.png?v=1780930945&width=260" alt="Dr Melaxin" loading="lazy"></a>
+                  <a href="{{ lang_prefix }}/collections/brands" class="mobile-brand-item mobile-see-more-btn">
+                    {% if localization.language.iso_code == 'ar' %}عرض الكل «{% else %}See All »{% endif %}
+                  </a>
+                </div>
+              </li>
+            </ul>
+          {% elsif link.links != blank %}
+            <ul class="mobile-sub">
+              {% for child in link.links %}
+                <li>
+                  <a href="{{ child.url }}" class="mobile-sub-link">{{ child.title }}</a>
+                  {% if child.links != blank %}
+                    <ul class="mobile-sub-sub">
+                      {% for grandchild in child.links %}
+                        <li><a href="{{ grandchild.url }}" class="mobile-sub-sub-link">{{ grandchild.title }}</a></li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+
+    // ============================================================
+    // MOBILE OVERLAY & ACCORDION TOGGLE
+    // ============================================================
+    var menuBtn  = document.getElementById('mobile-menu-btn');
+    var closeBtn = document.getElementById('mobile-close-btn');
+    var overlay  = document.getElementById('mobile-overlay');
+
+    function openOverlay() {
+      if (!overlay) return;
+      overlay.classList.add('is-open');
+      document.body.style.overflow = 'hidden'; 
+    }
+
+    function closeOverlay() {
+      if (!overlay) return;
+      overlay.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+
+    if (menuBtn)  menuBtn.addEventListener('click',  openOverlay);
+    if (closeBtn) closeBtn.addEventListener('click', closeOverlay);
+
+    // Accordion Toggle for Mobile Submenu (Opens on chevron click only)
+    var mobileChevrons = document.querySelectorAll('.mobile-chevron');
+    mobileChevrons.forEach(function(chevron) {
+      chevron.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var parentDiv = this.closest('.mobile-parent');
+        var parentLi = this.closest('.mobile-item');
+        var subMenu = parentLi ? parentLi.querySelector('.mobile-sub') : null;
+        if (subMenu) {
+          var isOpen = subMenu.style.display === 'block';
+          if (parentDiv) parentDiv.classList.toggle('is-open', !isOpen);
+          subMenu.style.display = isOpen ? 'none' : 'block';
+        }
+      });
+    });
+
+    // ============================================================
+    // PREDICTIVE SEARCH
+    // ============================================================
+    var searchInput = document.querySelector('.sk-search input[name="q"]');
+    var searchForm  = document.querySelector('.sk-search form');
+
+    if (searchInput && searchForm) {
+      var resultsContainer = document.createElement('div');
+      resultsContainer.className = 'predictive-results';
+      searchForm.appendChild(resultsContainer);
+
+      var debounceTimeout = null;
+      var searchAbort = null;
+      var SK_SEARCH_URL = "{{ routes.search_url }}";
+
+      searchInput.addEventListener('input', function() {
+        clearTimeout(debounceTimeout);
+        var query = this.value.trim();
+        if (query.length < 1) { resultsContainer.classList.remove('active'); return; }
+
+        debounceTimeout = setTimeout(function() {
+          if (searchAbort) searchAbort.abort();
+          searchAbort = new AbortController();
+          fetch(SK_SEARCH_URL + '?q=' + encodeURIComponent(query) + '&type=product&section_id=sukoshi-predictive-results', { signal: searchAbort.signal })
+            .then(function(r) { return r.text(); })
+            .then(function(text) {
+              var section = new DOMParser().parseFromString(text, 'text/html')
+                .getElementById('shopify-section-sukoshi-predictive-results');
+              resultsContainer.innerHTML = section ? section.innerHTML : '';
+              resultsContainer.classList.add('active');
+            })
+            .catch(function(err) { if (err.name !== 'AbortError') console.error(err); });
+        }, 250);
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!searchForm.contains(e.target)) resultsContainer.classList.remove('active');
+      });
+    }
+
+    // ============================================================
+    // MEGA MENU (DESKTOP)
+    // ============================================================
+    (function() {
+      var nav = document.querySelector('.sk-nav');
+      if (!nav) return;
+
+      var items = Array.from(nav.querySelectorAll('.menu-item.has-dropdown'));
+      var activeItem   = null;
+      var leaveTimeout = null;
+
+      function activateItem(item) {
+        if (activeItem && activeItem !== item) {
+          activeItem.classList.add('no-animate');
+          activeItem.classList.remove('is-active');
+          void activeItem.offsetWidth;
+          activeItem.classList.remove('no-animate');
+          item.classList.add('no-animate');
+          item.classList.add('is-active');
+          void item.offsetWidth;
+          requestAnimationFrame(function() { item.classList.remove('no-animate'); });
+        } else if (!activeItem) {
+          item.classList.remove('no-animate');
+          item.classList.add('is-active');
+        }
+        activeItem = item;
+      }
+
+      function deactivateItem(item) {
+        item.classList.remove('no-animate');
+        item.classList.remove('is-active');
+        activeItem = null;
+      }
+
+      items.forEach(function(item) {
+        item.addEventListener('mouseenter', function() {
+          clearTimeout(leaveTimeout);
+          activateItem(this);
+        });
+        item.addEventListener('mouseleave', function(e) {
+          var toEl = e.relatedTarget;
+          if (toEl && toEl.closest('.menu-item.has-dropdown')) return;
+          var self = this;
+          leaveTimeout = setTimeout(function() { if (activeItem === self) deactivateItem(self); }, 80);
+        });
+      });
+
+      nav.addEventListener('mouseleave', function() {
+        clearTimeout(leaveTimeout);
+        leaveTimeout = setTimeout(function() { if (activeItem) deactivateItem(activeItem); }, 80);
+      });
+      nav.addEventListener('mouseenter', function() { clearTimeout(leaveTimeout); });
+    })();
+
+    // ============================================================
+    // CART COUNT BADGE SYNC (event-driven, no polling)
+    // ============================================================
+    (function() {
+      var bubbles = document.querySelectorAll('[data-sk-cart-count]');
+      if (!bubbles.length) return;
+
+      var fetching = false;
+      var timer = null;
+
+      function render(count) {
+        bubbles.forEach(function(el) {
+          el.textContent = count;
+          el.style.display = count > 0 ? 'flex' : 'none';
+        });
+      }
+
+      function refreshCount() {
+        if (fetching) return;
+        fetching = true;
+        fetch('/cart.js', { credentials: 'same-origin', headers: { Accept: 'application/json' } })
+          .then(function(r) { return r.json(); })
+          .then(function(cart) { render(cart.item_count || 0); })
+          .catch(function() { /* keep last known value */ })
+          .finally(function() { fetching = false; });
+      }
+
+      function refreshSoon(ms) {
+        clearTimeout(timer);
+        timer = setTimeout(refreshCount, ms || 400);
+      }
+
+      // Events fired by sliders, quiz and the theme
+      ['cart:refresh', 'cart:updated', 'cart:reload', 'cart:change'].forEach(function(evt) {
+        document.addEventListener(evt, function() { refreshSoon(400); });
+      });
+
+      // Add-to-cart clicks and buttons inside the cart drawer
+      document.addEventListener('click', function(e) {
+        if (
+          e.target.closest('button[name="add"], form[action*="/cart/add"] [type="submit"], [data-add-to-cart], .hdt-atc-btn') ||
+          (e.target.closest('#CartDrawer') && e.target.closest('button'))
+        ) {
+          refreshSoon(500);
+          setTimeout(refreshCount, 1500);
+        }
+      });
+
+      document.addEventListener('change', function(e) {
+        if (e.target.closest('#CartDrawer')) refreshSoon(400);
+      });
+
+      // Back/forward cache and returning to the tab
+      window.addEventListener('pageshow', function(e) { if (e.persisted) refreshCount(); });
+      document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) refreshCount();
+      });
+    })();
+
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Sukoshi Header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Main Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "header",
+      "content": "Top announcement"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "message",
+      "label": "Left announcement",
+      "default": "Welcome to our store"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Left link label",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Left link"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Announcement desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "bar_height",
+      "label": "Announcement desktop height",
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_bar_height",
+      "label": "Announcement mobile height",
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Announcement background",
+      "default": "#7c3030"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Announcement text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Announcement desktop text size",
+      "min": 8,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "mobile_text_size",
+      "label": "Announcement mobile text size",
+      "min": 8,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "header",
+      "content": "Right announcement"
+    },
+    {
+      "id": "message_right",
+      "default": "Discover your next essential",
+      "label": "Right announcement",
+      "type": "text"
+    },
+    {
+      "id": "link_label_right",
+      "default": "Explore",
+      "label": "Right link label",
+      "type": "text"
+    },
+    {
+      "id": "link_url_right",
+      "label": "Right link",
+      "type": "url"
+    }
+  ]
+}
+{% endschema %}

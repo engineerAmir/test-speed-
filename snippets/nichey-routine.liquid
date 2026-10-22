@@ -1,0 +1,31 @@
+{% assign assignment = product.metafields.custom.nichey_routine_bundles %}
+{% assign bundles = assignment.value %}
+{% assign bundle = nil %}{% assign bundle_count = bundles.size %}
+{% if assignment.type == 'product_reference' %}
+{% assign bundle = assignment.value %}{% assign bundle_count = 1 %}
+{% else %}
+{% for candidate in bundles %}{% if candidate.id %}{% assign bundle = candidate %}{% break %}{% endif %}{% endfor %}
+{% endif %}
+{% if bundle.id %}
+{{ 'nichey-routine.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'nichey-cart.js' | asset_url }}" defer></script>
+<script src="{{ 'nichey-routine.js' | asset_url }}" defer></script>
+{% render 'nichey-heading', section: section %}
+<ny-routine id="NyRoutine-{{ section.id }}" class="ny-routine" style="--ny-routine-ratio:{{ section.settings.image_ratio | default: '1' }};--ny-routine-mobile-gap:{{ section.settings.mobile_gap | default: 8 }}px;--ny-routine-mobile-type:{{ section.settings.mobile_type | default: 11 }}px;--ny-routine-scroll:{{ section.settings.scroll_size | default: 4 }}px;--ny-routine-button:{{ section.settings.purchase_height | default: 48 }}px" data-assignment-type="{{ assignment.type }}" data-assignment-count="{{ bundle_count }}" data-product="gid://shopify/Product/{{ bundle.id }}" data-country="{{ localization.country.iso_code }}" data-language="{{ localization.language.iso_code | upcase | replace: '-', '_' }}" data-currency="{{ cart.currency.iso_code }}" data-total="{{ section.settings.total_label | escape }}" data-save="{{ section.settings.save_label | escape }}" data-separate="{{ section.settings.separate_label | default: 'Purchased separately' | escape }}" data-included="{{ section.settings.included_label | default: 'Included in this routine' | escape }}" data-variant="{{ section.settings.variant_label | escape }}" data-unavailable="{{ section.settings.unavailable_label | escape }}" data-cart-error="{{ section.settings.cart_error | escape }}" data-error="{{ section.settings.error_label | escape }}">
+<h3><a href="{{ bundle.url }}">{{ bundle.title | escape }}</a></h3>
+{% if bundle_count > 1 %}<p class="ny-muted">{{ section.settings.extra_label | default: 'Additional bundles are assigned; only the first resolved reference is displayed.' | escape }} ({{ bundle_count }})</p>{% endif %}
+<div data-routine-content></div>
+<div data-fallback class="ny-card ny-row">{% if bundle.featured_image %}{{ bundle.featured_image | image_url: width: 180 | image_tag: loading: 'lazy', width: 90 }}{% endif %}<div><p>{{ bundle.price | money_with_currency }}</p><a class="ny-button ny-button--secondary" href="{{ bundle.url }}">{{ section.settings.view_label | escape }}</a></div></div>
+<div data-purchase hidden>
+{% for variant in bundle.variants %}
+{% capture form_id %}NyBundle-{{ section.id }}-{{ variant.id }}{% endcapture %}
+{% form 'product', bundle, id: form_id, class: 'ny-routine-form' %}
+<input type="hidden" name="id" value="{{ variant.id }}">
+<label class="ny-routine-quantity">{{ section.settings.quantity_label | default: 'Quantity' | escape }}<input type="number" name="quantity" min="{{ variant.quantity_rule.min | default: 1 }}" step="{{ variant.quantity_rule.increment | default: 1 }}" {% if variant.quantity_rule.max %}max="{{ variant.quantity_rule.max }}"{% endif %} value="{{ variant.quantity_rule.min | default: 1 }}" required></label>
+<div class="ny-routine-actions"><div class="ny-routine-native">{{ form | payment_button }}</div><button type="submit" name="add" class="ny-button ny-button--secondary" {% unless variant.available %}disabled{% endunless %}>{{ section.settings.cart_label | default: 'ADD TO CART' | escape }}</button></div>
+{% endform %}
+{% endfor %}
+</div>
+<p class="ny-status" data-status role="status" aria-live="polite"></p>
+</ny-routine>
+{% elsif request.design_mode %}<p class="ny-empty">No resolved bundle is available in custom.nichey_routine_bundles ({{ assignment.type | default: 'no accessible value' }}). Verify the assignment and Online Store availability. No product data has been changed.</p>{% endif %}

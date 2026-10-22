@@ -1,0 +1,648 @@
+{% doc %}
+  @prompt
+    Create a responsive Shopify section matching the references, titled “THE LIP EDIT.” White background, bold black typography, burgundy accents.
+    
+    Desktop: two-column layout. Left: large promotional image featuring a lipstick smear, with an editable heading overlaid at the upper left. Right: four compact navigation rows—Lip colour, Gloss, Lip care, Shop all lips. Each row has a small image thumbnail on the left and a label with a right arrow. First three rows have pale gray backgrounds; the last has a burgundy background and white text.
+    
+    Mobile: promotional image and heading on top, followed by three stacked navigation rows with left thumbnails, labels and right arrows. Place a full-width burgundy “Shop all lips →” button underneath, without a thumbnail.
+    
+    Set total section height to 45vh on desktop and mobile, including padding. Fit images and navigation within this height without clipping or overflow. Use cover-fit images with adjustable focal points, compact gaps and subtle corner rounding.
+    
+    Make each row fully clickable. Provide editable heading, promotional image, row thumbnails, labels, links, colors, spacing and separate desktop/mobile height controls. Keep text and buttons separate from images.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .lip-edit-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin-inline: auto;
+    padding: {{ block.settings.section_padding }}px;
+    background: {{ block.settings.background_color }};
+    color: {{ block.settings.text_color }};
+    font-family: inherit;
+  }
+  .lip-edit-{{ ai_gen_id }}, .lip-edit-{{ ai_gen_id }} * { box-sizing: border-box; }
+  .lip-edit-{{ ai_gen_id }}__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: {{ block.settings.column_gap }}px;
+    min-height: max(180px, calc({{ block.settings.desktop_height }}vh - {{ block.settings.section_padding | times: 2 }}px));
+    align-items: stretch;
+  }
+  .lip-edit-{{ ai_gen_id }}__promo {
+    position: relative;
+    min-width: 0;
+    min-height: 160px;
+    overflow: hidden;
+    background: {{ block.settings.background_color }};
+  }
+  .lip-edit-{{ ai_gen_id }}__promo > img,
+  .lip-edit-{{ ai_gen_id }}__promo-placeholder {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ block.settings.promo_focal }};
+  }
+  .lip-edit-{{ ai_gen_id }}__promo-placeholder svg { display: block; width: 100%; height: 100%; }
+  .lip-edit-{{ ai_gen_id }}__empty {
+    position: absolute;
+    inset: auto 12px 12px;
+    color: #555;
+    background: rgba(255,255,255,.9);
+    padding: 8px 10px;
+    font-size: 12px;
+    text-align: center;
+  }
+  .lip-edit-{{ ai_gen_id }} .lip-edit-{{ ai_gen_id }}__heading {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    padding: {{ block.settings.heading_top }}px 0 20px {{ block.settings.heading_left }}px;
+    max-width: 8ch;
+    color: {{ block.settings.heading_color }};
+    font-size: {{ block.settings.heading_size }}px !important;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -.035em;
+    text-transform: uppercase;
+    overflow-wrap: break-word;
+  }
+  .lip-edit-{{ ai_gen_id }}__nav {
+    display: grid;
+    grid-template-rows: repeat(4, minmax(38px, 1fr));
+    gap: {{ block.settings.row_gap }}px;
+    min-width: 0;
+  }
+  .lip-edit-{{ ai_gen_id }}__row {
+    display: grid;
+    grid-template-columns: minmax(0, {{ block.settings.thumb_size | times: 2 }}px) minmax(0, 1fr);
+    column-gap: 12px;
+    align-items: stretch;
+    min-width: 0;
+    min-height: 38px;
+    padding: 0;
+    background: transparent;
+    color: {{ block.settings.text_color }};
+    text-decoration: none;
+  }
+  .lip-edit-{{ ai_gen_id }}__thumb {
+    position: relative;
+    display: block;
+    width: 100%;
+    min-height: 38px;
+    overflow: hidden;
+    border-radius: {{ block.settings.thumb_radius }}px;
+    background: #e7e4e3;
+  }
+  .lip-edit-{{ ai_gen_id }}__thumb img,
+  .lip-edit-{{ ai_gen_id }}__thumb svg {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .lip-edit-{{ ai_gen_id }}__row-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-width: 0;
+    padding: 9px 14px;
+    background: {{ block.settings.row_color }};
+    border-radius: {{ block.settings.corner_radius }}px;
+  }
+  .lip-edit-{{ ai_gen_id }} .lip-edit-{{ ai_gen_id }}__label {
+    min-width: 0;
+    font-size: {{ block.settings.label_size }}px !important;
+    line-height: 1.2;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+  .lip-edit-{{ ai_gen_id }}__arrow { flex: 0 0 auto; font-size: 20px; line-height: 1; }
+  .lip-edit-{{ ai_gen_id }}__row--all .lip-edit-{{ ai_gen_id }}__row-body {
+    background: {{ block.settings.burgundy_color }};
+    color: {{ block.settings.button_text_color }};
+  }
+  .lip-edit-{{ ai_gen_id }}__row:focus-visible,
+  .lip-edit-{{ ai_gen_id }}__mobile-cta:focus-visible {
+    outline: 2px solid {{ block.settings.burgundy_color }};
+    outline-offset: 3px;
+  }
+  .lip-edit-{{ ai_gen_id }}__mobile-cta { display: none; }
+  @media screen and (max-width: 749px) {
+    .lip-edit-{{ ai_gen_id }} {
+      width: 100%;
+      padding: {{ block.settings.mobile_padding }}px;
+    }
+    .lip-edit-{{ ai_gen_id }}__layout {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: minmax(110px, 1fr) minmax(min-content, 1.4fr);
+      min-height: calc({{ block.settings.mobile_height }}vh - {{ block.settings.mobile_padding | times: 2 }}px);
+      gap: {{ block.settings.mobile_gap }}px;
+    }
+    .lip-edit-{{ ai_gen_id }}__promo { min-height: 110px; }
+    .lip-edit-{{ ai_gen_id }} .lip-edit-{{ ai_gen_id }}__heading {
+      max-width: 100%;
+      padding: {{ block.settings.heading_top | times: 0.65 }}px 8px 20px {{ block.settings.heading_left | times: 0.65 }}px;
+      font-size: {{ block.settings.mobile_heading_size }}px !important;
+    }
+    .lip-edit-{{ ai_gen_id }}__nav {
+      grid-template-rows: repeat(3, minmax(40px, 1fr)) minmax(38px, auto);
+      gap: {{ block.settings.mobile_gap }}px;
+    }
+    .lip-edit-{{ ai_gen_id }}__row {
+      grid-template-columns: minmax(0, min(32%, {{ block.settings.thumb_size | times: 1.8 }}px)) minmax(0, 1fr);
+      column-gap: 0;
+      min-height: 40px;
+    }
+    .lip-edit-{{ ai_gen_id }}__thumb { min-height: 40px; border-radius: {{ block.settings.thumb_radius }}px 0 0 {{ block.settings.thumb_radius }}px; }
+    .lip-edit-{{ ai_gen_id }}__row-body { padding: 9px 12px; border-radius: 0 {{ block.settings.corner_radius }}px {{ block.settings.corner_radius }}px 0; }
+    .lip-edit-{{ ai_gen_id }} .lip-edit-{{ ai_gen_id }}__label { font-size: {{ block.settings.mobile_label_size }}px !important; }
+    .lip-edit-{{ ai_gen_id }}__row--all { display: none; }
+    .lip-edit-{{ ai_gen_id }} .lip-edit-{{ ai_gen_id }}__mobile-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 38px;
+      padding: 10px 14px;
+      border-radius: {{ block.settings.corner_radius }}px;
+      background: {{ block.settings.burgundy_color }};
+      color: {{ block.settings.button_text_color }};
+      text-decoration: none;
+      font-size: {{ block.settings.mobile_label_size }}px !important;
+      line-height: 1.2;
+      font-weight: 700;
+      text-align: center;
+    }
+  }
+  /* Shop all is a text-only button on every screen size. */
+  .lip-edit-{{ ai_gen_id }}__row--all {
+    grid-template-columns: minmax(0, 1fr);
+  }
+{% endstyle %}
+
+<div class="lip-edit-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="lip-edit-{{ ai_gen_id }}__layout">
+    <div class="lip-edit-{{ ai_gen_id }}__promo">
+      {% if block.settings.promo_image != blank %}
+        <img src="{{ block.settings.promo_image | image_url: width: 1800 }}" alt="{{ block.settings.promo_image.alt | escape }}" loading="lazy" width="{{ block.settings.promo_image.width }}" height="{{ block.settings.promo_image.height }}">
+      {% else %}
+        <div class="lip-edit-{{ ai_gen_id }}__promo-placeholder">{{ 'image' | placeholder_svg_tag }}<span class="lip-edit-{{ ai_gen_id }}__empty">Add a promotional image</span></div>
+      {% endif %}
+      {% if block.settings.heading != blank %}<h2 class="lip-edit-{{ ai_gen_id }}__heading">{{ block.settings.heading | escape }}</h2>{% endif %}
+    </div>
+    <nav class="lip-edit-{{ ai_gen_id }}__nav" aria-label="Lip product categories">
+      {% for i in (1..3) %}
+        {% liquid
+          assign image_key = 'row_' | append: i | append: '_image'
+          assign label_key = 'row_' | append: i | append: '_label'
+          assign link_key = 'row_' | append: i | append: '_link'
+          assign focal_key = 'row_' | append: i | append: '_focal'
+          assign row_image = block.settings[image_key]
+          assign row_label = block.settings[label_key]
+          assign row_link = block.settings[link_key]
+          assign row_focal = block.settings[focal_key]
+        %}
+        <a class="lip-edit-{{ ai_gen_id }}__row" href="{{ row_link | default: routes.all_products_collection_url }}">
+          <span class="lip-edit-{{ ai_gen_id }}__thumb">{% if row_image != blank %}<img src="{{ row_image | image_url: width: 240 }}" alt="" loading="lazy" width="{{ row_image.width }}" height="{{ row_image.height }}" style="object-position: {{ row_focal }};">{% else %}{{ 'product-apparel-1' | placeholder_svg_tag }}{% endif %}</span>
+          <span class="lip-edit-{{ ai_gen_id }}__row-body"><span class="lip-edit-{{ ai_gen_id }}__label">{{ row_label | escape }}</span><span class="lip-edit-{{ ai_gen_id }}__arrow" aria-hidden="true">→</span></span>
+        </a>
+      {% endfor %}
+      <a class="lip-edit-{{ ai_gen_id }}__row lip-edit-{{ ai_gen_id }}__row--all" href="{{ block.settings.shop_all_link | default: routes.all_products_collection_url }}">
+        <span class="lip-edit-{{ ai_gen_id }}__row-body"><span class="lip-edit-{{ ai_gen_id }}__label">{{ block.settings.row_4_label | escape }}</span><span class="lip-edit-{{ ai_gen_id }}__arrow" aria-hidden="true">→</span></span>
+      </a>
+      <a class="lip-edit-{{ ai_gen_id }}__mobile-cta" href="{{ block.settings.shop_all_link | default: routes.all_products_collection_url }}">{{ block.settings.row_4_label | escape }} <span aria-hidden="true">→</span></a>
+    </nav>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "The lip edit",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "THE LIP EDIT"
+    },
+    {
+      "type": "image_picker",
+      "id": "promo_image",
+      "label": "Promotional image"
+    },
+    {
+      "type": "select",
+      "id": "promo_focal",
+      "label": "Promo focal point",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Navigation rows"
+    },
+    {
+      "type": "image_picker",
+      "id": "row_1_image",
+      "label": "Lip colour thumbnail"
+    },
+    {
+      "type": "select",
+      "id": "row_1_focal",
+      "label": "Lip colour focal point",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "text",
+      "id": "row_1_label",
+      "label": "Lip colour label",
+      "default": "Lip colour"
+    },
+    {
+      "type": "url",
+      "id": "row_1_link",
+      "label": "Lip colour link"
+    },
+    {
+      "type": "image_picker",
+      "id": "row_2_image",
+      "label": "Gloss thumbnail"
+    },
+    {
+      "type": "select",
+      "id": "row_2_focal",
+      "label": "Gloss focal point",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "text",
+      "id": "row_2_label",
+      "label": "Gloss label",
+      "default": "Gloss"
+    },
+    {
+      "type": "url",
+      "id": "row_2_link",
+      "label": "Gloss link"
+    },
+    {
+      "type": "image_picker",
+      "id": "row_3_image",
+      "label": "Lip care thumbnail"
+    },
+    {
+      "type": "select",
+      "id": "row_3_focal",
+      "label": "Lip care focal point",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "text",
+      "id": "row_3_label",
+      "label": "Lip care label",
+      "default": "Lip care"
+    },
+    {
+      "type": "url",
+      "id": "row_3_link",
+      "label": "Lip care link"
+    },
+    {
+      "type": "text",
+      "id": "row_4_label",
+      "label": "Shop all label",
+      "default": "Shop all lips"
+    },
+    {
+      "type": "url",
+      "id": "shop_all_link",
+      "label": "Shop all link"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "label": "Desktop minimum height",
+      "min": 25,
+      "max": 80,
+      "step": 5,
+      "unit": "vh",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "label": "Mobile minimum height",
+      "min": 25,
+      "max": 80,
+      "step": 5,
+      "unit": "vh",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "section_padding",
+      "label": "Desktop padding",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding",
+      "label": "Mobile padding",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "column_gap",
+      "label": "Column gap",
+      "min": 4,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "mobile_gap",
+      "label": "Mobile gap",
+      "min": 2,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "row_gap",
+      "label": "Row gap",
+      "min": 2,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "thumb_size",
+      "label": "Thumbnail width scale",
+      "min": 36,
+      "max": 90,
+      "step": 3,
+      "unit": "px",
+      "default": 54
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Corner rounding",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "thumb_radius",
+      "label": "Thumbnail rounding",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 24,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "default": 42
+    },
+    {
+      "type": "range",
+      "id": "heading_top",
+      "label": "Heading top offset",
+      "min": 4,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "heading_left",
+      "label": "Heading left offset",
+      "min": 4,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "label": "Label size",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#171313"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading",
+      "default": "#171313"
+    },
+    {
+      "type": "color",
+      "id": "row_color",
+      "label": "Row background",
+      "default": "#F1F0EF"
+    },
+    {
+      "type": "color",
+      "id": "burgundy_color",
+      "label": "Burgundy",
+      "default": "#7C3030"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Mobile typography"
+    },
+    {
+      "type": "range",
+      "id": "mobile_heading_size",
+      "label": "Mobile heading size",
+      "min": 18,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "mobile_label_size",
+      "label": "Mobile label and button size",
+      "min": 10,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    }
+  ],
+  "presets": [
+    {
+      "name": "The lip edit"
+    }
+  ],
+  "tag": null,
+  "class": "lip-edit-block"
+}
+{% endschema %}

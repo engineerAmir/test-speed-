@@ -1,0 +1,202 @@
+{{ 'hdt-main-pages.css' | asset_url | stylesheet_tag }}
+{{ 'facets.css' | asset_url | stylesheet_tag }}
+
+<style>
+  /* ==========================================
+     تنسيق الكونتينر والفلاتر
+     ========================================== */
+  .nichey-container { max-width: 1400px; margin: 0 auto; padding: 40px 20px; direction: rtl; }
+  .nichey-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid #eaeaea; }
+  .nichey-layout { display: flex; gap: 40px; align-items: flex-start; }
+  
+  .nichey-sidebar { width: 280px; flex-shrink: 0; position: sticky; top: 20px; }
+  .n-filter-title { font-size: 18px; font-weight: bold; margin-bottom: 25px; color: #000; }
+  .n-filter-group { border-bottom: 1px solid #eaeaea; margin-bottom: 15px; padding-bottom: 15px; }
+  .n-filter-summary { font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; list-style: none; font-size: 15px; }
+  .n-filter-summary::-webkit-details-marker { display: none; }
+  .n-filter-list { list-style: none; padding: 0; margin: 15px 0 0 0; max-height: 250px; overflow-y: auto; }
+  .n-filter-list li { margin-bottom: 12px; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #555; }
+  .n-filter-list input[type="checkbox"] { width: 16px; height: 16px; accent-color: #000; cursor: pointer; }
+  .n-filter-btn { background: #000; color: #fff; width: 100%; padding: 12px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer; margin-top: 15px; transition: 0.3s; }
+  .n-filter-btn:hover { background: #333; }
+  .n-filter-clear { display: block; text-align: center; margin-top: 12px; color: #722F37; text-decoration: underline; font-size: 14px; }
+
+  .nichey-main { flex-grow: 1; }
+  .nichey-sort select { padding: 8px 16px; border: 1px solid #eaeaea; border-radius: 6px; outline: none; cursor: pointer; font-family: inherit; }
+
+  /* ==========================================
+     تصميم الكروت الخاص بك (اللي انت بعته)
+     ========================================== */
+  .css-custom-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+  .css-card { background: transparent; border: none; width: 100%; }
+  .css-image-wrap { position: relative; background: #fff; border-radius: 8px; padding: 0; height: 280px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; overflow: hidden; }
+  .css-image-link { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; position: relative; z-index: 1; }
+  .css-image-wrap img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; mix-blend-mode: darken; }
+
+  .css-icon-btn { position: absolute; width: 38px !important; height: 38px !important; border-radius: 6px !important; background: #fff; border: 1px solid #eee; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #1a1a1a; transition: all 0.2s ease; z-index: 10; box-sizing: border-box; }
+  .css-icon-btn svg { width: 16px; height: 16px; }
+  .css-icon-btn:hover { box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+  .css-wishlist { top: 20px; right: 20px; }
+
+  .css-atc-form { position: absolute; bottom: 20px; right: 20px; width: 38px !important; height: 38px !important; left: auto; margin: 0; padding: 0; z-index: 10; }
+  .css-atc { position: relative !important; width: 100% !important; height: 100% !important; background: #1a1a1a; color: #fff; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+  .css-atc svg { stroke: #fff; }
+  .css-atc:hover { background: #722F37; transform: scale(1.05); box-shadow: 0 6px 14px rgba(114, 47, 55, 0.25); border: none; }
+
+  .css-info { text-align: left; }
+  .css-rating { font-family: 'IBM Plex Sans', sans-serif; display: flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; color: #1a1a1a; margin-bottom: 6px; }
+  .css-rating svg { width: 12px; height: 12px; }
+  .css-reviews-count { color: #5a6650; font-weight: 400; }
+  .css-vendor { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; text-transform: uppercase; color: #5a6650; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.5px; }
+  .css-title { font-family: 'IBM Plex Sans', sans-serif; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 13px; color: #1a1a1a; text-decoration: none; line-height: 1.4; margin-bottom: 10px; height: 36px; }
+  .css-pricing { font-family: 'IBM Plex Serif', serif; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .css-old-price { font-size: 13px; color: #999; text-decoration: line-through; }
+  .css-new-price { font-size: 16px; font-weight: 700; color: #722F37; }
+  .css-discount { font-family: 'IBM Plex Sans', sans-serif; background: rgba(114, 47, 55, 0.1); color: #722F37; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+
+  @media(max-width: 990px) {
+    .nichey-layout { flex-direction: column; }
+    .nichey-sidebar { width: 100%; position: static; }
+    .css-custom-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .css-image-wrap { height: 220px; }
+  }
+</style>
+
+<div class="nichey-container">
+  {%- paginate collection.products by section.settings.products_per_page -%}
+  
+  <div class="nichey-topbar">
+    <h1 style="margin:0; font-size: 24px; font-weight: bold;">{{ collection.title }}</h1>
+    <div class="nichey-sort">
+      {%- if collection.all_products_count > 0 -%}
+         <form id="sort_form">
+           <select name="sort_by" onchange="this.form.submit()">
+             {%- for option in collection.sort_options -%}
+               <option value="{{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>{{ option.name }}</option>
+             {%- endfor -%}
+           </select>
+         </form>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="nichey-layout">
+    <aside class="nichey-sidebar">
+      <div class="n-filter-title">فرز حسب</div>
+      <form class="n-filter-form">
+        
+        {%- if collection.sort_by != blank -%}
+          <input type="hidden" name="sort_by" value="{{ collection.sort_by }}">
+        {%- endif -%}
+
+        {%- for filter in collection.filters -%}
+          <details class="n-filter-group" open>
+            <summary class="n-filter-summary">
+              <span>{{ filter.label }}</span>
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 4L6 9L11 4" stroke="currentColor" stroke-width="1.5"/></svg>
+            </summary>
+            <div class="n-filter-display">
+              {%- case filter.type -%}
+                {%- when 'list' -%}
+                  <ul class="n-filter-list">
+                    {%- for value in filter.values -%}
+                      <li>
+                        <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" id="Filter-{{ filter.param_name }}-{{ forloop.index }}" {% if value.active %}checked{% endif %}>
+                        <label for="Filter-{{ filter.param_name }}-{{ forloop.index }}">{{ value.label }} ({{ value.count }})</label>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- when 'price_range' -%}
+                  <div style="display: flex; gap: 10px; margin-top: 15px; align-items: center;">
+                    <input style="width: 50%; padding: 8px; border: 1px solid #eaeaea; border-radius: 4px;" name="{{ filter.min_value.param_name }}" type="number" placeholder="0" value="{{ filter.min_value.value | divided_by: 100 }}">
+                    <span>-</span>
+                    <input style="width: 50%; padding: 8px; border: 1px solid #eaeaea; border-radius: 4px;" name="{{ filter.max_value.param_name }}" type="number" placeholder="{{ filter.range_max | divided_by: 100 }}" value="{{ filter.max_value.value | divided_by: 100 }}">
+                  </div>
+              {%- endcase -%}
+            </div>
+          </details>
+        {%- endfor -%}
+        
+        {%- if collection.filters != empty -%}
+          <button type="submit" class="n-filter-btn">تطبيق الفلاتر</button>
+          <a href="{{ collection.url }}?sort_by={{ collection.sort_by }}" class="n-filter-clear">مسح الفلاتر</a>
+        {%- endif -%}
+      </form>
+    </aside>
+
+    <div class="nichey-main">
+      <div class="css-custom-grid">
+        {%- for product in collection.products -%}
+          <div class="css-card">
+            <div class="css-image-wrap">
+              <a href="{{ product.url }}" class="css-image-link">
+                <img src="{{ product.featured_image | image_url: width: 500 }}" alt="{{ product.title | escape }}" loading="lazy">
+              </a>
+              <hdt-wishlist class="css-icon-btn css-wishlist" role="button" data-id="{{ product.id }}" action="add" placement="left" tabindex="0">
+                <svg width="24" height="24" aria-hidden="true" focusable="false" class="hdt-svg-pr-icon hdt-svg-wis" viewBox="0 0 24 24"><use xlink:href="#hdt-icon-pr-wis"></use></svg>
+                <span class="sr-only">{{ 'general.wishlist.add_to_wishlist' | t }}</span>
+              </hdt-wishlist>
+              <form method="post" action="/cart/add" class="css-atc-form">
+                <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+                <button type="submit" class="css-icon-btn css-atc" aria-label="Add to cart">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path><path d="M20 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path><path d="M12 10h4"></path><path d="M14 8v4"></path></svg>
+                </button>
+              </form>
+            </div>
+
+            <div class="css-info">
+              <div class="css-rating">
+                <svg viewBox="0 0 24 24" fill="#FFC107" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+                <span>4.9</span> <span class="css-reviews-count">(120)</span>
+              </div>
+              <div class="css-vendor">{{ product.vendor }}</div>
+              <a href="{{ product.url }}" class="css-title">{{ product.title }}</a>
+              <div class="css-pricing">
+                {%- if product.compare_at_price > product.price -%}
+                  <s class="css-old-price">{{ product.compare_at_price | money }}</s>
+                  <span class="css-new-price">{{ product.price | money }}</span>
+                  {%- assign discount = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+                  <span class="css-discount">-{{ discount }}%</span>
+                {%- else -%}
+                  <span class="css-new-price">{{ product.price | money }}</span>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        {%- else -%}
+          <p style="text-align:center; grid-column: 1 / -1; padding: 40px; font-size: 16px;">لا توجد منتجات مطابقة لخياراتك حالياً.</p>
+        {%- endfor -%}
+      </div>
+      
+      {%- if paginate.pages > 1 -%}
+        <div style="margin-top: 50px; text-align: center; font-size: 16px;">
+          {{ paginate | default_pagination: next: 'التالي &raquo;', previous: '&laquo; السابق' }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+  
+  {%- endpaginate -%}
+</div>
+
+{% schema %}
+{
+  "name": "Nichey Filtered Grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 24,
+      "label": "عدد المنتجات في الصفحة"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nichey Filtered Grid"
+    }
+  ]
+}
+{% endschema %}

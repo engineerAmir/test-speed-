@@ -1,0 +1,58 @@
+{%- liquid
+ assign source = settings.icon_source | default: 'builtin'
+ assign glyph = settings.icon | default: name | default: 'leaf'
+ assign artwork = settings.icon_image | default: image
+ if settings == blank and image != blank
+   assign source = 'image'
+ endif
+ assign address = settings.icon_url
+ if record != blank
+   assign source = record.icon_source.value | default: 'builtin'
+   assign glyph = record.icon.value | default: 'leaf'
+   assign artwork = record.custom_icon.value | default: record.icon_image.value
+   assign address = record.icon_url.value
+   if source == 'builtin' and artwork != blank
+     assign source = 'image'
+   endif
+ endif
+ assign prefix = address | slice: 0, 8
+-%}
+{% unless source == 'none' %}<span class="ny-icon" aria-hidden="true" style="{% if settings.icon_color != blank %}--ny-icon-color:{{ settings.icon_color }};{% endif %}{% if settings.icon_size != blank %}width:{{ settings.icon_size }}px;height:{{ settings.icon_size }}px;{% endif %}">
+{% if source == 'image' and artwork != blank %}{% if artwork.media_type == 'generic_file' %}<img src="{{ artwork.url | escape }}" width="40" height="40" loading="lazy" alt="">{% else %}{{ artwork | image_url: width: 160 | image_tag: loading: 'lazy', alt: '', width: 40, height: 40 }}{% endif %}
+{% elsif source == 'url' and prefix == 'https://' %}<img src="{{ address | escape }}" width="40" height="40" loading="lazy" alt="">
+{% elsif source == 'text' %}{{ settings.icon_text | default: record.icon_text.value | escape }}
+{% else %}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" focusable="false">
+{% case glyph %}
+{% when 'drop', 'droplets' %}<path d="M12 2C10 6 5 11 5 15a7 7 0 0 0 14 0c0-4-5-9-7-13Z"/><path d="M8 15a4 4 0 0 0 4 4"/>
+{% when 'shield', 'shield-check' %}<path d="m12 2 8 3v6c0 5-4 9-8 11-4-2-8-6-8-11V5Z"/><path d="m8 11 3 3 5-6"/>
+{% when 'sparkle' %}<path d="M12 3c1 6 3 8 9 9-6 1-8 3-9 9-1-6-3-8-9-9 6-1 8-3 9-9Z"/><path d="M20 2v4m-2-2h4"/>
+{% when 'truck' %}<path d="M2 5h12v12H2Zm12 4h4l4 5v3h-8"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/>
+{% when 'box' %}<path d="m12 2 9 5v10l-9 5-9-5V7Zm-9 5 9 5 9-5M12 12v10M7 4l10 6"/>
+{% when 'gift' %}<path d="M3 8h18v4H3Zm2 4v9h14v-9M12 8v13"/><path d="M12 8C3 8 5 1 9 3c2 1 3 5 3 5s1-4 3-5c4-2 6 5-3 5Z"/>
+{% when 'heart' %}<path d="M12 21 3 12C-3 4 7-1 12 6c5-7 15-2 9 6Z"/>
+{% when 'bag' %}<path d="M5 7h14l1 15H4Zm3 0V5a4 4 0 0 1 8 0v2"/>
+{% when 'chat' %}<path d="M21 11a9 9 0 0 1-9 9H3l1-5a9 9 0 1 1 17-4Z"/>
+{% when 'pin' %}<path d="M19 9c0 6-7 13-7 13S5 15 5 9a7 7 0 0 1 14 0Z"/><circle cx="12" cy="9" r="2"/>
+{% when 'sun' %}<circle cx="12" cy="12" r="4"/><path d="M12 1v2m0 18v2M1 12h2m18 0h2M4 4l2 2m12 12 2 2M4 20l2-2M18 6l2-2"/>
+{% when 'moon' %}<path d="M20 15A9 9 0 0 1 9 3a9 9 0 1 0 11 12Z"/>
+{% when 'check' %}<path d="m5 12 4 4L20 5"/>
+{% when 'arrow' %}<path d="m9 5 7 7-7 7"/>
+{% when 'close' %}<path d="m5 5 14 14M19 5 5 19"/>
+{% when 'home' %}<path d="m2 10 10-8 10 8M5 8v14h14V8M9 22v-8h6v8"/>
+{% when 'play' %}<path d="m8 4 13 8-13 8Z"/>
+{% when 'zoom' %}<circle cx="10" cy="10" r="7"/><path d="m15 15 7 7M7 10h6m-3-3v6"/>
+{% when 'check-circle' %}<circle cx="12" cy="12" r="9"/><path d="m7 12 3 3 7-7"/>
+{% when 'calendar' %}<rect x="3" y="5" width="18" height="17" rx="2"/><path d="M8 2v6m8-6v6M3 11h18M7 15h2m3 0h2m-7 4h2m3 0h2"/>
+{% when 'mobile-wallet' %}<rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 5h4m-4 14h4"/>
+{% when 'clock' %}<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+{% when 'headphones' %}<path d="M4 13v-2a8 8 0 0 1 16 0v2M4 12H2v7h4v-7Zm16 0h2v7h-4v-7ZM20 19c0 3-4 3-7 3"/>
+{% when 'lock' %}<rect x="5" y="10" width="14" height="12" rx="2"/><path d="M8 10V6a4 4 0 0 1 8 0v4M12 15v3"/>
+{% when 'refresh' %}<path d="M21 4v6h-6M3 20v-6h6M4 8a8 8 0 0 1 13-4l4 6M3 14l4 6a8 8 0 0 0 13-4"/>
+{% when 'star' %}<path d="m12 2 3 6 7 1-5 5 1 8-6-4-6 4 1-8-5-5 7-1Z"/>
+{% when 'face' %}<path d="M5 4c3-3 11-3 14 0v9c0 5-4 9-7 9s-7-4-7-9ZM8 9h1m6 0h1m-8 7c2 2 6 2 8 0M12 10v3h2"/>
+{% when 'bottle' %}<path d="M9 2h6v4H9Zm0 4v3l-3 3v10h12V12l-3-3V6M6 15h12"/>
+{% when 'flower' %}<path d="M12 8c-7-10-13 1-5 4-10 7 1 13 5 4 7 10 13-1 5-4 10-7-1-13-5-4Z"/><circle cx="12" cy="12" r="3"/>
+{% when 'layers' %}<path d="m12 2 10 5-10 5L2 7Zm-10 10 10 5 10-5M2 17l10 5 10-5"/>
+{% when 'feather' %}<path d="M21 3c-8-3-16 3-15 12l3 3C18 19 24 11 21 3ZM2 22 17 7M6 18h7M10 14v-6"/>
+{% else %}<path d="M20 3C8 2 1 10 6 17s15 1 14-14Z"/><path d="m3 22 13-14M8 17v-7m4 3h6"/>
+{% endcase %}</svg>{% endif %}</span>{% endunless %}

@@ -1,0 +1,238 @@
+{% doc %}
+  @prompt
+    Fixed announcement above the header with height controls from 1px to 50px
+{% enddoc %}
+
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  :root {
+    --nichey-top-bar-height: {{ block.settings.bar_height }}px;
+  }
+
+  .ai-notice-spacer-{{ ai_gen_id }} {
+    display: block;
+    height: var(--nichey-top-bar-height);
+  }
+
+  .ai-sticky-notice-{{ ai_gen_id }} {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10001;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    height: var(--nichey-top-bar-height);
+    min-height: 0;
+    margin: 0;
+    padding: 0 16px;
+    overflow: hidden;
+
+    background: {{ block.settings.background_color }};
+    color: {{ block.settings.text_color }};
+    text-align: center;
+    font-family: inherit;
+    font-size: {{ block.settings.text_size }}px;
+    line-height: 1.2;
+  }
+
+  .ai-sticky-notice-{{ ai_gen_id }}__inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+
+    width: 100%;
+    max-width: 1200px;
+    min-width: 0;
+    height: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  .ai-sticky-notice-{{ ai_gen_id }}__message {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .ai-sticky-notice-{{ ai_gen_id }}__link {
+    flex-shrink: 0;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    font-weight: 700;
+    white-space: nowrap;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .ai-sticky-notice-{{ ai_gen_id }}__link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+
+  /* Keep your theme's fixed header below the announcement. */
+  .sukoshi-header.sk-fixed {
+    top: var(--nichey-top-bar-height) !important;
+  }
+
+  @media screen and (max-width: 749px) {
+    :root {
+      --nichey-top-bar-height: {{ block.settings.mobile_bar_height }}px;
+    }
+
+    .ai-sticky-notice-{{ ai_gen_id }} {
+      width: 100%;
+      padding: 0 12px;
+      font-size: {{ block.settings.mobile_text_size }}px;
+    }
+  }
+{% endstyle %}
+
+<div
+  class="ai-notice-spacer-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div
+    class="ai-sticky-notice-{{ ai_gen_id }}"
+    role="region"
+    aria-label="Store announcement"
+  >
+    <div class="ai-sticky-notice-{{ ai_gen_id }}__inner">
+      {% if block.settings.message != blank %}
+        <p class="ai-sticky-notice-{{ ai_gen_id }}__message">
+          {{ block.settings.message | escape }}
+        </p>
+      {% endif %}
+
+      {% if block.settings.link_label != blank and block.settings.link_url != blank %}
+        <a
+          class="ai-sticky-notice-{{ ai_gen_id }}__link"
+          href="{{ block.settings.link_url }}"
+        >
+          {{ block.settings.link_label | escape }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Top sticky bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "message",
+      "label": "Announcement",
+      "default": "Welcome to our store"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "link_url",
+      "label": "Link"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Height"
+    },
+    {
+      "type": "range",
+      "id": "bar_height",
+      "label": "Desktop height",
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_bar_height",
+      "label": "Mobile height",
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#7c3030"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Desktop text size",
+      "min": 8,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "mobile_text_size",
+      "label": "Mobile text size",
+      "min": 8,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    }
+  ],
+  "presets": [
+    {
+      "name": "Top sticky bar"
+    }
+  ],
+  "tag": null,
+  "class": "top-sticky-bar"
+}
+{% endschema %}

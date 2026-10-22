@@ -1,0 +1,112 @@
+{% capture content %}{% render 'nichey-accordion-data', product: product, section: section %}{% endcapture %}
+{% assign content = content | strip %}{% if content != blank %}
+{{ 'nichey-info-accordions.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'nichey-info-accordions.js' | asset_url }}" defer></script>
+<div style="--ny-accordion-type:{{ section.settings.type_d }}px;--ny-accordion-type-m:{{ section.settings.type_m }}px">{{ content }}</div>
+{% endif %}
+{% schema %}
+{
+  "name": "Nichey · Accordions",
+  "tag": "section",
+  "class": "ny-info-accordions",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Published-theme accordions, using current-product metafields first and the original description parser as fallback. Empty items are hidden."
+    },
+    {
+      "type": "range",
+      "id": "type_d",
+      "label": "Desktop heading size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "type_m",
+      "label": "Mobile heading size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "default": 12,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Product information",
+      "settings": [
+        {
+          "type": "select",
+          "id": "source",
+          "label": "Product data",
+          "default": "benefits",
+          "options": [
+            {
+              "value": "benefits",
+              "label": "Benefits — custom.benefits"
+            },
+            {
+              "value": "ingredients",
+              "label": "Key ingredients — custom.ingredients"
+            },
+            {
+              "value": "howto",
+              "label": "How to use — custom.how_to_use"
+            },
+            {
+              "value": "details",
+              "label": "Product details — product description"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading override (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nichey · Accordions",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+            "source": "benefits"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "source": "ingredients"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "source": "howto"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "source": "details"
+          }
+        }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": [
+      "product"
+    ]
+  }
+}
+{% endschema %}

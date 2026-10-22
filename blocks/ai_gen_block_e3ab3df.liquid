@@ -1,0 +1,198 @@
+{% doc %}
+  @prompt
+    Create a responsive Shopify “Build your base.” section matching the reference: white background, bold black heading, and 4 image tiles labeled Foundation, Concealer, Blush & bronzer, and Setting powder, each with a small arrow beside its label.
+    
+    Desktop: section height 40vh, 4 equal columns in one row, heading top-left and an optional “SHOP ALL FACE MAKEUP” link top-right.
+    Mobile: section height 30vh, 2×2 grid, heading above.
+    
+    Fit the heading, images, labels, and spacing within the specified section height. Use flexible image areas with object-fit: cover and no fixed image heights. Keep gaps and padding compact, matching the reference. No horizontal scrolling or carousel.
+    
+    Each tile must have separately editable image, label, and collection link. Keep text as real editable text, not embedded in images. Make the entire tile clickable. Add settings for colors, spacing, heading size, and separate desktop/mobile section heights, defaulting to 40vh and 30vh.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-base-{{ ai_gen_id }} {
+    display: block;
+    box-sizing: border-box;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    height: {{ block.settings.desktop_height }}vh;
+    min-height: 0;
+    padding: {{ block.settings.section_padding }}px;
+    background: {{ block.settings.background_color }};
+    color: {{ block.settings.text_color }};
+    overflow: hidden;
+  }
+  .ai-base-{{ ai_gen_id }} *,
+  .ai-base-{{ ai_gen_id }} *::before,
+  .ai-base-{{ ai_gen_id }} *::after { box-sizing: border-box; }
+  .ai-base-{{ ai_gen_id }}__inner {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+  }
+  .ai-base-{{ ai_gen_id }}__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex: 0 0 auto;
+    margin-bottom: {{ block.settings.content_gap }}px;
+  }
+  .ai-base-{{ ai_gen_id }}__heading {
+    margin: 0;
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.heading_size }}px;
+    line-height: 1.05;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+  }
+  .ai-base-{{ ai_gen_id }}__all-link {
+    flex: 0 0 auto;
+    color: {{ block.settings.text_color }};
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .ai-base-{{ ai_gen_id }}__all-link:focus-visible,
+  .ai-base-{{ ai_gen_id }}__tile:focus-visible { outline: 2px solid {{ block.settings.text_color }}; outline-offset: 3px; }
+  .ai-base-{{ ai_gen_id }}__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: {{ block.settings.tile_gap }}px;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .ai-base-{{ ai_gen_id }}__tile {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    color: {{ block.settings.text_color }};
+    text-decoration: none;
+  }
+  .ai-base-{{ ai_gen_id }}__media {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+    background: #f3f3f3;
+  }
+  .ai-base-{{ ai_gen_id }}__media img,
+  .ai-base-{{ ai_gen_id }}__media svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .ai-base-{{ ai_gen_id }}__placeholder {
+    width: 100%;
+    height: 100%;
+  }
+  .ai-base-{{ ai_gen_id }}__placeholder svg { color: #777; }
+  .ai-base-{{ ai_gen_id }}__label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex: 0 0 auto;
+    padding-top: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.15;
+  }
+  .ai-base-{{ ai_gen_id }}__arrow { display: inline-flex; flex: 0 0 auto; width: 12px; height: 12px; }
+  .ai-base-{{ ai_gen_id }}__arrow svg { display: block; width: 100%; height: 100%; }
+  @media screen and (max-width: 749px) {
+    .ai-base-{{ ai_gen_id }} {
+      width: 100%;
+      height: {{ block.settings.mobile_height }}vh;
+      padding: {{ block.settings.mobile_padding }}px;
+    }
+    .ai-base-{{ ai_gen_id }}__header { margin-bottom: {{ block.settings.mobile_gap }}px; }
+    .ai-base-{{ ai_gen_id }}__heading { font-size: {{ block.settings.mobile_heading_size }}px; }
+    .ai-base-{{ ai_gen_id }}__all-link { font-size: 9px; }
+    .ai-base-{{ ai_gen_id }}__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: {{ block.settings.mobile_tile_gap }}px; }
+    .ai-base-{{ ai_gen_id }}__label { padding-top: 5px; gap: 5px; font-size: 12px; }
+    .ai-base-{{ ai_gen_id }}__arrow { width: 10px; height: 10px; }
+  }
+{% endstyle %}
+
+<div class="ai-base-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-base-{{ ai_gen_id }}__inner">
+    <div class="ai-base-{{ ai_gen_id }}__header">
+      <h2 class="ai-base-{{ ai_gen_id }}__heading">{{ block.settings.heading | escape }}</h2>
+      {% if block.settings.show_shop_all and block.settings.shop_all_link != blank %}
+        <a class="ai-base-{{ ai_gen_id }}__all-link" href="{{ block.settings.shop_all_link }}">{{ block.settings.shop_all_label | escape }}</a>
+      {% endif %}
+    </div>
+    <div class="ai-base-{{ ai_gen_id }}__grid">
+      {% for i in (1..4) %}
+        {% liquid
+          assign image_key = 'tile_' | append: i | append: '_image'
+          assign label_key = 'tile_' | append: i | append: '_label'
+          assign link_key = 'tile_' | append: i | append: '_link'
+          assign tile_image = block.settings[image_key]
+          assign tile_label = block.settings[label_key]
+          assign tile_link = block.settings[link_key]
+        %}
+        <a class="ai-base-{{ ai_gen_id }}__tile" href="{% if tile_link != blank %}{{ tile_link }}{% else %}#{% endif %}" aria-label="{{ tile_label | escape }}">
+          <div class="ai-base-{{ ai_gen_id }}__media">
+            {% if tile_image != blank %}
+              <img src="{{ tile_image | image_url: width: 1200 }}" alt="{{ tile_image.alt | default: tile_label | escape }}" loading="lazy" width="{{ tile_image.width }}" height="{{ tile_image.height }}">
+            {% else %}
+              <div class="ai-base-{{ ai_gen_id }}__placeholder">{{ 'image' | placeholder_svg_tag }}</div>
+            {% endif %}
+          </div>
+          <span class="ai-base-{{ ai_gen_id }}__label">{{ tile_label | escape }}<span class="ai-base-{{ ai_gen_id }}__arrow" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h9M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Build your base",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Build your base." },
+    { "type": "checkbox", "id": "show_shop_all", "label": "Show shop all link", "default": true },
+    { "type": "text", "id": "shop_all_label", "label": "Shop all label", "default": "SHOP ALL FACE MAKEUP" },
+    { "type": "url", "id": "shop_all_link", "label": "Shop all link" },
+    { "type": "header", "content": "Tiles" },
+    { "type": "image_picker", "id": "tile_1_image", "label": "Foundation image" },
+    { "type": "text", "id": "tile_1_label", "label": "Foundation label", "default": "Foundation" },
+    { "type": "url", "id": "tile_1_link", "label": "Foundation collection link" },
+    { "type": "image_picker", "id": "tile_2_image", "label": "Concealer image" },
+    { "type": "text", "id": "tile_2_label", "label": "Concealer label", "default": "Concealer" },
+    { "type": "url", "id": "tile_2_link", "label": "Concealer collection link" },
+    { "type": "image_picker", "id": "tile_3_image", "label": "Blush & bronzer image" },
+    { "type": "text", "id": "tile_3_label", "label": "Blush & bronzer label", "default": "Blush & bronzer" },
+    { "type": "url", "id": "tile_3_link", "label": "Blush & bronzer collection link" },
+    { "type": "image_picker", "id": "tile_4_image", "label": "Setting powder image" },
+    { "type": "text", "id": "tile_4_label", "label": "Setting powder label", "default": "Setting powder" },
+    { "type": "url", "id": "tile_4_link", "label": "Setting powder collection link" },
+    { "type": "header", "content": "Layout and style" },
+    { "type": "range", "id": "desktop_width_percent", "label": "Desktop width", "min": 50, "max": 100, "step": 5, "unit": "%", "default": 100 },
+    { "type": "range", "id": "desktop_height", "label": "Desktop height", "min": 30, "max": 80, "step": 5, "unit": "vh", "default": 40 },
+    { "type": "range", "id": "mobile_height", "label": "Mobile height", "min": 20, "max": 60, "step": 5, "unit": "vh", "default": 30 },
+    { "type": "range", "id": "heading_size", "label": "Heading size", "min": 20, "max": 56, "step": 2, "unit": "px", "default": 36 },
+    { "type": "range", "id": "mobile_heading_size", "label": "Mobile heading size", "min": 16, "max": 36, "step": 2, "unit": "px", "default": 24 },
+    { "type": "range", "id": "section_padding", "label": "Desktop padding", "min": 8, "max": 48, "step": 4, "unit": "px", "default": 20 },
+    { "type": "range", "id": "mobile_padding", "label": "Mobile padding", "min": 4, "max": 24, "step": 2, "unit": "px", "default": 12 },
+    { "type": "range", "id": "content_gap", "label": "Heading spacing", "min": 4, "max": 32, "step": 2, "unit": "px", "default": 12 },
+    { "type": "range", "id": "mobile_gap", "label": "Mobile heading spacing", "min": 2, "max": 16, "step": 2, "unit": "px", "default": 6 },
+    { "type": "range", "id": "tile_gap", "label": "Tile gap", "min": 4, "max": 32, "step": 2, "unit": "px", "default": 12 },
+    { "type": "range", "id": "mobile_tile_gap", "label": "Mobile tile gap", "min": 2, "max": 16, "step": 2, "unit": "px", "default": 8 },
+    { "type": "color", "id": "background_color", "label": "Background", "default": "#FFFFFF" },
+    { "type": "color", "id": "text_color", "label": "Text", "default": "#111111" }
+  ],
+  "presets": [{ "name": "Build your base" }],
+  "tag": null,
+  "class": "build-your-base-block"
+}
+{% endschema %}

@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "about-the-company",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

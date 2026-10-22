@@ -1,0 +1,651 @@
+  {%- comment -%}
+    Clean Product Slider (optimized, single file)
+    - CSS/JS live in {% stylesheet %} / {% javascript %}: Shopify loads them ONCE even if the section is used many times.
+    - Out-of-stock products are skipped, and the limit still counts only shown products.
+    - Images have width/height + srcset (less CLS, lighter on mobile).
+    - No <form> per card: a lightweight button posts to /cart/add.js.
+    - Font: loaded once from theme.liquid (no @import here).
+  {%- endcomment -%}
+
+  {%- assign collection = collections[section.settings.collection] -%}
+  {%- assign is_ar = false -%}
+  {%- if localization.language.iso_code == 'ar' -%}{%- assign is_ar = true -%}{%- endif -%}
+
+  <section class="clean-slider-section" id="section-{{ section.id }}">
+    <div class="css-container">
+
+      <div class="css-header">
+        <h2>{{ section.settings.title }}</h2>
+        {%- if section.settings.view_all_link != blank -%}
+          <a href="{{ section.settings.view_all_link }}" class="css-view-all">
+            {%- if is_ar -%}عرض الكل{%- else -%}View all{%- endif -%}
+          </a>
+        {%- endif -%}
+      </div>
+
+      <div class="css-slider-wrapper">
+        <div class="css-track" id="slider-{{ section.id }}">
+
+          {%- if collection != blank and collection.products_count > 0 -%}
+            {%- assign shown = 0 -%}
+            {%- for product in collection.products -%}
+              {%- unless product.available -%}{%- continue -%}{%- endunless -%}
+              {%- if shown >= section.settings.product_limit -%}{%- break -%}{%- endif -%}
+              {%- assign shown = shown | plus: 1 -%}
+
+              {%- assign selected_variant = product.selected_or_first_available_variant -%}
+              {%- assign img = selected_variant.featured_image | default: product.featured_image -%}
+              {%- assign review_count = product.metafields.reviews.rating_count | default: product.metafields.judge_me.reviews_count | plus: 0 -%}
+
+              <div class="css-card">
+
+                <div class="css-image-wrap">
+                  <a href="{{ product.url }}" class="css-image-link" aria-label="{{ product.title | escape }}">
+                    {%- if img -%}
+                      <img
+                        src="{{ img | image_url: width: 360 }}"
+                        srcset="{% if img.width >= 180 %}{{ img | image_url: width: 180 }} 180w, {% endif %}{% if img.width >= 240 %}{{ img | image_url: width: 240 }} 240w, {% endif %}{% if img.width >= 360 %}{{ img | image_url: width: 360 }} 360w, {% endif %}{% if img.width >= 480 %}{{ img | image_url: width: 480 }} 480w, {% endif %}{% if img.width >= 720 %}{{ img | image_url: width: 720 }} 720w, {% endif %}{% if img.width < 720 %}{{ img | image_url: width: img.width }} {{ img.width }}w{% endif %}"
+                        sizes="(max-width: 768px) 180px, 240px"
+                        width="{{ img.width }}"
+                        height="{{ img.height }}"
+                        alt="{{ product.title | escape }}"
+                        loading="lazy"
+                        decoding="async">
+                    {%- endif -%}
+                  </a>
+
+                  <hdt-wishlist class="css-icon-btn css-wishlist" role="button" data-id="{{ product.id }}" action="add" placement="left" tabindex="0">
+                    <span hidden aria-hidden="true"></span>
+                    <img class="css-wishlist-image" src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/heart.png?v=1790887724" width="16" height="16" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                    <span class="sr-only">{{ 'general.wishlist.add_to_wishlist' | t }}</span>
+                  </hdt-wishlist>
+
+                  <div class="css-atc-form">
+                    <button type="button" class="css-icon-btn css-atc" data-variant-id="{{ selected_variant.id }}" aria-label="{% if is_ar %}أضف إلى السلة{% else %}Add to cart{% endif %}">
+                      {% comment %} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path><path d="M20 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path><path d="M12 10h4"></path><path d="M14 8v4"></path></svg> {% endcomment %}
+                      <img class="css-cart-image" src="https://cdn.shopify.com/s/files/1/0815/5696/3547/files/icons8-add-shopping-cart-48.png?v=1790888260" width="16" height="16" alt="" aria-hidden="true" loading="lazy" decoding="async">
+                    </button>
+                  </div>
+                </div>
+
+                <div class="css-info">
+                  <div class="css-rating">
+                    {%- if review_count > 0 -%}
+                      <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">
+                        {{ product.metafields.judgeme.badge }}
+                      </div>
+                    {%- else -%}
+                      <div class="jdgm-prev-badge css-rating-empty" aria-label="No reviews">
+                        <span class="jdgm-prev-badge__stars" aria-hidden="true">
+                          <span class="jdgm-star jdgm--off"></span>
+                          <span class="jdgm-star jdgm--off"></span>
+                          <span class="jdgm-star jdgm--off"></span>
+                          <span class="jdgm-star jdgm--off"></span>
+                          <span class="jdgm-star jdgm--off"></span>
+                        </span>
+                        <span class="jdgm-prev-badge__text">No reviews</span>
+                      </div>
+                    {%- endif -%}
+                  </div>
+
+                  <div class="css-vendor">{{ product.vendor }}</div>
+                  <a href="{{ product.url }}" class="css-title">{{ product.title }}</a>
+
+                  <div class="css-pricing" aria-live="polite">
+                    <s class="css-old-price" {% unless selected_variant.compare_at_price > selected_variant.price %}hidden{% endunless %}>{{ selected_variant.compare_at_price | money }}</s>
+                    <span class="css-new-price">{{ selected_variant.price | money }}</span>
+                    <span class="css-discount" {% unless selected_variant.compare_at_price > selected_variant.price %}hidden{% endunless %}>-{% if selected_variant.compare_at_price > selected_variant.price %}{{ selected_variant.compare_at_price | minus: selected_variant.price | times: 100.0 | divided_by: selected_variant.compare_at_price | round }}{% else %}0{% endif %}%</span>
+                  </div>
+                  {%- unless product.has_only_default_variant -%}
+                    <div class="css-variant-label" aria-live="polite">{{ selected_variant.title | escape }}</div>
+                    <div class="css-swatches" role="group" aria-label="{{ product.options | join: ' / ' | escape }}">
+                      {%- for variant in product.variants -%}
+                        {%- liquid
+                          assign vimg = variant.featured_image | default: product.featured_image
+                          assign swatch_color = blank
+                          assign swatch_image = blank
+                          for option in product.options_with_values
+                            assign option_index = forloop.index0
+                            assign option_name = variant.options[option_index]
+                            for value in option.values
+                              if value.name == option_name
+                                if value.swatch.color != blank or value.swatch.image != blank
+                                  assign swatch_color = value.swatch.color
+                                  assign swatch_image = value.swatch.image
+                                endif
+                              endif
+                            endfor
+                          endfor
+                          assign discount = 0
+                          if variant.compare_at_price > variant.price
+                            assign discount = variant.compare_at_price | minus: variant.price | times: 100.0 | divided_by: variant.compare_at_price | round
+                          endif
+                        -%}
+                        <button type="button" class="css-swatch{% if swatch_color != blank or swatch_image != blank or variant.featured_image != blank %} css-swatch-visual{% endif %}"
+                          aria-pressed="{% if variant.id == selected_variant.id %}true{% else %}false{% endif %}"
+                          aria-label="{{ variant.title | escape }}{% unless variant.available %} — {% if is_ar %}غير متاح{% else %}Sold out{% endif %}{% endunless %}"
+                          title="{{ variant.title | escape }}"
+                          data-id="{{ variant.id }}" data-title="{{ variant.title | escape }}"
+                          data-url="{{ product.url }}?variant={{ variant.id }}"
+                          data-price="{{ variant.price | money | strip_html | escape }}"
+                          data-compare="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money | strip_html | escape }}{% endif %}"
+                          data-discount="{{ discount }}"
+                          data-image="{% if vimg %}{{ vimg | image_url: width: 480 }}{% endif %}"
+                          data-srcset="{% if vimg %}{% if vimg.width >= 180 %}{{ vimg | image_url: width: 180 }} 180w, {% endif %}{% if vimg.width >= 240 %}{{ vimg | image_url: width: 240 }} 240w, {% endif %}{% if vimg.width >= 360 %}{{ vimg | image_url: width: 360 }} 360w, {% endif %}{% if vimg.width >= 480 %}{{ vimg | image_url: width: 480 }} 480w, {% endif %}{% if vimg.width >= 720 %}{{ vimg | image_url: width: 720 }} 720w, {% endif %}{% if vimg.width < 720 %}{{ vimg | image_url: width: vimg.width }} {{ vimg.width }}w{% endif %}{% endif %}"
+                          data-available="{{ variant.available }}">
+                          {%- if swatch_image != blank -%}
+                            <span class="css-swatch-dot"><img src="{{ swatch_image | image_url: width: 64 }}" width="24" height="24" loading="lazy" alt=""></span>
+                          {%- elsif swatch_color != blank -%}
+                            <span class="css-swatch-dot" style="background-color: {{ swatch_color }}"></span>
+                          {%- elsif variant.featured_image != blank -%}
+                            <span class="css-swatch-dot"><img src="{{ variant.featured_image | image_url: width: 64 }}" width="24" height="24" loading="lazy" alt=""></span>
+                          {%- else -%}
+                            <span class="css-swatch-text">{{ variant.title | escape }}</span>
+                          {%- endif -%}
+                          {%- if product.options.size > 1 -%}<span class="css-swatch-caption">{{ variant.title | escape }}</span>{%- endif -%}
+                        </button>
+                      {%- endfor -%}
+                    </div>
+                    {%- if product.variants.size >= 250 -%}<a href="{{ product.url }}">{% if is_ar %}كل الاختيارات{% else %}All options{% endif %}</a>{%- endif -%}
+                  {%- endunless -%}
+                </div>
+
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            <p>Please select a collection with products.</p>
+          {%- endif -%}
+
+        </div>
+
+        <button type="button" class="css-nav-btn css-prev" data-dir="-1" aria-label="Previous">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button type="button" class="css-nav-btn css-next" data-dir="1" aria-label="Next">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  {% stylesheet %}
+    .clean-slider-section {
+      padding: 20px 0;
+      background: transparent;
+    }
+
+    .css-container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .css-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .css-header h2 {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      margin: 0;
+      color: #1a1a1a;
+    }
+
+    .css-view-all {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 14px;
+      color: #7c3030;
+      text-decoration: underline;
+      font-weight: 500;
+    }
+
+    .css-slider-wrapper { position: relative; }
+
+    .css-track {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      padding-bottom: 10px;
+    }
+    .css-track::-webkit-scrollbar { display: none; }
+
+    .css-card {
+      flex: 0 0 240px;
+      scroll-snap-align: start;
+      background: transparent;
+      border: none;
+    }
+
+    .css-image-wrap {
+      position: relative;
+      background: #fff;
+      border-radius: 8px;
+      padding: 0;
+      height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .css-image-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .css-image-wrap img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      mix-blend-mode: darken;
+    }
+
+    .css-icon-btn {
+      position: absolute;
+      width: 38px !important;
+      height: 38px !important;
+      border-radius: 6px !important;
+      background: #fff;
+      border: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #1a1a1a;
+      transition: all 0.2s ease;
+      z-index: 10;
+      box-sizing: border-box;
+      padding: 0;
+    }
+    .css-icon-btn svg { width: 16px; height: 16px; }
+    .css-icon-btn:hover { box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+
+    .css-wishlist { top: 20px; right: 20px; }
+    /* The theme replaces the first child when wishlist state changes. */
+    .clean-slider-section .css-wishlist > :first-child { display: none !important; }
+    .clean-slider-section .css-wishlist .css-wishlist-image {
+      display: block;
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+      mix-blend-mode: normal;
+      pointer-events: none;
+    }
+
+    .css-atc-form {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      width: 38px;
+      height: 38px;
+      margin: 0;
+      padding: 0;
+      z-index: 10;
+    }
+
+    .css-atc {
+      position: relative !important;
+      width: 100% !important;
+      height: 100% !important;
+      background: #1a1a1a;
+      color: #fff;
+      border: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+    .css-atc svg { stroke: #fff; }
+    .clean-slider-section .css-atc .css-cart-image {
+      display: block;
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+      mix-blend-mode: normal;
+      pointer-events: none;
+    }
+    .css-atc:hover:not(:disabled) {
+      background: #7c3030;
+      transform: scale(1.05);
+      box-shadow: 0 6px 14px rgba(124, 48, 48, 0.25);
+      border: none;
+    }
+    .css-atc:disabled { opacity: 0.55; cursor: wait; }
+
+    .css-info { text-align: left; }
+    html[dir="rtl"] .css-info { text-align: right; }
+
+    .css-rating {
+      display: block;
+      min-height: 16px;
+      margin-bottom: 6px;
+      line-height: 1;
+    }
+    .css-rating .jdgm-widget { margin: 0 !important; padding: 0 !important; }
+    .css-rating .jdgm-prev-badge {
+      display: flex !important;
+      align-items: center !important;
+      gap: 4px !important;
+    }
+    .css-rating .jdgm-prev-badge__stars {
+      display: inline-flex !important;
+      align-items: center !important;
+      line-height: 1 !important;
+    }
+    .css-rating .jdgm-star {
+      font-family: 'JudgemeStar' !important;
+      font-size: 12px !important;
+      line-height: 1 !important;
+      color: #FFC107 !important;
+      padding: 0 1px 0 0 !important;
+    }
+    .css-rating .jdgm-prev-badge__text {
+      color: #5a6650 !important;
+      font-size: 12px !important;
+      font-weight: 400 !important;
+      line-height: 1.2 !important;
+      margin-left: 0 !important;
+    }
+
+    .css-vendor {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: #5a6650;
+      font-weight: 700;
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .css-title {
+      font-family: 'IBM Plex Sans', sans-serif;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      font-size: 13px;
+      color: #1a1a1a;
+      text-decoration: none;
+      line-height: 1.4;
+      margin-bottom: 10px;
+      height: 36px;
+    }
+
+    .css-pricing {
+      font-family: 'IBM Plex Serif', serif;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .css-old-price { font-size: 13px; color: #999; text-decoration: line-through; }
+    .css-new-price { font-size: 16px; font-weight: 700; color: #7c3030; }
+    .css-discount {
+      font-family: 'IBM Plex Sans', sans-serif;
+      background: rgba(124, 48, 48, 0.1);
+      color: #7c3030;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .css-nav-btn {
+      position: absolute;
+      top: 40%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #fff;
+      border: 1px solid #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      z-index: 2;
+      padding: 0;
+    }
+    .css-nav-btn svg { width: 20px; height: 20px; color: #1a1a1a; }
+
+    .css-prev { left: -15px; display: none; }
+    .css-next { right: -15px; }
+    html[dir="rtl"] .css-prev { left: auto; right: -15px; }
+    html[dir="rtl"] .css-next { right: auto; left: -15px; }
+
+    @media (max-width: 768px) {
+      .css-card { flex: 0 0 180px; }
+      .css-image-wrap { height: 220px; }
+      .css-nav-btn { display: none !important; }
+    }
+
+    .css-pricing [hidden] { display: none !important; }
+    .css-variant-label { text-align: center; font-size: 12px; margin: 10px 0 3px; line-height: 1.4; }
+    .css-swatches { display: flex; justify-content: center; flex-wrap: wrap; gap: 2px; }
+    .css-swatch { position: relative; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-width: 40px; min-height: 40px; padding: 6px; border: 0; background: transparent; color: inherit; cursor: pointer; }
+    .css-swatch-dot { width: 24px; height: 24px; display: block; border-radius: 50%; border: 1px solid #bbb; overflow: hidden; box-sizing: border-box; }
+    .css-swatch-dot img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .css-swatch[aria-pressed="true"] .css-swatch-dot { outline: 1px solid #333; outline-offset: 3px; }
+    .css-swatch-text { padding: 4px 7px; border: 1px solid #ccc; border-radius: 5px; font-size: 12px; }
+    .css-swatch[aria-pressed="true"] .css-swatch-text { border-color: #222; background: #f2f2f2; }
+    .css-swatch-caption { font-size: 11px; max-width: 100px; overflow-wrap: anywhere; }
+    .css-swatch[data-available="false"] { opacity: .5; cursor: pointer; }
+    .css-swatch[data-available="false"] .css-swatch-text { text-decoration: line-through; }
+    .css-swatch:focus-visible { outline: 2px solid #7c3030; border-radius: 5px; }
+    .css-swatches { position: relative; z-index: 2; pointer-events: auto; }
+    .css-swatch { pointer-events: auto; }
+    .css-atc:disabled:not([aria-busy="true"]) { cursor: not-allowed; }
+  {% endstylesheet %}
+
+  {% javascript %}
+    // Keep swatch selection independent of older slider initializers.
+    (function () {
+      if (window.__cleanSwatchesV2) return;
+      window.__cleanSwatchesV2 = true;
+      document.addEventListener('click', function (e) {
+        if (!(e.target instanceof Element)) return;
+        var swatch = e.target.closest('.css-swatch');
+        if (swatch) {
+          e.preventDefault();
+          var card = swatch.closest('.css-card');
+          var add = card.querySelector('.css-atc');
+          if (!add || add.getAttribute('aria-busy') === 'true') return;
+          e.stopPropagation();
+          card.querySelectorAll('.css-swatch').forEach(function (item) {
+            item.setAttribute('aria-pressed', item === swatch ? 'true' : 'false');
+          });
+          add.setAttribute('data-variant-id', swatch.dataset.id);
+          var available = swatch.dataset.available === 'true';
+          var arabic = document.documentElement.lang.indexOf('ar') === 0;
+          add.disabled = !available;
+          add.setAttribute('aria-label', available ? (arabic ? 'أضف إلى السلة' : 'Add to cart') : (arabic ? 'غير متاح' : 'Sold out'));
+          add.title = add.getAttribute('aria-label');
+          card.querySelector('.css-variant-label').textContent = swatch.dataset.title + (available ? '' : (arabic ? ' — غير متاح' : ' — Sold out'));
+          card.querySelector('.css-new-price').textContent = swatch.dataset.price;
+          var oldPrice = card.querySelector('.css-old-price');
+          oldPrice.textContent = swatch.dataset.compare;
+          oldPrice.hidden = !swatch.dataset.compare;
+          var badge = card.querySelector('.css-discount');
+          badge.textContent = '-' + swatch.dataset.discount + '%';
+          badge.hidden = !swatch.dataset.compare;
+          var picture = card.querySelector('.css-image-link img');
+          if (picture && swatch.dataset.image) {
+            picture.srcset = swatch.dataset.srcset;
+            picture.src = swatch.dataset.image;
+          }
+          card.querySelectorAll('.css-image-link, .css-title').forEach(function (link) {
+            link.href = swatch.dataset.url;
+          });
+          return;
+        }
+
+      }, true);
+    })();
+
+    (function () {
+      if (window.__cleanSliderInit) return;
+      window.__cleanSliderInit = true;
+
+      var navFrame = 0;
+      function updateAll() {
+        if (navFrame) return;
+        navFrame = requestAnimationFrame(function () {
+          navFrame = 0;
+          var states = Array.from(document.querySelectorAll('.css-track')).map(function (track) {
+            var wrapper = track.closest('.css-slider-wrapper');
+            return { wrapper: wrapper, pos: Math.abs(track.scrollLeft), max: track.scrollWidth - track.clientWidth };
+          });
+          states.forEach(function (state) {
+            if (!state.wrapper) return;
+            var prev = state.wrapper.querySelector('.css-prev');
+            var next = state.wrapper.querySelector('.css-next');
+            if (prev) prev.style.display = state.pos <= 5 ? 'none' : 'flex';
+            if (next) next.style.display = state.pos >= state.max - 5 ? 'none' : 'flex';
+          });
+        });
+      }
+      function updateNav() { updateAll(); }
+      document.addEventListener('scroll', function (e) {
+        if (e.target.classList && e.target.classList.contains('css-track')) updateAll();
+      }, {capture:true, passive:true});
+
+      document.addEventListener('click', function (e) {
+        // Slider arrows
+        var nav = e.target.closest('.css-nav-btn');
+        if (nav) {
+          var track = nav.closest('.css-slider-wrapper').querySelector('.css-track');
+          var rtl = document.documentElement.dir === 'rtl';
+          var dir = parseInt(nav.getAttribute('data-dir'), 10) * (rtl ? -1 : 1);
+          track.scrollBy({ left: dir * 300, behavior: 'smooth' });
+          return;
+        }
+
+        // Add to cart
+        var btn = e.target.closest('.css-atc[data-variant-id]');
+        if (!btn) return;
+        e.preventDefault();
+        if (btn.disabled) return;
+        btn.disabled = true;
+
+        var root = (window.Shopify && window.Shopify.routes.root) || '/';
+        var sections = Array.from(document.querySelectorAll('hdt-cart-drawer, hdt-main-cart'))
+          .map(function (cart) { return cart.getAttribute('section-id'); })
+          .filter(Boolean);
+        sections = Array.from(new Set(sections));
+        var added = false;
+        var arabic = document.documentElement.lang.indexOf('ar') === 0;
+        var payload = {
+          items: [{ id: btn.getAttribute('data-variant-id'), quantity: 1 }],
+          sections: sections,
+          sections_url: window.location.pathname
+        };
+        btn.setAttribute('aria-busy', 'true');
+
+        fetch(root + 'cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+          .then(async function (response) {
+            var data = await response.json();
+            if (!response.ok || data.status) {
+              throw new Error(data.description || data.message || (arabic ? 'تعذرت إضافة المنتج.' : 'Unable to add this product.'));
+            }
+            added = true;
+            return data;
+          })
+          .then(function (data) {
+            if (!sections.length) {
+              window.location.assign(root + 'cart');
+              return;
+            }
+            if (sections.some(function (id) { return !data.sections || !data.sections[id]; })) {
+              throw new Error('Cart section rendering failed.');
+            }
+            // Kalles uses cart:update with rendered sections, not cart:updated.
+            // The native listener updates contents/count and then opens the drawer.
+            document.dispatchEvent(new CustomEvent('cart:update', {
+              bubbles: true,
+              detail: {
+                resource: {},
+                sourceId: btn.getAttribute('data-variant-id'),
+                cartData: data,
+                actionAfterATC: 'open_cart_drawer',
+                source: 'product-form-component',
+                data: { itemCount: 1, sections: data.sections }
+              }
+            }));
+          })
+          .catch(function (err) {
+            console.error('Clean slider cart:', err);
+            window.alert(added
+              ? (arabic ? 'تمت إضافة المنتج، لكن تعذر تحديث عرض السلة. افتح صفحة السلة لمراجعته؛ لا تضفه مرة أخرى.' : 'Product added, but the cart display could not update. Open the cart page to review it; do not add it again.')
+              : err.message);
+          })
+          .finally(function () {
+            btn.disabled = false;
+            btn.removeAttribute('aria-busy');
+          });
+      });
+
+      window.addEventListener('resize', updateAll);
+      document.addEventListener('shopify:section:load', updateAll);
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () { updateAll(); setTimeout(updateAll, 200); });
+      } else {
+        updateAll();
+        setTimeout(updateAll, 200);
+      }
+    })();
+  {% endjavascript %}
+
+  {% schema %}
+  {
+    "name": "Clean Product Slider",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Section Title",
+        "default": "Best Korean Care Products"
+      },
+      {
+        "type": "collection",
+        "id": "collection",
+        "label": "Select Collection"
+      },
+      {
+        "type": "url",
+        "id": "view_all_link",
+        "label": "View All Link"
+      },
+      {
+        "type": "range",
+        "id": "product_limit",
+        "min": 4,
+        "max": 20,
+        "step": 1,
+        "label": "Maximum products to show",
+        "default": 10
+      }
+    ],
+    "presets": [
+      {
+        "name": "Clean Product Slider"
+      }
+    ]
+  }
+  {% endschema %}

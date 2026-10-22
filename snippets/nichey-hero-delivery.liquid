@@ -1,0 +1,15 @@
+{% if section.settings.show_delivery %}
+{% assign regions = section.blocks | where: 'type', 'delivery_region' %}
+<div class="ny-card ny-hero-delivery">
+<div class="ny-delivery-heading"><h3 class="ny-row">{% render 'nichey-icon', settings: block.settings, name: 'truck' %}{{ section.settings.delivery_heading | default: block.settings.title | escape }}</h3>{% if block.settings.url != blank %}<a href="{{ block.settings.url }}">{{ block.settings.link_label | default: 'View delivery details' | escape }} <span aria-hidden="true">→</span></a>{% endif %}</div>
+{% capture rows %}
+{% for region in regions %}{% assign minimum = region.settings.minimum | plus: 0 %}{% assign maximum = region.settings.maximum | plus: 0 %}
+{% if region.settings.confirmed and region.settings.region != blank and minimum > 0 and maximum >= minimum %}<tr {{ region.shopify_attributes }}><th scope="row">{{ region.settings.region | escape }}</th><td>{{ minimum }}{% if maximum != minimum %}–{{ maximum }}{% endif %} {{ section.settings.working_days_label | escape }}</td></tr>{% endif %}{% endfor %}
+{% if regions.size == 0 %}{% if section.settings.region_1 != blank and section.settings.estimate_1 != blank %}<tr><th scope="row">{{ section.settings.region_1 | escape }}</th><td>{{ section.settings.estimate_1 | escape }}</td></tr>{% endif %}{% if section.settings.region_2 != blank and section.settings.estimate_2 != blank %}<tr><th scope="row">{{ section.settings.region_2 | escape }}</th><td>{{ section.settings.estimate_2 | escape }}</td></tr>{% endif %}{% endif %}
+{% endcapture %}{% assign valid_rows = rows | strip %}
+{% if valid_rows != blank %}<table class="ny-delivery-table"><caption class="ny-sr">{{ section.settings.delivery_heading | escape }} — general estimates</caption><tbody>{{ rows }}</tbody></table>{% endif %}
+{% if block.settings.text != blank %}<div class="ny-delivery-note ny-muted">{{ block.settings.text }}</div>{% endif %}
+{% assign threshold = section.settings.free_shipping_threshold | plus: 0 %}
+{% if section.settings.show_free_shipping and threshold > 0 %}{% assign threshold_text = threshold | round: 2 %}{% assign promotion = section.settings.free_shipping_text | default: 'Free shipping on orders over EGP [threshold]' | replace: '[threshold]', threshold_text %}<p class="ny-free-shipping">{% render 'nichey-icon', name: 'gift' %}<span>{{ promotion | escape }}</span></p>{% endif %}
+</div>
+{% endif %}

@@ -1,0 +1,666 @@
+{% doc %}
+  @prompt
+    Create a responsive Shopify skincare collection section matching the reference images. White background, bold black typography, minimal spacing.
+    
+    Desktop: section height 45vh. Use three columns: left promotional panel with heading “CARE, LAYER BY LAYER.”, cream texture image and “Shop skincare →” button; middle a large Cleansers card; right a 2×2 grid for Toners, Serums, Moisturizers and Sunscreen.
+    
+    Mobile: section height 70vh. Promotional panel on top with heading and button on the left, cream texture image on the right. Below, use two columns: Cleansers + Toners, then Serums + Moisturizers. Sunscreen spans the full width at the bottom.
+    
+    Each collection card has an image with a bold label and arrow underneath. Make the entire card clickable. Use object-fit: cover and adjustable image positioning. Keep all content within the specified height without clipping or horizontal scrolling.
+    
+    Provide editable images, headings, labels, collection links, button text/link, spacing and separate desktop/mobile height controls. Text and button must be real editable elements, separate from images.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-skincare-{{ ai_gen_id }} {
+    --skincare-gap: {{ block.settings.card_gap }}px;
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin-inline: auto;
+    background: #fff;
+    color: #111;
+    font-family: var(--font-body-family, Arial, sans-serif);
+  }
+  .ai-skincare-{{ ai_gen_id }}, .ai-skincare-{{ ai_gen_id }} * { box-sizing: border-box; }
+  .ai-skincare-{{ ai_gen_id }}__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, .9fr) minmax(0, 1.6fr);
+    min-height: max(260px, {{ block.settings.desktop_height }}vh);
+    gap: var(--skincare-gap);
+    align-items: stretch;
+  }
+  .ai-skincare-{{ ai_gen_id }}__promo {
+    position: relative;
+    isolation: isolate;
+    min-width: 0;
+    min-height: 240px;
+    background: #fff;
+  }
+  .ai-skincare-{{ ai_gen_id }}__promo-copy {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 16px 10px 16px {{ block.settings.promo_left_padding }}px;
+    min-width: 0;
+  }
+  .ai-skincare-{{ ai_gen_id }} .ai-skincare-{{ ai_gen_id }}__heading {
+    margin: 0;
+    max-width: 12ch;
+    font-size: {{ block.settings.heading_size }}px !important;
+    line-height: 1.02;
+    font-weight: 800;
+    letter-spacing: -.035em;
+    color: #111;
+    overflow-wrap: break-word;
+  }
+  .ai-skincare-{{ ai_gen_id }}__promo-image {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .ai-skincare-{{ ai_gen_id }}__promo-image img,
+  .ai-skincare-{{ ai_gen_id }}__promo-image svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: {{ block.settings.promo_position }};
+  }
+  .ai-skincare-{{ ai_gen_id }} .ai-skincare-{{ ai_gen_id }}__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    max-width: 100%;
+    min-height: 42px;
+    padding: 10px 20px;
+    background: #111;
+    color: #fff;
+    border: 0;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: {{ block.settings.button_size }}px !important;
+    line-height: 1.25;
+    font-weight: 700;
+    text-align: center;
+  }
+  .ai-skincare-{{ ai_gen_id }}__button:focus-visible,
+  .ai-skincare-{{ ai_gen_id }}__card:focus-visible { outline: 2px solid #111; outline-offset: 3px; }
+  .ai-skincare-{{ ai_gen_id }}__small-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(min-content, 1fr));
+    gap: var(--skincare-gap);
+    min-width: 0;
+  }
+  .ai-skincare-{{ ai_gen_id }}__card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    color: #111;
+    text-decoration: none;
+  }
+  .ai-skincare-{{ ai_gen_id }}__media {
+    position: relative;
+    flex: 1 1 0;
+    min-height: 85px;
+    overflow: hidden;
+    background: #f3f1ee;
+  }
+  .ai-skincare-{{ ai_gen_id }}__media img,
+  .ai-skincare-{{ ai_gen_id }}__media svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: var(--image-position, center);
+  }
+  .ai-skincare-{{ ai_gen_id }} .ai-skincare-{{ ai_gen_id }}__label {
+    display: flex;
+    flex: 0 0 auto;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 2px 2px;
+    font-size: {{ block.settings.label_size }}px !important;
+    line-height: 1.25;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+  .ai-skincare-{{ ai_gen_id }}__arrow { font-size: 1em; line-height: 1; flex: 0 0 auto; }
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .ai-skincare-{{ ai_gen_id }} .ai-skincare-{{ ai_gen_id }}__heading { font-size: min({{ block.settings.heading_size }}px, 3.4vw) !important; }
+  }
+  @media screen and (max-width: 749px) {
+    .ai-skincare-{{ ai_gen_id }} { width: 100%; }
+    .ai-skincare-{{ ai_gen_id }}__layout {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: auto repeat(3, minmax(min-content, 1fr));
+      min-height: {{ block.settings.mobile_height }}vh;
+      gap: var(--skincare-gap);
+    }
+    .ai-skincare-{{ ai_gen_id }}__promo {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      min-height: clamp(145px, 38vw, 240px);
+    }
+    .ai-skincare-{{ ai_gen_id }}__promo-copy {
+      width: 68%;
+      gap: 16px;
+      padding: 14px 0 16px {{ block.settings.mobile_promo_left_padding }}px;
+    }
+    .ai-skincare-{{ ai_gen_id }}__promo-image { left: 53%; }
+    .ai-skincare-{{ ai_gen_id }} .ai-skincare-{{ ai_gen_id }}__heading {
+      max-width: 12ch;
+      font-size: {{ block.settings.mobile_heading_size }}px !important;
+    }
+    .ai-skincare-{{ ai_gen_id }} .ai-skincare-{{ ai_gen_id }}__button {
+      min-height: 36px;
+      padding: 9px 16px;
+      font-size: {{ block.settings.mobile_button_size }}px !important;
+    }
+    .ai-skincare-{{ ai_gen_id }}__feature { grid-column: 1; grid-row: 2; }
+    .ai-skincare-{{ ai_gen_id }}__small-grid { display: contents; }
+    .ai-skincare-{{ ai_gen_id }}__small-grid .ai-skincare-{{ ai_gen_id }}__card:nth-child(1) { grid-column: 2; grid-row: 2; }
+    .ai-skincare-{{ ai_gen_id }}__small-grid .ai-skincare-{{ ai_gen_id }}__card:nth-child(2) { grid-column: 1; grid-row: 3; }
+    .ai-skincare-{{ ai_gen_id }}__small-grid .ai-skincare-{{ ai_gen_id }}__card:nth-child(3) { grid-column: 2; grid-row: 3; }
+    .ai-skincare-{{ ai_gen_id }}__small-grid .ai-skincare-{{ ai_gen_id }}__card:nth-child(4) { grid-column: 1 / -1; grid-row: 4; }
+    .ai-skincare-{{ ai_gen_id }}__media { min-height: clamp(72px, 22vw, 150px); }
+    .ai-skincare-{{ ai_gen_id }} .ai-skincare-{{ ai_gen_id }}__label {
+      padding-top: 6px;
+      font-size: {{ block.settings.mobile_label_size }}px !important;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-skincare-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-skincare-{{ ai_gen_id }}__layout">
+    <div class="ai-skincare-{{ ai_gen_id }}__promo">
+      <div class="ai-skincare-{{ ai_gen_id }}__promo-image">
+        {% if block.settings.promo_image != blank %}
+          <img src="{{ block.settings.promo_image | image_url: width: 1000 }}" alt="{{ block.settings.promo_image.alt | escape }}" loading="lazy" width="{{ block.settings.promo_image.width }}" height="{{ block.settings.promo_image.height }}">
+        {% else %}
+          {{ 'image' | placeholder_svg_tag }}
+        {% endif %}
+      </div>
+      <div class="ai-skincare-{{ ai_gen_id }}__promo-copy">
+        <h2 class="ai-skincare-{{ ai_gen_id }}__heading">{{ block.settings.heading | escape }}</h2>
+        {% if block.settings.button_text != blank %}
+          {% if block.settings.button_link != blank %}
+            <a class="ai-skincare-{{ ai_gen_id }}__button" href="{{ block.settings.button_link }}">{{ block.settings.button_text | escape }} <span aria-hidden="true">→</span></a>
+          {% else %}
+            <span class="ai-skincare-{{ ai_gen_id }}__button">{{ block.settings.button_text | escape }} <span aria-hidden="true">→</span></span>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+    {% assign feature = block.settings.cleansers_image %}
+    <a class="ai-skincare-{{ ai_gen_id }}__card ai-skincare-{{ ai_gen_id }}__feature" href="{{ block.settings.cleansers_link | default: '#' }}" style="--image-position: {{ block.settings.cleansers_position }};" aria-label="{{ block.settings.cleansers_label | escape }}">
+      <div class="ai-skincare-{{ ai_gen_id }}__media">{% if feature != blank %}<img src="{{ feature | image_url: width: 1400 }}" alt="{{ feature.alt | escape }}" loading="lazy" width="{{ feature.width }}" height="{{ feature.height }}">{% else %}{{ 'collection-apparel-1' | placeholder_svg_tag }}{% endif %}</div>
+      <span class="ai-skincare-{{ ai_gen_id }}__label">{{ block.settings.cleansers_label | escape }} <span class="ai-skincare-{{ ai_gen_id }}__arrow" aria-hidden="true">→</span></span>
+    </a>
+    <div class="ai-skincare-{{ ai_gen_id }}__small-grid">
+      {% for i in (1..4) %}
+        {% liquid
+          assign image_key = 'category_' | append: i | append: '_image'
+          assign label_key = 'category_' | append: i | append: '_label'
+          assign link_key = 'category_' | append: i | append: '_link'
+          assign position_key = 'category_' | append: i | append: '_position'
+          assign card_image = block.settings[image_key]
+          assign card_label = block.settings[label_key]
+          assign card_link = block.settings[link_key]
+          assign card_position = block.settings[position_key]
+        %}
+        <a class="ai-skincare-{{ ai_gen_id }}__card" href="{{ card_link | default: '#' }}" style="--image-position: {{ card_position }};" aria-label="{{ card_label | escape }}">
+          <div class="ai-skincare-{{ ai_gen_id }}__media">{% if card_image != blank %}<img src="{{ card_image | image_url: width: 900 }}" alt="{{ card_image.alt | escape }}" loading="lazy" width="{{ card_image.width }}" height="{{ card_image.height }}">{% else %}{{ 'collection-apparel-1' | placeholder_svg_tag }}{% endif %}</div>
+          <span class="ai-skincare-{{ ai_gen_id }}__label">{{ card_label | escape }} <span class="ai-skincare-{{ ai_gen_id }}__arrow" aria-hidden="true">→</span></span>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Skincare collections",
+  "settings": [
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "label": "Desktop minimum height",
+      "min": 30,
+      "max": 80,
+      "step": 5,
+      "unit": "vh",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "label": "Mobile minimum height",
+      "min": 50,
+      "max": 90,
+      "step": 5,
+      "unit": "vh",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Spacing",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Promotion"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "CARE, LAYER BY LAYER."
+    },
+    {
+      "type": "image_picker",
+      "id": "promo_image",
+      "label": "Cream texture image"
+    },
+    {
+      "type": "select",
+      "id": "promo_position",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Shop skincare"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Cleansers"
+    },
+    {
+      "type": "image_picker",
+      "id": "cleansers_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "cleansers_label",
+      "label": "Label",
+      "default": "Cleansers"
+    },
+    {
+      "type": "url",
+      "id": "cleansers_link",
+      "label": "Collection link"
+    },
+    {
+      "type": "select",
+      "id": "cleansers_position",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Toners"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_1_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "category_1_label",
+      "label": "Label",
+      "default": "Toners"
+    },
+    {
+      "type": "url",
+      "id": "category_1_link",
+      "label": "Collection link"
+    },
+    {
+      "type": "select",
+      "id": "category_1_position",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Serums"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_2_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "category_2_label",
+      "label": "Label",
+      "default": "Serums"
+    },
+    {
+      "type": "url",
+      "id": "category_2_link",
+      "label": "Collection link"
+    },
+    {
+      "type": "select",
+      "id": "category_2_position",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Moisturizers"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_3_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "category_3_label",
+      "label": "Label",
+      "default": "Moisturizers"
+    },
+    {
+      "type": "url",
+      "id": "category_3_link",
+      "label": "Collection link"
+    },
+    {
+      "type": "select",
+      "id": "category_3_position",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Sunscreen"
+    },
+    {
+      "type": "image_picker",
+      "id": "category_4_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "category_4_label",
+      "label": "Label",
+      "default": "Sunscreen"
+    },
+    {
+      "type": "url",
+      "id": "category_4_link",
+      "label": "Collection link"
+    },
+    {
+      "type": "select",
+      "id": "category_4_position",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Text sizes"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Desktop heading size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "mobile_heading_size",
+      "label": "Mobile heading size",
+      "min": 16,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "label": "Desktop category size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "mobile_label_size",
+      "label": "Mobile category size",
+      "min": 10,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "button_size",
+      "label": "Desktop button size",
+      "min": 10,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "mobile_button_size",
+      "label": "Mobile button size",
+      "min": 10,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "header",
+      "content": "Heading and button left padding"
+    },
+    {
+      "type": "range",
+      "id": "promo_left_padding",
+      "label": "Desktop left padding",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "mobile_promo_left_padding",
+      "label": "Mobile left padding",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    }
+  ],
+  "presets": [
+    {
+      "name": "Skincare collections"
+    }
+  ],
+  "tag": null,
+  "class": "skincare-collections-block"
+}
+{% endschema %}

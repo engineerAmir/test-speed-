@@ -1,0 +1,509 @@
+{% doc %}
+  @prompt
+    Create a responsive Shopify “Shop by skin concern” section matching the references. White background and bold black heading: “What does your skin need?”
+    
+    Desktop: compact horizontal section with heading at top left and “EXPLORE ALL →” link at top right. Below, display five equal-width outlined links in one row. Hide thumbnails on desktop. Keep the section thin with minimal vertical padding and no fixed viewport height.
+    
+    Mobile: hide Explore All. Stack five full-width clickable rows. Each row has a texture image occupying about 27% of its width on the left, a label in the middle and a right arrow aligned at the far right. Use pale-gray backgrounds, subtle borders, slightly rounded corners and narrow vertical gaps.
+    
+    Order: Hydration; Blemish-prone skin; Dark spots & uneven tone; Barrier care; Fine lines.
+    
+    Use editable blocks for each concern, with image, label and collection/link settings. Keep text separate from images. Include controls for heading, Explore All link, colors, typography, spacing, padding and mobile row height. Use cover-fit thumbnails and ensure long labels fit without overlapping arrows. No carousel or horizontal scrolling.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-skin-concern-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    box-sizing: border-box;
+    background: {{ block.settings.background_color }};
+    color: {{ block.settings.text_color }};
+    padding: {{ block.settings.padding_vertical }}px {{ block.settings.padding_horizontal }}px;
+    
+  }
+  .ai-skin-concern-{{ ai_gen_id }} *,
+  .ai-skin-concern-{{ ai_gen_id }} *::before,
+  .ai-skin-concern-{{ ai_gen_id }} *::after { box-sizing: border-box; }
+  .ai-skin-concern-{{ ai_gen_id }}__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: {{ block.settings.heading_gap }}px;
+  }
+  .ai-skin-concern-{{ ai_gen_id }}__heading {
+    margin: 0;
+    color: {{ block.settings.text_color }};
+    
+    
+    
+  }
+  .ai-skin-concern-{{ ai_gen_id }}__explore {
+    flex: 0 0 auto;
+    color: {{ block.settings.text_color }};
+    
+    
+    
+    text-decoration: none;
+  }
+  .ai-skin-concern-{{ ai_gen_id }}__explore:hover { text-decoration: underline; }
+  .ai-skin-concern-{{ ai_gen_id }}__items {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: {{ block.settings.desktop_gap }}px;
+  }
+  .ai-skin-concern-{{ ai_gen_id }}__item {
+    display: flex;
+    min-width: 0;
+    min-height: {{ block.settings.desktop_item_height }}px;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px 12px;
+    border: 1px solid {{ block.settings.border_color }};
+    border-radius: {{ block.settings.corner_radius }}px;
+    background: {{ block.settings.desktop_item_background }};
+    color: {{ block.settings.text_color }};
+    text-align: left;
+    text-decoration: none;
+    
+    
+    
+    overflow-wrap: anywhere;
+    transition: background-color .15s ease, border-color .15s ease;
+  }
+  .ai-skin-concern-{{ ai_gen_id }}__item:hover {
+    background: {{ block.settings.hover_background }};
+    border-color: {{ block.settings.hover_border }};
+  }
+  .ai-skin-concern-{{ ai_gen_id }}__item:focus-visible,
+  .ai-skin-concern-{{ ai_gen_id }}__explore:focus-visible {
+    outline: 2px solid {{ block.settings.text_color }};
+    outline-offset: 3px;
+  }
+  .ai-skin-concern-{{ ai_gen_id }}__thumb { display: none; }
+  @media screen and (max-width: 749px) {
+    .ai-skin-concern-{{ ai_gen_id }} { padding: {{ block.settings.mobile_padding_vertical }}px {{ block.settings.mobile_padding_horizontal }}px; }
+    .ai-skin-concern-{{ ai_gen_id }}__header { margin-bottom: {{ block.settings.mobile_heading_gap }}px; }
+
+    .ai-skin-concern-{{ ai_gen_id }}__explore { display: none; }
+    .ai-skin-concern-{{ ai_gen_id }}__items { grid-template-columns: minmax(0, 1fr); gap: {{ block.settings.mobile_gap }}px; }
+    .ai-skin-concern-{{ ai_gen_id }}__item {
+      justify-content: flex-start;
+      min-height: {{ block.settings.mobile_row_height }}px;
+      padding: 0 14px 0 0;
+      background: {{ block.settings.mobile_item_background }};
+      border-radius: {{ block.settings.corner_radius }}px;
+      text-align: left;
+      
+      gap: 12px;
+    }
+    .ai-skin-concern-{{ ai_gen_id }}__item:hover { background: {{ block.settings.hover_background }}; }
+    .ai-skin-concern-{{ ai_gen_id }}__thumb {
+      display: block;
+      align-self: stretch;
+      flex: 0 0 27%;
+      overflow: hidden;
+      background: {{ block.settings.thumb_placeholder_color }};
+      border-radius: {{ block.settings.corner_radius }}px 0 0 {{ block.settings.corner_radius }}px;
+    }
+    .ai-skin-concern-{{ ai_gen_id }}__thumb img,
+    .ai-skin-concern-{{ ai_gen_id }}__thumb svg { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .ai-skin-concern-{{ ai_gen_id }}__label { flex: 0 1 auto; min-width: 0; overflow-wrap: anywhere; }
+    .ai-skin-concern-{{ ai_gen_id }}__arrow {
+      display: block;
+      flex: 0 0 auto;
+      margin-left: 0;
+      padding-left: 4px;
+      color: {{ block.settings.text_color }};
+      
+      
+    }
+  }
+
+  /* Arrows are visible beside labels at every screen size. */
+  .ai-skin-concern-{{ ai_gen_id }}__item { gap: 8px; }
+  .ai-skin-concern-{{ ai_gen_id }}__label {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .ai-skin-concern-{{ ai_gen_id }}__arrow {
+    display: inline-block;
+    flex: 0 0 auto;
+    margin-left: 0;
+    padding-left: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-skin-concern-{{ ai_gen_id }}__thumb {
+      position: relative;
+      align-self: stretch;
+      flex: 0 0 27%;
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
+    }
+    .ai-skin-concern-{{ ai_gen_id }} .ai-skin-concern-{{ ai_gen_id }}__thumb img,
+    .ai-skin-concern-{{ ai_gen_id }} .ai-skin-concern-{{ ai_gen_id }}__thumb svg {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
+      max-width: none;
+      max-height: none;
+      object-fit: cover !important;
+      object-position: center;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-skin-concern-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-skin-concern-{{ ai_gen_id }}__header">
+    <h2 class="ai-skin-concern-{{ ai_gen_id }}__heading">{{ block.settings.heading | escape }}</h2>
+    {% if block.settings.explore_link != blank %}
+      <a class="ai-skin-concern-{{ ai_gen_id }}__explore" href="{{ block.settings.explore_link }}">{{ block.settings.explore_label | escape }} <span aria-hidden="true">→</span></a>
+    {% endif %}
+  </div>
+  <div class="ai-skin-concern-{{ ai_gen_id }}__items">
+    {% for i in (1..5) %}
+      {% liquid
+        assign label_key = 'concern_' | append: i | append: '_label'
+        assign image_key = 'concern_' | append: i | append: '_image'
+        assign link_key = 'concern_' | append: i | append: '_link'
+        assign collection_key = 'concern_' | append: i | append: '_collection'
+        assign concern_label = block.settings[label_key]
+        assign concern_image = block.settings[image_key]
+        assign concern_link = block.settings[link_key]
+        assign concern_collection = block.settings[collection_key]
+        if concern_collection != blank
+          assign concern_link = concern_collection.url
+        endif
+      %}
+      {% if concern_label != blank %}
+        <a class="ai-skin-concern-{{ ai_gen_id }}__item" href="{{ concern_link | default: '#' }}"{% if concern_link == blank %} aria-label="{{ concern_label | escape }}"{% endif %}>
+          <span class="ai-skin-concern-{{ ai_gen_id }}__thumb" aria-hidden="true">
+            {% if concern_image != blank %}
+              <img src="{{ concern_image | image_url: width: 500 }}" alt="" loading="lazy" width="{{ concern_image.width }}" height="{{ concern_image.height }}">
+            {% else %}
+              {{ 'image' | placeholder_svg_tag }}
+            {% endif %}
+          </span>
+          <span class="ai-skin-concern-{{ ai_gen_id }}__label">{{ concern_label | escape }}</span>
+          <span class="ai-skin-concern-{{ ai_gen_id }}__arrow" aria-hidden="true">→</span>
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Shop by skin concern",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What does your skin need?"
+    },
+    {
+      "type": "text",
+      "id": "explore_label",
+      "label": "Explore link label",
+      "default": "EXPLORE ALL"
+    },
+    {
+      "type": "url",
+      "id": "explore_link",
+      "label": "Explore all link"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "heading_gap",
+      "label": "Heading bottom spacing",
+      "min": 4,
+      "max": 28,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "mobile_heading_gap",
+      "label": "Mobile heading spacing",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "desktop_gap",
+      "label": "Desktop item gap",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "mobile_gap",
+      "label": "Mobile row gap",
+      "min": 2,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "desktop_item_height",
+      "label": "Desktop item height",
+      "min": 36,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "mobile_row_height",
+      "label": "Mobile row height",
+      "min": 56,
+      "max": 112,
+      "step": 4,
+      "unit": "px",
+      "default": 76
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "label": "Vertical padding",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "label": "Horizontal padding",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_vertical",
+      "label": "Mobile vertical padding",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_horizontal",
+      "label": "Mobile horizontal padding",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Corner radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "default": "#D9D9D9"
+    },
+    {
+      "type": "color",
+      "id": "desktop_item_background",
+      "label": "Desktop link background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "mobile_item_background",
+      "label": "Mobile row background",
+      "default": "#F5F5F5"
+    },
+    {
+      "type": "color",
+      "id": "thumb_placeholder_color",
+      "label": "Thumbnail placeholder",
+      "default": "#EAEAEA"
+    },
+    {
+      "type": "color",
+      "id": "hover_background",
+      "label": "Hover background",
+      "default": "#EEEEEE"
+    },
+    {
+      "type": "color",
+      "id": "hover_border",
+      "label": "Hover border",
+      "default": "#999999"
+    },
+    {
+      "type": "header",
+      "content": "Concern links"
+    },
+    {
+      "type": "text",
+      "id": "concern_1_label",
+      "label": "Concern 1 label",
+      "default": "Hydration"
+    },
+    {
+      "type": "image_picker",
+      "id": "concern_1_image",
+      "label": "Concern 1 image"
+    },
+    {
+      "type": "collection",
+      "id": "concern_1_collection",
+      "label": "Concern 1 collection"
+    },
+    {
+      "type": "url",
+      "id": "concern_1_link",
+      "label": "Concern 1 custom link"
+    },
+    {
+      "type": "text",
+      "id": "concern_2_label",
+      "label": "Concern 2 label",
+      "default": "Blemish-prone skin"
+    },
+    {
+      "type": "image_picker",
+      "id": "concern_2_image",
+      "label": "Concern 2 image"
+    },
+    {
+      "type": "collection",
+      "id": "concern_2_collection",
+      "label": "Concern 2 collection"
+    },
+    {
+      "type": "url",
+      "id": "concern_2_link",
+      "label": "Concern 2 custom link"
+    },
+    {
+      "type": "text",
+      "id": "concern_3_label",
+      "label": "Concern 3 label",
+      "default": "Dark spots & uneven tone"
+    },
+    {
+      "type": "image_picker",
+      "id": "concern_3_image",
+      "label": "Concern 3 image"
+    },
+    {
+      "type": "collection",
+      "id": "concern_3_collection",
+      "label": "Concern 3 collection"
+    },
+    {
+      "type": "url",
+      "id": "concern_3_link",
+      "label": "Concern 3 custom link"
+    },
+    {
+      "type": "text",
+      "id": "concern_4_label",
+      "label": "Concern 4 label",
+      "default": "Barrier care"
+    },
+    {
+      "type": "image_picker",
+      "id": "concern_4_image",
+      "label": "Concern 4 image"
+    },
+    {
+      "type": "collection",
+      "id": "concern_4_collection",
+      "label": "Concern 4 collection"
+    },
+    {
+      "type": "url",
+      "id": "concern_4_link",
+      "label": "Concern 4 custom link"
+    },
+    {
+      "type": "text",
+      "id": "concern_5_label",
+      "label": "Concern 5 label",
+      "default": "Fine lines"
+    },
+    {
+      "type": "image_picker",
+      "id": "concern_5_image",
+      "label": "Concern 5 image"
+    },
+    {
+      "type": "collection",
+      "id": "concern_5_collection",
+      "label": "Concern 5 collection"
+    },
+    {
+      "type": "url",
+      "id": "concern_5_link",
+      "label": "Concern 5 custom link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by skin concern"
+    }
+  ],
+  "tag": null,
+  "class": "skin-concern-block"
+}
+{% endschema %}

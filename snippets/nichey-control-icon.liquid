@@ -1,0 +1,3 @@
+{% assign replacements = section.blocks | where: 'type', 'control_icon' %}{% assign found = false %}
+{% for control in replacements %}{% if control.settings.target == target %}{% render 'nichey-icon', settings: control.settings %}{% assign found = true %}{% break %}{% endif %}{% endfor %}
+{% unless found %}{% render 'nichey-icon', name: name %}{% endunless %}

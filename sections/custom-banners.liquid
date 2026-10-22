@@ -1,0 +1,171 @@
+<section class="custom-banners-section" id="section-{{ section.id }}">
+  <div class="custom-banners-container" data-block-count="{{ section.blocks.size }}">
+    {%- for block in section.blocks -%}
+      <a href="{{ block.settings.link | default: '#' }}" class="custom-banner-block" {{ block.shopify_attributes }}>
+        {%- assign banner_image = block.settings.image | default: block.settings.image_mobile -%}
+        {%- if banner_image != blank -%}
+          <picture>
+            {%- if block.settings.image_mobile != blank -%}
+              <source media="(max-width: 990px)" srcset="{% if block.settings.image_mobile.width >= 200 %}{{ block.settings.image_mobile | image_url: width: 200 }} 200w, {% endif %}{% if block.settings.image_mobile.width >= 300 %}{{ block.settings.image_mobile | image_url: width: 300 }} 300w, {% endif %}{% if block.settings.image_mobile.width >= 400 %}{{ block.settings.image_mobile | image_url: width: 400 }} 400w, {% endif %}{% if block.settings.image_mobile.width >= 600 %}{{ block.settings.image_mobile | image_url: width: 600 }} 600w, {% endif %}{% if block.settings.image_mobile.width >= 800 %}{{ block.settings.image_mobile | image_url: width: 800 }} 800w, {% endif %}{% if block.settings.image_mobile.width >= 1200 %}{{ block.settings.image_mobile | image_url: width: 1200 }} 1200w, {% endif %}{% if block.settings.image_mobile.width < 1200 %}{{ block.settings.image_mobile | image_url: width: block.settings.image_mobile.width }} {{ block.settings.image_mobile.width }}w{% endif %}" sizes="(max-width: 990px) {% if section.blocks.size == 1 %}calc(100vw - 30px){% else %}calc((100vw - 40px) / 2){% endif %}, (min-width: 1600px) calc((1600px - {{ section.settings.gap }}px * ({{ section.settings.banners_per_row }} - 1)) / {{ section.settings.banners_per_row }}), calc((100vw - {{ section.settings.gap }}px * ({{ section.settings.banners_per_row }} - 1)) / {{ section.settings.banners_per_row }})" width="{{ block.settings.image_mobile.width }}" height="{{ block.settings.image_mobile.height }}">
+            {%- endif -%}
+            <img src="{{ banner_image | image_url: width: 800 }}" srcset="{% if banner_image.width >= 200 %}{{ banner_image | image_url: width: 200 }} 200w, {% endif %}{% if banner_image.width >= 400 %}{{ banner_image | image_url: width: 400 }} 400w, {% endif %}{% if banner_image.width >= 600 %}{{ banner_image | image_url: width: 600 }} 600w, {% endif %}{% if banner_image.width >= 800 %}{{ banner_image | image_url: width: 800 }} 800w, {% endif %}{% if banner_image.width >= 1200 %}{{ banner_image | image_url: width: 1200 }} 1200w, {% endif %}{% if banner_image.width >= 1600 %}{{ banner_image | image_url: width: 1600 }} 1600w, {% endif %}{% if banner_image.width >= 2400 %}{{ banner_image | image_url: width: 2400 }} 2400w, {% endif %}{% if banner_image.width < 2400 %}{{ banner_image | image_url: width: banner_image.width }} {{ banner_image.width }}w{% endif %}" sizes="(max-width: 990px) {% if section.blocks.size == 1 %}calc(100vw - 30px){% else %}calc((100vw - 40px) / 2){% endif %}, (min-width: 1600px) calc((1600px - {{ section.settings.gap }}px * ({{ section.settings.banners_per_row }} - 1)) / {{ section.settings.banners_per_row }}), calc((100vw - {{ section.settings.gap }}px * ({{ section.settings.banners_per_row }} - 1)) / {{ section.settings.banners_per_row }})" width="{{ banner_image.width }}" height="{{ banner_image.height }}" alt="{{ banner_image.alt | default: 'Promo Banner' | escape }}" loading="lazy" decoding="async">
+          </picture>
+        {%- else -%}
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg banner-img-desktop' }}
+        {%- endif -%}
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+<style>
+  #section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: transparent;
+    width: 100% !important;
+    max-width: 1600px !important;
+    margin: 0 auto !important;
+    display: block !important;
+  }
+
+  #section-{{ section.id }} .custom-banners-container {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.banners_per_row }}, 1fr);
+    gap: {{ section.settings.gap }}px;
+    width: 100% !important;
+    padding: 0 !important; /* مسحنا المسافة عشان يفرش 1600 بالظبط */
+  }
+
+  .custom-banner-block {
+    display: block;
+    width: 100%;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+
+  .custom-banner-block:hover {
+    transform: translateY(-3px);
+  }
+
+  .custom-banner-block img, 
+  .custom-banner-block svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  .placeholder-svg {
+    background-color: #f3f3f3;
+    color: #ccc;
+  }
+
+  .hidden-on-desktop {
+    display: none !important;
+  }
+
+  @media (max-width: 990px) {
+    #section-{{ section.id }} .custom-banners-container {
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 0 15px !important; /* رجعنا المسافة في الموبايل عشان ميبقاش مقطوع */
+    }
+    
+    #section-{{ section.id }} .custom-banners-container[data-block-count="1"] {
+      grid-template-columns: 1fr;
+    }
+
+    .hidden-on-mobile {
+      display: none !important;
+    }
+    .hidden-on-desktop {
+      display: block !important;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Promo Banners",
+  "settings": [
+    {
+      "type": "range",
+      "id": "banners_per_row",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "label": "Banners per row (Desktop)",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Space between banners",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Section Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 20
+    }
+  ],
+  "blocks": [
+    {
+      "type": "banner",
+      "name": "Banner Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Mobile Image (Optional)",
+          "info": "If left blank, the desktop image will be used on mobile."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Banner Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Promo Banners",
+      "blocks": [
+        { "type": "banner" },
+        { "type": "banner" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,612 @@
+{% doc %}
+  @prompt
+    Create a responsive Shopify body-care banner matching the references.
+    
+    Desktop: a thin, wide horizontal strip, approximately 120–150px tall—not a large hero. Use a full-width background image with bronze body-oil texture and product photography positioned toward the right. On the left, place the bold black heading “CARE BEYOND THE FACE.” on two lines, with four compact links underneath: Body wash, Body lotion, Body oils, Hand & feet.
+    
+    Mobile: use a taller layout, approximately 240–280px. Place the heading and four links in a light upper area, with the product image filling the lower area. Add a small black “Shop body care →” button at the bottom left over the image.
+    
+    Keep text, links and button as separate editable elements. Allow separate desktop/mobile images and focal points. Match the compact spacing, clean typography and square edges. Avoid excessive padding.
+    
+    Include editable heading, category labels/links, button text/link, colors, padding and separate desktop/mobile height controls. Background images must display independently without requiring an additional foreground image.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-body-banner-{{ ai_gen_id }} {
+    display: block;
+    position: relative;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    height: {{ block.settings.desktop_height }}px;
+    overflow: hidden;
+    background-color: {{ block.settings.gradient_color_start }};
+    color: {{ block.settings.text_color }};
+  }
+
+  .ai-body-banner-{{ ai_gen_id }}__desktop-media,
+  .ai-body-banner-{{ ai_gen_id }}__mobile-media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  .ai-body-banner-{{ ai_gen_id }}__desktop-media {
+    object-position: {{ block.settings.desktop_focal_x }}% {{ block.settings.desktop_image_position }};
+  }
+
+  .ai-body-banner-{{ ai_gen_id }}__mobile-media,
+  .ai-body-banner-{{ ai_gen_id }}__mobile-placeholder {
+    display: none;
+  }
+
+  .ai-body-banner-{{ ai_gen_id }}__placeholder {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .ai-body-banner-{{ ai_gen_id }}__placeholder svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ai-body-banner-{{ ai_gen_id }}__content {
+    position: relative;
+    z-index: 1;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    padding: {{ block.settings.desktop_padding }}px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .ai-body-banner-{{ ai_gen_id }}__heading {
+    margin: 0 0 9px;
+    max-width: 390px;
+    font-family: var(--f_family_1, sans-serif);
+    color: {{ block.settings.text_color }};
+    font-size: clamp(19px, 2.2vw, 30px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+
+  .ai-body-banner-{{ ai_gen_id }}__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 17px;
+    max-width: 450px;
+  }
+
+  .ai-body-banner-{{ ai_gen_id }}__link {
+    color: {{ block.settings.text_color }};
+    font: inherit;
+    font-size: 12px;
+    line-height: 1.25;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .ai-body-banner-{{ ai_gen_id }}__link:focus-visible,
+  .ai-body-banner-{{ ai_gen_id }}__button:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  .ai-body-banner-{{ ai_gen_id }}__button {
+    display: none;
+    text-decoration: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-body-banner-{{ ai_gen_id }} {
+      height: {{ block.settings.mobile_height }}px;
+      background-color: {{ block.settings.gradient_color_start }};
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ai-body-banner-{{ ai_gen_id }}__desktop-media,
+    .ai-body-banner-{{ ai_gen_id }}__placeholder {
+      display: none;
+    }
+
+    .ai-body-banner-{{ ai_gen_id }}__mobile-media {
+      display: block;
+      top: auto;
+      bottom: 0;
+      height: 58%;
+      object-position: {{ block.settings.mobile_focal_x }}% {{ block.settings.mobile_focal_y }}%;
+    }
+
+    .ai-body-banner-{{ ai_gen_id }}__mobile-placeholder {
+      display: block;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 58%;
+      z-index: 0;
+    }
+
+    .ai-body-banner-{{ ai_gen_id }}__mobile-placeholder svg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .ai-body-banner-{{ ai_gen_id }}__content {
+      height: 42%;
+      min-height: 0;
+      padding: {{ block.settings.mobile_padding }}px;
+      justify-content: center;
+      background: transparent;
+    }
+
+    .ai-body-banner-{{ ai_gen_id }}__heading {
+      font-size: clamp(19px, 6vw, 26px);
+      margin-bottom: 8px;
+    }
+
+    .ai-body-banner-{{ ai_gen_id }}__links {
+      gap: 5px 12px;
+    }
+
+    .ai-body-banner-{{ ai_gen_id }}__link {
+      font-size: 11px;
+    }
+
+    .ai-body-banner-{{ ai_gen_id }}__button {
+      display: inline-flex;
+      position: absolute;
+      z-index: 2;
+      bottom: 12px;
+      left: {{ block.settings.mobile_padding }}px;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 13px;
+      background: {{ block.settings.button_background }};
+      color: {{ block.settings.button_text_color }};
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+  }
+
+  /* Keep image fitting independent of the text layout. */
+  .ai-body-banner-{{ ai_gen_id }},
+  .ai-body-banner-{{ ai_gen_id }} * { box-sizing: border-box; }
+
+  .ai-body-banner-{{ ai_gen_id }} {
+    margin-inline: auto;
+    height: auto;
+    min-height: {{ block.settings.desktop_height }}px;
+  }
+  .ai-body-banner-{{ ai_gen_id }}__desktop-media {
+    display: block;
+    object-fit: cover;
+  }
+  .ai-body-banner-{{ ai_gen_id }}__content {
+    height: auto;
+    min-height: {{ block.settings.desktop_height }}px;
+    padding: 12px {{ block.settings.desktop_padding }}px;
+  }
+  .ai-body-banner-{{ ai_gen_id }} .ai-body-banner-{{ ai_gen_id }}__heading {
+    max-width: 100%;
+    font-size: {{ block.settings.heading_size }}px !important;
+    line-height: 1.02;
+    letter-spacing: -.025em;
+    margin-bottom: 12px;
+  }
+  .ai-body-banner-{{ ai_gen_id }}__links { gap: 6px 22px; }
+  .ai-body-banner-{{ ai_gen_id }} .ai-body-banner-{{ ai_gen_id }}__link {
+    font-size: {{ block.settings.link_size }}px !important;
+    text-decoration: none;
+  }
+  .ai-body-banner-{{ ai_gen_id }}__link[href]:hover { text-decoration: underline; }
+
+  @media screen and (max-width: 749px) {
+    .ai-body-banner-{{ ai_gen_id }} {
+      display: block;
+      height: auto;
+      min-height: {{ block.settings.mobile_height }}px;
+      padding-bottom: {{ block.settings.mobile_height | times: 0.58 }}px;
+    }
+    .ai-body-banner-{{ ai_gen_id }}__desktop-media { display: none; }
+    .ai-body-banner-{{ ai_gen_id }}__mobile-media,
+    .ai-body-banner-{{ ai_gen_id }}__mobile-placeholder {
+      top: auto;
+      bottom: 0;
+      height: {{ block.settings.mobile_height | times: 0.58 }}px;
+    }
+    .ai-body-banner-{{ ai_gen_id }}__mobile-media {
+      object-fit: {{ block.settings.mobile_image_fit }};
+    }
+    .ai-body-banner-{{ ai_gen_id }}__content {
+      height: auto;
+      min-height: {{ block.settings.mobile_height | times: 0.42 }}px;
+      padding: 14px {{ block.settings.mobile_padding }}px 12px;
+    }
+    .ai-body-banner-{{ ai_gen_id }} .ai-body-banner-{{ ai_gen_id }}__heading {
+      font-size: {{ block.settings.mobile_heading_size }}px !important;
+      margin-bottom: 12px;
+    }
+    .ai-body-banner-{{ ai_gen_id }}__links {
+      width: 100%;
+      max-width: none;
+      justify-content: space-between;
+      gap: 6px 12px;
+    }
+    .ai-body-banner-{{ ai_gen_id }} .ai-body-banner-{{ ai_gen_id }}__link {
+      font-size: {{ block.settings.mobile_link_size }}px !important;
+    }
+    .ai-body-banner-{{ ai_gen_id }}__button {
+      gap: 8px;
+      border: 1px solid rgba(255,255,255,.6);
+      border-radius: 4px;
+    }
+  }
+
+  /* Two-color background for desktop and mobile. */
+  .ai-body-banner-{{ ai_gen_id }} {
+    background: linear-gradient(
+      {{ block.settings.gradient_angle }}deg,
+      {{ block.settings.gradient_color_start }} 0%,
+      {{ block.settings.gradient_color_end }} 100%
+    );
+  }
+  .ai-body-banner-{{ ai_gen_id }}__content {
+    background: transparent;
+  }
+{% endstyle %}
+
+<div class="ai-body-banner-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.desktop_image %}
+    <img class="ai-body-banner-{{ ai_gen_id }}__desktop-media" src="{{ block.settings.desktop_image | image_url: width: 2200 }}" alt="{{ block.settings.desktop_image.alt | escape }}" loading="lazy" width="{{ block.settings.desktop_image.width }}" height="{{ block.settings.desktop_image.height }}">
+  {% else %}
+    <div class="ai-body-banner-{{ ai_gen_id }}__placeholder">{{ 'image' | placeholder_svg_tag }}</div>
+  {% endif %}
+  {% if block.settings.mobile_image %}
+    <img class="ai-body-banner-{{ ai_gen_id }}__mobile-media" src="{{ block.settings.mobile_image | image_url: width: 1200 }}" alt="{{ block.settings.mobile_image.alt | escape }}" loading="lazy" width="{{ block.settings.mobile_image.width }}" height="{{ block.settings.mobile_image.height }}">
+  {% elsif block.settings.desktop_image %}
+    <img class="ai-body-banner-{{ ai_gen_id }}__mobile-media" src="{{ block.settings.desktop_image | image_url: width: 1200 }}" alt="{{ block.settings.desktop_image.alt | escape }}" loading="lazy" width="{{ block.settings.desktop_image.width }}" height="{{ block.settings.desktop_image.height }}">
+  {% else %}
+    <div class="ai-body-banner-{{ ai_gen_id }}__mobile-placeholder">{{ 'image' | placeholder_svg_tag }}</div>
+  {% endif %}
+  <div class="ai-body-banner-{{ ai_gen_id }}__content">
+    {% if block.settings.heading != blank %}
+      <h2 class="ai-body-banner-{{ ai_gen_id }}__heading">{% if block.settings.heading == 'CARE BEYOND THE FACE.' %}CARE BEYOND<br>THE FACE.{% else %}{{ block.settings.heading | escape | newline_to_br }}{% endif %}</h2>
+    {% endif %}
+    <nav class="ai-body-banner-{{ ai_gen_id }}__links" aria-label="{{ block.settings.heading | escape }}">
+      {% for i in (1..4) %}
+        {% liquid
+          assign label_key = 'category_' | append: i | append: '_label'
+          assign url_key = 'category_' | append: i | append: '_link'
+          assign category_label = block.settings[label_key]
+          assign category_url = block.settings[url_key]
+        %}
+        {% if category_label != blank %}
+          {% if category_url != blank %}<a class="ai-body-banner-{{ ai_gen_id }}__link" href="{{ category_url }}">{{ category_label | escape }}</a>{% else %}<span class="ai-body-banner-{{ ai_gen_id }}__link">{{ category_label | escape }}</span>{% endif %}
+        {% endif %}
+      {% endfor %}
+    </nav>
+  </div>
+  {% if block.settings.button_text != blank and block.settings.button_link != blank %}
+    <a class="ai-body-banner-{{ ai_gen_id }}__button" href="{{ block.settings.button_link }}">{{ block.settings.button_text | escape }} <span aria-hidden="true">→</span></a>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Body care banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Banner content"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "CARE BEYOND THE FACE."
+    },
+    {
+      "type": "text",
+      "id": "category_1_label",
+      "label": "Category 1",
+      "default": "Body wash"
+    },
+    {
+      "type": "url",
+      "id": "category_1_link",
+      "label": "Category 1 link"
+    },
+    {
+      "type": "text",
+      "id": "category_2_label",
+      "label": "Category 2",
+      "default": "Body lotion"
+    },
+    {
+      "type": "url",
+      "id": "category_2_link",
+      "label": "Category 2 link"
+    },
+    {
+      "type": "text",
+      "id": "category_3_label",
+      "label": "Category 3",
+      "default": "Body oils"
+    },
+    {
+      "type": "url",
+      "id": "category_3_link",
+      "label": "Category 3 link"
+    },
+    {
+      "type": "text",
+      "id": "category_4_label",
+      "label": "Category 4",
+      "default": "Hand & feet"
+    },
+    {
+      "type": "url",
+      "id": "category_4_link",
+      "label": "Category 4 link"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Shop body care"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Images and focal points"
+    },
+    {
+      "type": "image_picker",
+      "id": "desktop_image",
+      "label": "Desktop image"
+    },
+    {
+      "type": "range",
+      "id": "desktop_focal_x",
+      "label": "Desktop focal point horizontal",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 65
+    },
+    {
+      "type": "select",
+      "id": "desktop_image_position",
+      "label": "Desktop image position",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile image"
+    },
+    {
+      "type": "range",
+      "id": "mobile_focal_x",
+      "label": "Mobile focal point horizontal",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 65
+    },
+    {
+      "type": "range",
+      "id": "mobile_focal_y",
+      "label": "Mobile focal point vertical",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Layout and colors"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "label": "Desktop height",
+      "min": 100,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "default": 140
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "label": "Mobile height",
+      "min": 200,
+      "max": 360,
+      "step": 10,
+      "unit": "px",
+      "default": 260
+    },
+    {
+      "type": "range",
+      "id": "desktop_padding",
+      "label": "Desktop padding",
+      "min": 8,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding",
+      "label": "Mobile padding",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Image sizing"
+    },
+    {
+      "type": "select",
+      "id": "mobile_image_fit",
+      "label": "Mobile image fit",
+      "options": [
+        {
+          "value": "cover",
+          "label": "Fill image area (crop edges)"
+        },
+        {
+          "value": "contain",
+          "label": "Show full image"
+        }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "header",
+      "content": "Text sizes"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Desktop heading size",
+      "min": 18,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "mobile_heading_size",
+      "label": "Mobile heading size",
+      "min": 16,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "link_size",
+      "label": "Desktop category size",
+      "min": 9,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "mobile_link_size",
+      "label": "Mobile category size",
+      "min": 9,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "default": 11
+    },
+    {
+      "type": "header",
+      "content": "Two-color gradient background"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_start",
+      "label": "First color",
+      "default": "#F8F6F2"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_end",
+      "label": "Second color",
+      "default": "#B18A63"
+    },
+    {
+      "type": "range",
+      "id": "gradient_angle",
+      "label": "Gradient direction",
+      "min": 0,
+      "max": 360,
+      "step": 5,
+      "unit": "deg",
+      "default": 90
+    }
+  ],
+  "presets": [
+    {
+      "name": "Body care banner"
+    }
+  ],
+  "tag": null,
+  "class": "body-care-banner-block"
+}
+{% endschema %}

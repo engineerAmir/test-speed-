@@ -1,0 +1,21 @@
+<div class="page-width page-promotions" style="padding: 60px 20px;">
+  <div class="promotions-content rte">
+    {{ page.content }}
+  </div>
+</div>
+
+{% stylesheet %}
+.page-promotions .rte {
+  max-width: 800px;
+  margin: 0 auto;
+}
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Promotions",
+  "tag": "section",
+  "class": "section-promotions",
+  "settings": []
+}
+{% endschema %}

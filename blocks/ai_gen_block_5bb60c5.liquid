@@ -1,0 +1,107 @@
+{% doc %}
+  @prompt
+    create line divider 
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-line-divider-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    padding-top: {{ block.settings.space_above }}px;
+    padding-bottom: {{ block.settings.space_below }}px;
+  }
+
+  .ai-line-divider-{{ ai_gen_id }} hr {
+    display: block;
+    width: 100%;
+    margin: 0;
+    border: 0;
+    border-top: {{ block.settings.line_thickness }}px {{ block.settings.line_style }} {{ block.settings.line_color }};
+  }
+{% endstyle %}
+
+<div class="ai-line-divider-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <hr aria-hidden="true">
+</div>
+
+{% schema %}
+{
+  "name": "Line divider",
+  "settings": [
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Line style"
+    },
+    {
+      "type": "select",
+      "id": "line_style",
+      "label": "Style",
+      "options": [
+        { "value": "solid", "label": "Solid" },
+        { "value": "dashed", "label": "Dashed" },
+        { "value": "dotted", "label": "Dotted" }
+      ],
+      "default": "solid"
+    },
+    {
+      "type": "color",
+      "id": "line_color",
+      "label": "Color",
+      "default": "#ddd7cf"
+    },
+    {
+      "type": "range",
+      "id": "line_thickness",
+      "label": "Thickness",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "space_above",
+      "label": "Above",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "space_below",
+      "label": "Below",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 15
+    }
+  ],
+  "presets": [
+    {
+      "name": "Line divider"
+    }
+  ],
+  "tag": null,
+  "class": "line-divider-block"
+}
+{% endschema %}

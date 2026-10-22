@@ -1,0 +1,247 @@
+<section class="ugc-videos">
+
+  <div class="ugc-header">
+    <h2>
+      {% if request.locale.iso_code == 'ar' %}
+        شاهد المنتجات
+      {% else %}
+        Watch The Products
+      {% endif %}
+    </h2>
+  </div>
+
+  <div class="ugc-slider">
+    <div class="ugc-track">
+
+      {% assign videos =
+      "https://cdn.shopify.com/videos/c/o/v/0fc0edfff7814135af5b7fad36d05d51.mp4,
+      https://cdn.shopify.com/videos/c/o/v/064948a6d3b54d21aeb943c7ab2b6039.mp4,
+      https://cdn.shopify.com/videos/c/o/v/75efb996acc744b5814a003d7fce97b1.mp4,
+      https://cdn.shopify.com/videos/c/o/v/11c4909c187e4df58040c9019c9af476.mp4,
+      https://cdn.shopify.com/videos/c/o/v/fde3347883bb484e83b334c5830dd800.mp4,
+      https://cdn.shopify.com/videos/c/o/v/5bacc6fb56454361a8e1100300638664.mp4,
+      https://cdn.shopify.com/videos/c/o/v/820acb628e524868857397461446dfa4.mp4,
+      https://cdn.shopify.com/videos/c/o/v/c6c7038e84a44288a1e590b9e2686eae.mp4,
+      https://cdn.shopify.com/videos/c/o/v/8e7c6a778a7b4e34ab59533997e9a392.mp4" | split: "," %}
+
+      <div class="ugc-group">
+        {% for v in videos %}
+        <div class="ugc-card">
+          <video muted loop playsinline preload="metadata">
+            <source src="{{ v | strip }}">
+          </video>
+          <div class="play-btn"></div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="ugc-group">
+        {% for v in videos %}
+        <div class="ugc-card">
+          <video muted loop playsinline preload="metadata">
+            <source src="{{ v | strip }}">
+          </video>
+          <div class="play-btn"></div>
+        </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<style>
+.ugc-videos {
+  padding: 10px 0 30px 0; 
+  background: #fff;
+}
+
+.ugc-header {
+  text-align: center;
+  margin-bottom: 25px; 
+}
+
+.ugc-header h2 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 600;
+  color: #111;
+}
+
+.ugc-slider {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  /* 🌟 الحل السحري لإصلاح الحركة في النسخة العربية 🌟 */
+  direction: ltr !important; 
+}
+
+.ugc-slider:before,
+.ugc-slider:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 80px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.ugc-slider:before {
+  left: 0;
+  background: linear-gradient(to right, #fff, transparent);
+}
+
+.ugc-slider:after {
+  right: 0;
+  background: linear-gradient(to left, #fff, transparent);
+}
+
+.ugc-track {
+  display: flex;
+  width: max-content;
+  animation: ugcScroll 60s linear infinite;
+  /* لتجنب أي تقطيع في الحركة */
+  will-change: transform;
+}
+
+.ugc-group {
+  display: flex;
+  gap: 18px;
+  padding-right: 18px;
+  flex-shrink: 0;
+}
+
+.ugc-card {
+  width: 220px;
+  height: 380px;
+  overflow: hidden;
+  background: #f5f5f5;
+  flex-shrink: 0;
+  position: relative;
+  cursor: pointer;
+  border-radius: 14px;
+}
+
+.ugc-card video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.16);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  transition: .25s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,.18);
+}
+
+.play-btn:before {
+  content: "";
+  display: block;
+  margin-left: 4px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 16px solid #fff;
+}
+
+.ugc-card:hover .play-btn {
+  transform: translate(-50%, -50%) scale(1.08);
+  background: rgba(255,255,255,.22);
+}
+
+.ugc-card.playing .play-btn {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, -50%) scale(.8);
+}
+
+@keyframes ugcScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@media (max-width: 768px) {
+  .ugc-videos { padding: 10px 0 20px 0; } 
+  .ugc-header h2 { font-size: 26px; margin-bottom: 15px; }
+  .ugc-card { width: 160px; height: 300px; }
+  .ugc-slider:before,
+  .ugc-slider:after { width: 40px; }
+  .play-btn { width: 48px; height: 48px; box-shadow: 0 6px 18px rgba(0,0,0,.16); }
+  .play-btn:before {
+    margin-left: 3px;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 13px solid #fff;
+  }
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  const track = document.querySelector(".ugc-track");
+  const cards = document.querySelectorAll(".ugc-card");
+
+  function stopAllVideos() {
+    cards.forEach(c => {
+      c.classList.remove("playing");
+      const v = c.querySelector("video");
+      if(v) {
+        v.pause();
+        v.currentTime = 0;
+      }
+    });
+    if(track) {
+      track.style.animationPlayState = 'running';
+    }
+  }
+
+  cards.forEach(card => {
+    const video = card.querySelector("video");
+
+    function playCard() {
+      stopAllVideos();
+      card.classList.add("playing");
+      video.play();
+      track.style.animationPlayState = 'paused';
+    }
+
+    card.addEventListener("mouseenter", function() {
+      playCard();
+    });
+
+    card.addEventListener("mouseleave", function() {
+      stopAllVideos();
+    });
+
+    card.addEventListener("click", function(e){
+      e.stopPropagation();
+      if (!card.classList.contains("playing")) {
+        playCard();
+      }
+    });
+  });
+
+  document.addEventListener("click", function(){
+    stopAllVideos();
+  });
+
+});
+</script> 

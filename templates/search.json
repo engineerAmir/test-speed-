@@ -1,0 +1,61 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "collections_list_simple_4yRUED": {
+      "type": "top-list-collections",
+      "disabled": true,
+      "settings": {
+        "show_type": "all",
+        "menu": "footer",
+        "sort": "alphabetical",
+        "hide_mobile": false,
+        "navUI": true,
+        "colors_by_section": false,
+        "color_scheme": "scheme-1",
+        "background_opacity": 1,
+        "section_layout": "container",
+        "hdt_background_parallax": false,
+        "mg": "",
+        "mg_mb": "",
+        "pd": "",
+        "pd_mb": ""
+      }
+    },
+    "main-search": {
+      "type": "main-search-grid",
+      "settings": {
+        "show_description": false,
+        "use_read_more": false,
+        "read_more_height": 300,
+        "description_position": "before",
+        "products_count": 20,
+        "col_dk": "5",
+        "col_tb": "3",
+        "col_mb": "2",
+        "pagination_type": "links",
+        "paginate_pos": "center",
+        "dis_pagination": 30,
+        "btn_label": "",
+        "enable_sorting": true,
+        "enable_filtering": true,
+        "section_layout": "container",
+        "mg": "",
+        "mg_mb": "",
+        "pd": "",
+        "pd_mb": "34px,,34px,"
+      }
+    }
+  },
+  "order": [
+    "collections_list_simple_4yRUED",
+    "main-search"
+  ]
+}

@@ -1,0 +1,15 @@
+{%- liquid
+  assign rating = product.metafields.reviews.rating.value
+  assign count = product.metafields.reviews.rating_count.value | plus: 0
+  assign average = rating.rating | plus: 0.0
+  assign scale = rating.scale_max | default: 5 | plus: 0.0
+  if count > 0 and scale > 0
+    assign percent = average | times: 100.0 | divided_by: scale | round: 2 | at_least: 0 | at_most: 100
+  endif
+-%}
+{% if count > 0 and average > 0 and scale > 0 %}
+<a class="ny-row ny-rating" href="#NyReviews" aria-label="{{ average }} / {{ scale }}, {{ count }} {{ section.settings.reviews_label | default: 'reviews' | escape }}">
+  <span class="ny-rating-stars" aria-hidden="true"><span>★★★★★</span><span class="ny-rating-fill" style="width:{{ percent }}%">★★★★★</span></span>
+  <strong>{{ average | round: 1 }}</strong><span class="ny-muted">({{ count }} {{ section.settings.reviews_label | default: 'reviews' | escape }})</span>
+</a>
+{% elsif section.settings.empty_rating_label != blank %}<p class="ny-rating-empty ny-muted">{{ section.settings.empty_rating_label | escape }}</p>{% endif %}

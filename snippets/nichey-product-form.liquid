@@ -1,0 +1,21 @@
+{% assign variant = product.selected_or_first_available_variant %}{% assign form_id = 'NyForm-' | append: section.id %}
+{% unless product.has_only_default_variant %}<div class="ny-options">
+{% for option in product.options_with_values %}<fieldset class="ny-option-group"><legend>{{ option.name | escape }}: <strong>{{ option.selected_value | escape }}</strong></legend><div class="ny-option-values">
+{% assign option_position = forloop.index %}{% for value in option.values %}
+{% capture option_ids %}{% for sibling in product.options_with_values %}{% if forloop.index == option_position %}{{ value.id }}{% else %}{% for selected in sibling.values %}{% if selected.selected %}{{ selected.id }}{% endif %}{% endfor %}{% endif %}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+{% assign option_url = value.product_url | default: product.url %}
+<a class="ny-option" data-option data-option-id="{{ value.id }}" data-available="{{ value.available }}" href="{{ option_url }}?option_values={{ option_ids | strip }}{% if template.suffix != blank %}&amp;view={{ template.suffix | url_encode }}{% endif %}" {% if value.selected %}aria-current="true"{% endif %}>{{ value | escape }}{% unless value.available %}<span class="ny-sr"> — {{ section.settings.unavailable_label | escape }}</span>{% endunless %}</a>
+{% endfor %}</div></fieldset>{% endfor %}</div>{% endunless %}
+{% form 'product', product, id: form_id, class: 'ny-product-form' %}
+<input type="hidden" name="id" value="{{ variant.id }}" {% if variant == blank %}disabled{% endif %}>
+{% if product.selling_plan_groups.size > 0 %}<div class="ny-selling-plan"><label for="NyPlan-{{ section.id }}">{{ section.settings.plan_label | escape }}</label><select id="NyPlan-{{ section.id }}" name="selling_plan" data-plan>{% unless product.requires_selling_plan %}<option value="">{{ section.settings.one_time_label | escape }}</option>{% endunless %}{% for allocation in variant.selling_plan_allocations %}<option value="{{ allocation.selling_plan.id }}">{{ allocation.selling_plan.name | escape }} — {{ allocation.price | money_with_currency }}</option>{% endfor %}</select></div>{% endif %}
+<label class="ny-sr" for="NyQuantity-{{ section.id }}">{{ section.settings.quantity_label | escape }}</label><div class="ny-quantity"><button type="button" data-step="-1" aria-label="{{ section.settings.decrease_label | escape }}">−</button><input id="NyQuantity-{{ section.id }}" type="number" name="quantity" min="{{ variant.quantity_rule.min | default: 1 }}" step="{{ variant.quantity_rule.increment | default: 1 }}" {% if variant.quantity_rule.max != blank %}max="{{ variant.quantity_rule.max }}"{% endif %} value="{{ variant.quantity_rule.min | default: 1 }}" required><button type="button" data-step="1" aria-label="{{ section.settings.increase_label | escape }}">+</button></div>
+<div class="ny-purchase-actions">
+<div class="ny-purchase-buttons{% unless section.settings.buy_now %} ny-purchase-buttons--single{% endunless %}">
+{% if section.settings.buy_now %}<div class="ny-native-buy">{% if variant.available %}{{ form | payment_button }}{% else %}<button type="button" class="ny-button ny-buy-now" disabled>{{ section.settings.sold_out_label | escape }}</button>{% endif %}</div>{% endif %}
+<button type="submit" name="add" class="ny-button ny-add-cart" {% unless variant.available %}disabled{% endunless %}><span>{% if variant == blank %}{{ section.settings.unavailable_label | escape }}{% elsif variant.available %}{{ section.settings.add_label | escape }}{% else %}{{ section.settings.sold_out_label | escape }}{% endif %}</span></button>
+</div>
+{% if section.settings.show_wishlist %}<hdt-wishlist class="ny-wishlist ny-wishlist-separate" role="button" tabindex="0" data-id="{{ product.id }}" action="add" placement="top" aria-label="{{ section.settings.wishlist_label | escape }}">{% render 'nichey-control-icon', section: section, target: 'wishlist', name: 'heart' %}<span>{{ section.settings.wishlist_label | escape }}</span></hdt-wishlist>{% endif %}
+</div>
+<p class="ny-status" role="status" aria-live="polite" data-status></p>
+{% endform %}

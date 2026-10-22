@@ -1,0 +1,78 @@
+<div class="about-page">
+  <div class="about-inner">
+    <div class="about-row">
+      <div class="about-icon">✨</div>
+      <div class="about-text">
+        <strong>Who We Are</strong>
+        <p>Nichey is a premium beauty and skincare destination based in the UAE. We curate the finest global brands and bring them directly to your doorstep, making luxury beauty accessible to everyone.</p>
+      </div>
+    </div>
+    <div class="about-row">
+      <div class="about-icon">🎯</div>
+      <div class="about-text">
+        <strong>Our Mission</strong>
+        <p>Our mission is to empower every individual to look and feel their best. We believe beauty is personal, and we're here to help you find the products that truly work for you.</p>
+      </div>
+    </div>
+    <div class="about-row">
+      <div class="about-icon">💎</div>
+      <div class="about-text">
+        <strong>Our Promise</strong>
+        <p>Every product on Nichey is 100% authentic, sourced directly from official brand distributors and authorized suppliers. We never stock counterfeit or grey market products.</p>
+      </div>
+    </div>
+    <div class="about-row">
+      <div class="about-icon">🌍</div>
+      <div class="about-text">
+        <strong>Where We Are</strong>
+        <p>We are proudly based in the UAE and ship to customers across the region and worldwide. Our team is dedicated to delivering an exceptional shopping experience from start to finish.</p>
+      </div>
+    </div>
+    <div class="about-row">
+      <div class="about-icon">🤝</div>
+      <div class="about-text">
+        <strong>Our Values</strong>
+        <p>We are committed to authenticity, transparency, and customer satisfaction. We treat every customer with care and work hard to earn your trust with every order.</p>
+      </div>
+    </div>
+    <div class="about-row">
+      <div class="about-icon">🌱</div>
+      <div class="about-text">
+        <strong>Sustainability</strong>
+        <p>We are conscious of our impact on the environment. We partner with brands that share our commitment to sustainable practices and eco-friendly packaging wherever possible.</p>
+      </div>
+    </div>
+    <div class="about-row last">
+      <div class="about-icon">📧</div>
+      <div class="about-text">
+        <strong>Get in Touch</strong>
+        <p>We'd love to hear from you. Reach out to us at <a href="mailto:hello@nichey.store">hello@nichey.store</a> and our team will get back to you within 24 hours.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.about-page { background: #fff; padding: 60px 20px 80px; }
+.about-inner { max-width: 780px; margin: 0 auto; display: flex; flex-direction: column; }
+.about-row { display: flex; gap: 24px; align-items: flex-start; padding: 28px 0; border-bottom: 1px solid #efefef; }
+.about-row.last { border-bottom: none; }
+.about-icon { min-width: 44px; width: 44px; height: 44px; border-radius: 50%; background: #1a1a1a; color: #fff; font-size: 20px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.about-text { padding-top: 8px; }
+.about-text strong { font-size: 16px; font-weight: 700; color: #1a1a1a; display: block; margin-bottom: 6px; }
+.about-text p { color: #555; font-size: 14px; line-height: 1.9; margin: 0; }
+.about-text a { color: #1a1a1a; text-decoration: underline; }
+@media(max-width: 600px) {
+  .about-row { gap: 16px; }
+  .about-icon { min-width: 36px; width: 36px; height: 36px; font-size: 16px; }
+  .about-page { padding: 36px 16px 60px; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "About The Company",
+  "settings": [],
+  "presets": [{ "name": "About The Company" }]
+}
+{% endschema %}

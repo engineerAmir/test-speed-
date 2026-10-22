@@ -1,0 +1,449 @@
+{% doc %}
+  Static responsive mask collection grid. Uses global theme typography and homepage-style View all buttons without arrows.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+{% style %}
+  .ai-mask-collections-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin-inline: auto;
+    padding: {{ block.settings.padding_vertical }}px {{ block.settings.padding_horizontal }}px;
+    background: #fff;
+    color: #000;
+  }
+  .ai-mask-collections-{{ ai_gen_id }},
+  .ai-mask-collections-{{ ai_gen_id }} *,
+  .ai-mask-collections-{{ ai_gen_id }} *::before,
+  .ai-mask-collections-{{ ai_gen_id }} *::after { box-sizing: border-box; }
+
+  .ai-mask-collections-{{ ai_gen_id }}__inner {
+    display: grid;
+    grid-template-rows: auto minmax(min-content, 1fr);
+    gap: {{ block.settings.heading_spacing }}px;
+    min-height: max(0px, calc({{ block.settings.desktop_height }}vh - {{ block.settings.padding_vertical | times: 2 }}px));
+    min-width: 0;
+  }
+  .ai-mask-collections-{{ ai_gen_id }}__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px 20px;
+    min-width: 0;
+  }
+  .ai-mask-collections-{{ ai_gen_id }}__heading {
+    margin: 0;
+    min-width: 0;
+    color: inherit;
+    overflow-wrap: break-word;
+  }
+  .ai-mask-collections-{{ ai_gen_id }}__all-link {
+    display: inline-block;
+    flex: 0 1 auto;
+    color: inherit;
+    text-decoration: none;
+  }
+  .ai-mask-collections-{{ ai_gen_id }}__all-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  .ai-mask-collections-{{ ai_gen_id }}__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: minmax(min-content, 1fr);
+    gap: {{ block.settings.card_gap }}px;
+    min-width: 0;
+  }
+  .ai-mask-collections-{{ ai_gen_id }}__card {
+    display: grid;
+    grid-template-rows: minmax(100px, 1fr) auto;
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+  }
+  .ai-mask-collections-{{ ai_gen_id }}__media {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    min-height: 100px;
+    overflow: hidden;
+    background: #f4f4f4;
+  }
+  .ai-mask-collections-{{ ai_gen_id }} .ai-mask-collections-{{ ai_gen_id }}__media img,
+  .ai-mask-collections-{{ ai_gen_id }} .ai-mask-collections-{{ ai_gen_id }}__media svg {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: var(--focal-x, 50%) var(--focal-y, 50%);
+  }
+  .ai-mask-collections-{{ ai_gen_id }}__placeholder { position: absolute; inset: 0; }
+  .ai-mask-collections-{{ ai_gen_id }}__label {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    padding-top: 8px;
+    color: inherit;
+  }
+  .ai-mask-collections-{{ ai_gen_id }}__label > span:first-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .ai-mask-collections-{{ ai_gen_id }}__card:focus-visible,
+  .ai-mask-collections-{{ ai_gen_id }}__all-link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-mask-collections-{{ ai_gen_id }} {
+      width: 100%;
+      padding: {{ block.settings.mobile_padding_vertical }}px {{ block.settings.mobile_padding_horizontal }}px;
+    }
+    .ai-mask-collections-{{ ai_gen_id }}__inner {
+      min-height: max(0px, calc({{ block.settings.mobile_height }}vh - {{ block.settings.mobile_padding_vertical | times: 2 }}px));
+      gap: {{ block.settings.mobile_heading_spacing }}px;
+    }
+    .ai-mask-collections-{{ ai_gen_id }}__all-link { display: none; }
+    .ai-mask-collections-{{ ai_gen_id }}__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(2, minmax(min-content, 1fr));
+      gap: {{ block.settings.mobile_card_gap }}px;
+    }
+    .ai-mask-collections-{{ ai_gen_id }}__card { grid-template-rows: minmax(80px, 1fr) auto; }
+    .ai-mask-collections-{{ ai_gen_id }}__card:nth-child(3) { grid-column: 1 / -1; }
+    .ai-mask-collections-{{ ai_gen_id }}__media { min-height: 80px; }
+    .ai-mask-collections-{{ ai_gen_id }}__label { padding-top: 6px; }
+  }
+
+  /* Use a static grid and the homepage's black button treatment. */
+  .ai-mask-collections-{{ ai_gen_id }}__header { align-items: center; }
+  .ai-mask-collections-{{ ai_gen_id }}__card-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 10px;
+  }
+  .ai-mask-collections-{{ ai_gen_id }}__card-footer .ai-mask-collections-{{ ai_gen_id }}__label { padding-top: 0; }
+  .ai-mask-collections-{{ ai_gen_id }} .ai-mask-collections-{{ ai_gen_id }}__view-all {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 1 auto;
+    max-width: 100%;
+    min-height: 40px;
+    padding: 10px 20px;
+    background-color: #111;
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,.15);
+    text-decoration: none;
+    text-align: center;
+    white-space: normal;
+  }
+  .ai-mask-collections-{{ ai_gen_id }}__view-all::before,
+  .ai-mask-collections-{{ ai_gen_id }}__view-all::after { display: none; }
+  .ai-mask-collections-{{ ai_gen_id }}__view-all[href]:hover,
+  .ai-mask-collections-{{ ai_gen_id }}__card:hover .ai-mask-collections-{{ ai_gen_id }}__view-all { background-color: #333; }
+  .ai-mask-collections-{{ ai_gen_id }}__view-all:focus-visible { outline: 2px solid #111; outline-offset: 4px; }
+  @media screen and (max-width: 749px) {
+    .ai-mask-collections-{{ ai_gen_id }} .ai-mask-collections-{{ ai_gen_id }}__view-all { padding: 9px 14px; }
+  }
+{% endstyle %}
+<div class="ai-mask-collections-{{ ai_gen_id }}" {{ block.shopify_attributes }}><div class="ai-mask-collections-{{ ai_gen_id }}__inner"><div class="ai-mask-collections-{{ ai_gen_id }}__header"><h2 class="ai-mask-collections-{{ ai_gen_id }}__heading">{{ block.settings.heading | escape }}</h2>{% if block.settings.shop_all_link != blank %}<a class="ai-mask-collections-{{ ai_gen_id }}__view-all hdt-btn hdt-btn--size-s" href="{{ block.settings.shop_all_link }}">{{ block.settings.shop_all_label | remove: '→' | strip | escape }}</a>{% endif %}</div><div class="ai-mask-collections-{{ ai_gen_id }}__grid">{% for i in (1..3) %}{% liquid
+assign image_key = 'image_' | append: i
+assign label_key = 'label_' | append: i
+assign link_key = 'collection_link_' | append: i
+assign focal_x_key = 'focal_x_' | append: i
+assign focal_y_key = 'focal_y_' | append: i
+assign card_image = block.settings[image_key]
+assign card_label = block.settings[label_key]
+assign card_link = block.settings[link_key]
+assign focal_x = block.settings[focal_x_key]
+assign focal_y = block.settings[focal_y_key]
+%}<a class="ai-mask-collections-{{ ai_gen_id }}__card" href="{{ card_link | default: '#' }}" {% if card_link == blank %}aria-disabled="true" tabindex="-1"{% endif %}><div class="ai-mask-collections-{{ ai_gen_id }}__media" style="--focal-x:{{ focal_x }}%;--focal-y:{{ focal_y }}%;">{% if card_image != blank %}<img src="{{ card_image | image_url: width: 1200 }}" alt="{{ card_image.alt | default: card_label | escape }}" loading="lazy" width="{{ card_image.width }}" height="{{ card_image.height }}">{% else %}<div class="ai-mask-collections-{{ ai_gen_id }}__placeholder">{{ 'collection-apparel-1' | placeholder_svg_tag }}</div>{% endif %}</div><span class="ai-mask-collections-{{ ai_gen_id }}__card-footer">
+  <span class="ai-mask-collections-{{ ai_gen_id }}__label"><span>{{ card_label | escape }}</span></span>
+  {% if card_link != blank %}<span class="ai-mask-collections-{{ ai_gen_id }}__view-all hdt-btn hdt-btn--size-s" aria-hidden="true">{{ block.settings.view_all_label | escape }}</span>{% endif %}
+</span></a>{% endfor %}</div></div></div>
+{% schema %}
+{
+  "name": "Mask collection cards",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "A moment for your skin."
+    },
+    {
+      "type": "text",
+      "id": "shop_all_label",
+      "label": "Header button label",
+      "default": "View all"
+    },
+    {
+      "type": "url",
+      "id": "shop_all_link",
+      "label": "Shop all link"
+    },
+    {
+      "type": "header",
+      "content": "Sheet masks"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "label_1",
+      "label": "Label",
+      "default": "Sheet masks"
+    },
+    {
+      "type": "url",
+      "id": "collection_link_1",
+      "label": "Collection link"
+    },
+    {
+      "type": "range",
+      "id": "focal_x_1",
+      "label": "Image focal point horizontal",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "focal_y_1",
+      "label": "Image focal point vertical",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Wash-off masks"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "label_2",
+      "label": "Label",
+      "default": "Wash-off masks"
+    },
+    {
+      "type": "url",
+      "id": "collection_link_2",
+      "label": "Collection link"
+    },
+    {
+      "type": "range",
+      "id": "focal_x_2",
+      "label": "Image focal point horizontal",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "focal_y_2",
+      "label": "Image focal point vertical",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Overnight masks"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "label_3",
+      "label": "Label",
+      "default": "Overnight masks"
+    },
+    {
+      "type": "url",
+      "id": "collection_link_3",
+      "label": "Collection link"
+    },
+    {
+      "type": "range",
+      "id": "focal_x_3",
+      "label": "Image focal point horizontal",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "focal_y_3",
+      "label": "Image focal point vertical",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "desktop_height",
+      "label": "Desktop minimum height",
+      "min": 25,
+      "max": 80,
+      "step": 5,
+      "unit": "vh",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "label": "Mobile minimum height",
+      "min": 25,
+      "max": 80,
+      "step": 5,
+      "unit": "vh",
+      "default": 45
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "label": "Vertical padding",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "label": "Horizontal padding",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_vertical",
+      "label": "Mobile vertical padding",
+      "min": 0,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_horizontal",
+      "label": "Mobile horizontal padding",
+      "min": 0,
+      "max": 40,
+      "step": 5,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "label": "Heading spacing",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "mobile_heading_spacing",
+      "label": "Mobile heading spacing",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Card spacing",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "mobile_card_gap",
+      "label": "Mobile card spacing",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "Collection button label",
+      "default": "View all"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mask collection cards"
+    }
+  ],
+  "tag": null,
+  "class": "mask-collection-cards"
+}
+{% endschema %}

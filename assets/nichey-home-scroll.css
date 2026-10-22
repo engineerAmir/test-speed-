@@ -1,0 +1,45 @@
+/* Keep the homepage viewport fixed while its product tracks scroll sideways. */
+html.hdt-homepage,
+html.hdt-homepage body {
+  max-width: 100%;
+  overflow-x: clip !important;
+}
+
+.hdt-page-type-index #MainContent,
+.hdt-page-type-index #MainContent > .shopify-section {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.hdt-page-type-index #MainContent {
+  overflow-x: clip;
+}
+
+.hdt-page-type-index #MainContent [class^="ai-"] {
+  box-sizing: border-box;
+}
+
+.hdt-page-type-index [class^="ai-product-carousel-"] {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.hdt-page-type-index [class^="ai-product-carousel-"][class*="__header"] {
+  flex-wrap: wrap;
+}
+
+.hdt-page-type-index [class^="ai-product-carousel-"][class*="__heading"] {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.hdt-page-type-index [class^="ai-product-carousel-"][class*="__track"] {
+  /* Contain positioned product controls inside the horizontal scroll area. */
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  /* Reserve room for keyboard focus without creating a vertical scroll range. */
+  padding-block: 4px;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
+}

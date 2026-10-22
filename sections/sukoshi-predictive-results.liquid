@@ -1,0 +1,27 @@
+{%- liquid
+  assign products = search.results | where: 'object_type', 'product'
+-%}
+{%- if search.performed and products.size > 0 -%}
+  <div class="predictive-results-inner">
+    {%- for product in products limit: 6 -%}
+      <a href="{{ product.url }}" class="predictive-item">
+        <div class="predictive-item-img-wrapper">
+          {%- if product.featured_image -%}
+            <img src="{{ product.featured_image | image_url: width: 100 }}" alt="{{ product.title | escape }}" loading="lazy" width="50" height="50">
+          {%- endif -%}
+        </div>
+        <div class="predictive-item-info">
+          <span class="predictive-item-title">{{ product.title | escape }}</span>
+          <span class="predictive-item-price">{{ product.price | money }}</span>
+        </div>
+      </a>
+    {%- endfor -%}
+  </div>
+  <a href="{{ routes.search_url }}?q={{ search.terms | url_encode }}&type=product" class="predictive-view-all">
+    {%- if localization.language.iso_code == 'ar' -%}عرض كل النتائج عن "{{ search.terms }}"{%- else -%}View all results for "{{ search.terms }}"{%- endif -%}
+  </a>
+{%- elsif search.performed -%}
+  <div class="predictive-no-results">
+    {%- if localization.language.iso_code == 'ar' -%}لا توجد منتجات مطابقة{%- else -%}No products found{%- endif -%}
+  </div>
+{%- endif -%}

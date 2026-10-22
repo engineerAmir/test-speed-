@@ -1,0 +1,439 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    background-color: {{ section.settings.bg_color }};
+  }
+
+  .gift-promo-box {
+    position: relative;
+    background: linear-gradient(135deg, #fdf9f4 0%, #f7f2ea 50%, #f0ebe0 100%);
+    border-radius: 16px;
+    padding: 60px 40px;
+    margin: 0 auto;
+    max-width: 1000px; /* عرض البوكس في نص الشاشة */
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.04); /* ظل خفيف عشان يبرز في الصفحة */
+  }
+
+  .gift-petals-canvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    border-radius: 16px;
+    z-index: 0;
+  }
+
+  .gift-promo-content {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+    width: 100%;
+  }
+
+  .gift-promo-content h2 {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1.2;
+    margin: 0 0 15px;
+  }
+
+  .gift-promo-content p {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 16px;
+    color: #444;
+    margin: 0 0 30px;
+  }
+
+  .gift-promo-form-wrapper {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .gift-banner-form {
+    display: flex;
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    border-radius: 6px;
+  }
+
+  .gift-banner-form input[type="email"] {
+    flex: 1;
+    padding: 14px 20px;
+    border: 1px solid #d9d0c4;
+    border-right: none;
+    border-radius: 6px 0 0 6px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    background: #fff;
+    outline: none;
+    color: #333;
+    transition: border-color 0.3s;
+  }
+
+  .gift-banner-form input[type="email"]:focus {
+    border-color: #7c3030;
+  }
+
+  .gift-banner-form input[type="email"]::placeholder {
+    color: #aaa;
+  }
+
+  .gift-banner-form button {
+    padding: 14px 28px;
+    background: #3a3a3a;
+    color: #fff;
+    border: none;
+    border-radius: 0 6px 6px 0;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
+
+  .gift-banner-form button:hover {
+    background: #7c3030;
+  }
+
+  .gift-success-msg {
+    color: #4caf50;
+    font-size: 14px;
+    margin-top: 15px;
+    font-weight: 600;
+  }
+
+  .gift-error-msg {
+    color: #e53935;
+    font-size: 14px;
+    margin-top: 15px;
+  }
+
+  .gift-banner-consent {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
+    gap: 8px;
+    margin-top: 15px;
+    font-size: 12px;
+    color: #666;
+  }
+
+  .gift-banner-consent input {
+    margin-top: 2px;
+    flex-shrink: 0;
+    accent-color: #3a3a3a;
+  }
+
+  .gift-banner-consent a {
+    color: #3a3a3a;
+    text-decoration: underline;
+    font-weight: 500;
+  }
+
+  @media(max-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+    .gift-promo-box {
+      padding: 40px 20px;
+      border-radius: 12px;
+      width: 92%;
+    }
+    .gift-banner-form {
+      flex-direction: column;
+      box-shadow: none;
+    }
+    .gift-banner-form input[type="email"] {
+      border: 1px solid #d9d0c4;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .gift-banner-form button {
+      border-radius: 6px;
+      width: 100%;
+    }
+    .gift-banner-consent {
+      text-align: center;
+      align-items: center;
+    }
+  }
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}-padding">
+  <div class="gift-promo-box" id="gift-box-{{ section.id }}">
+    <canvas class="gift-petals-canvas"></canvas>
+    
+    <div class="gift-promo-content">
+      <h2>{{ section.settings.title | default: "Get 5% off your first order" }}</h2>
+      <p>{{ section.settings.subtitle | default: "Enter your email and we'll send you a promo code." }}</p>
+      
+      <div class="gift-promo-form-wrapper">
+        {%- form 'customer', id: 'GiftNewsletterForm' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <input type="hidden" name="contact[accepts_marketing]" value="true">
+          
+          <div class="gift-banner-form">
+            <input
+              type="email"
+              name="contact[email]"
+              id="GiftNewsletterEmail-{{ section.id }}"
+              placeholder="{{ section.settings.placeholder | default: 'Enter your email' }}"
+              autocomplete="email"
+              required>
+            <button type="submit">{{ section.settings.btn_text | default: "Subscribe" }}</button>
+          </div>
+          
+          {%- if form.posted_successfully? -%}
+            <p class="gift-success-msg">✓ Thank you! You have been successfully subscribed.</p>
+          {%- endif -%}
+          {%- if form.errors -%}
+            <p class="gift-error-msg">{{ form.errors | default_errors }}</p>
+          {%- endif -%}
+          
+          <label class="gift-banner-consent">
+            <input type="checkbox" id="gift-consent-check-{{ section.id }}" required>
+            <span>{{ section.settings.consent_text | default: "By clicking Subscribe I agree to the processing of my personal data." }}
+              {%- if section.settings.policy_url != blank -%}
+                <a href="{{ section.settings.policy_url }}">{{ section.settings.policy_text | default: "Privacy Policy" }}</a>
+              {%- endif -%}
+            </span>
+          </label>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  // للتحقق من الشروط والأحكام قبل الإرسال
+  document.addEventListener('DOMContentLoaded', function() {
+    var form = document.querySelector('#gift-box-{{ section.id }} form');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        var check = document.getElementById('gift-consent-check-{{ section.id }}');
+        if (check && !check.checked) {
+          e.preventDefault();
+          check.style.outline = '2px solid red';
+          return false;
+        } else if (check) {
+          check.style.outline = 'none';
+        }
+      });
+    }
+  });
+
+  // تأثير الورد المتساقط المخصص للسكشن ده بس
+  function initGiftPetals() {
+    var box = document.getElementById('gift-box-{{ section.id }}');
+    if (!box) return;
+    
+    var canvas = box.querySelector('.gift-petals-canvas');
+    if (!canvas) return;
+    
+    var ctx = canvas.getContext('2d');
+    var petals = [];
+    var count = 18; /* عدد الورد */
+    
+    function resize() {
+      canvas.width = box.offsetWidth;
+      canvas.height = box.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+    
+    var petalShapes = [
+      function(ctx, size) { ctx.beginPath(); ctx.ellipse(0, 0, size * 0.5, size, 0, 0, Math.PI * 2); ctx.fill(); },
+      function(ctx, size) { ctx.beginPath(); ctx.ellipse(0, 0, size * 0.4, size * 0.9, 0, 0, Math.PI * 2); ctx.fill(); }
+    ];
+    
+    var colors = [
+      'rgba(255, 182, 193, 0.7)',
+      'rgba(255, 160, 180, 0.65)',
+      'rgba(255, 192, 210, 0.7)',
+      'rgba(250, 150, 175, 0.6)',
+      'rgba(255, 210, 225, 0.75)'
+    ];
+    
+    function createPetal() {
+      return {
+        x: Math.random() * canvas.width,
+        y: -20 - Math.random() * 80,
+        size: 6 + Math.random() * 7,
+        speedY: 0.4 + Math.random() * 0.5,
+        speedX: -0.3 + Math.random() * 0.6,
+        rotation: Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 0.012,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        shape: Math.floor(Math.random() * petalShapes.length),
+        sway: Math.random() * Math.PI * 2,
+        swaySpeed: 0.008 + Math.random() * 0.008,
+        swayAmount: 0.3 + Math.random() * 0.4
+      };
+    }
+    
+    for (var i = 0; i < count; i++) {
+      var p = createPetal();
+      p.y = Math.random() * canvas.height;
+      petals.push(p);
+    }
+    
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      petals.forEach(function(p, idx) {
+        p.sway += p.swaySpeed;
+        p.x += p.speedX + Math.sin(p.sway) * p.swayAmount;
+        p.y += p.speedY;
+        p.rotation += p.rotSpeed;
+        
+        if (p.y > canvas.height + 20) { petals[idx] = createPetal(); }
+        
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation);
+        ctx.fillStyle = p.color;
+        petalShapes[p.shape](ctx, p.size);
+        ctx.restore();
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGiftPetals);
+  } else {
+    initGiftPetals();
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Gift Promo Box",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Text Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Get 5% off your first order"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Enter your email and we'll send you a promo code."
+    },
+    {
+      "type": "header",
+      "content": "Form Settings"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Email placeholder",
+      "default": "Enter your email"
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "Button text",
+      "default": "Subscribe"
+    },
+    {
+      "type": "text",
+      "id": "consent_text",
+      "label": "Consent text",
+      "default": "By clicking Subscribe I agree to the processing of my personal data."
+    },
+    {
+      "type": "url",
+      "id": "policy_url",
+      "label": "Privacy policy link"
+    },
+    {
+      "type": "text",
+      "id": "policy_text",
+      "label": "Privacy policy link text",
+      "default": "Privacy Policy"
+    },
+    {
+      "type": "header",
+      "content": "Desktop Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Mobile Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom (Mobile)",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gift Promo Box"
+    }
+  ]
+}
+{% endschema %}
