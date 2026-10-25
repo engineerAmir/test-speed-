@@ -1,1 +1,1087 @@
-{"sections":{"slideshow_EVrUzi":{"type":"slideshow","blocks":{"slide_item_GJUjrM":{"type":"_slide-item","settings":{"media_type":"image","image":"shopify:\/\/shop_images\/1_6feb956d-222e-4f80-b1ca-e8ca2b276a43.webp","image_mb":"shopify:\/\/shop_images\/3_ccf62b7c-b90f-4773-ae3d-634dde272235.webp","url":"\/collections\/all?sort_by=best-selling","banner_target":true,"color_scheme":"scheme-77e4ef58-56a9-4631-876a-12098ba7d57d","content_position_type":"container","position_x":50,"position_y":50,"content_position":"center-start","alignment":"center","position_x_mb":50,"position_y_mb":50,"content_position_mb":"start","alignment_mb":"center","overlay_content":false,"overlay_color":"#000000","overlay_opacity":0,"background_content":false,"background_content_color":"#ffffff","bg_opacity":0,"box_square":false,"content_rounded":false,"use_border_content":false,"border_color":"#ffffff","background_border":"#ffffff","border_opacity":0,"border_style":"none","border_pd_dk":0,"padding_vertical":30,"padding_horizontal":30,"min_width_content":350,"border_pd":0},"blocks":{}},"slide_item_jUJpMh":{"type":"_slide-item","settings":{"media_type":"image","image":"shopify:\/\/shop_images\/Pc_ar.webp","image_mb":"shopify:\/\/shop_images\/Mob_en.webp","url":"shopify:\/\/pages\/offers","banner_target":true,"color_scheme":"scheme-77e4ef58-56a9-4631-876a-12098ba7d57d","content_position_type":"container","position_x":50,"position_y":50,"content_position":"center-start","alignment":"left","position_x_mb":50,"position_y_mb":50,"content_position_mb":"start","alignment_mb":"left","overlay_content":false,"overlay_color":"#000000","overlay_opacity":35,"background_content":false,"background_content_color":"#ffffff","bg_opacity":0,"box_square":false,"content_rounded":false,"use_border_content":false,"border_color":"#ffffff","background_border":"#ffffff","border_opacity":0,"border_style":"none","border_pd_dk":0,"padding_vertical":30,"padding_horizontal":30,"min_width_content":350,"border_pd":0},"blocks":{}},"slide_item_AWt94T":{"type":"_slide-item","disabled":true,"settings":{"media_type":"image","image":"shopify:\/\/shop_images\/2_3.webp","image_mb":"shopify:\/\/shop_images\/4_1_656d4c68-8dbe-4c5e-b53c-571a4603a679.webp","url":"shopify:\/\/pages\/offers","banner_target":true,"color_scheme":"scheme-77e4ef58-56a9-4631-876a-12098ba7d57d","content_position_type":"container","position_x":50,"position_y":50,"content_position":"center-start","alignment":"left","position_x_mb":50,"position_y_mb":50,"content_position_mb":"start","alignment_mb":"left","overlay_content":false,"overlay_color":"#000000","overlay_opacity":35,"background_content":false,"background_content_color":"#ffffff","bg_opacity":0,"box_square":false,"content_rounded":false,"use_border_content":false,"border_color":"#ffffff","background_border":"#ffffff","border_opacity":0,"border_style":"none","border_pd_dk":0,"padding_vertical":30,"padding_horizontal":30,"min_width_content":350,"border_pd":0},"blocks":{}},"slide_item_c3yt4f":{"type":"_slide-item","settings":{"media_type":"image","image":"shopify:\/\/shop_images\/2_4.webp","image_mb":"shopify:\/\/shop_images\/4_2_2.webp","url":"shopify:\/\/pages\/offers","banner_target":true,"color_scheme":"scheme-77e4ef58-56a9-4631-876a-12098ba7d57d","content_position_type":"container","position_x":50,"position_y":50,"content_position":"center-start","alignment":"left","position_x_mb":50,"position_y_mb":50,"content_position_mb":"start","alignment_mb":"left","overlay_content":false,"overlay_color":"#000000","overlay_opacity":35,"background_content":false,"background_content_color":"#ffffff","bg_opacity":0,"box_square":false,"content_rounded":false,"use_border_content":false,"border_color":"#ffffff","background_border":"#ffffff","border_opacity":0,"border_style":"none","border_pd_dk":0,"padding_vertical":30,"padding_horizontal":30,"min_width_content":350,"border_pd":0},"blocks":{}}},"block_order":["slide_item_GJUjrM","slide_item_jUJpMh","slide_item_AWt94T","slide_item_c3yt4f"],"custom_css":[".hdt-slideshow,.hdt-slideshow img {border-radius: 6px !important; overflow: hidden !important;}",".hdt-slider__dots {position: absolute !important; left: 50% !important; transform: translateX(-50%) !important; display: flex !important; justify-content: center !important; width: auto !important;}"],"name":"Hero Section","settings":{"image_height":"adapt_image","fixed_height":400,"image_height_mb":"fixed","fixed_height_mb":200,"is_fade":false,"loop":true,"autoplay":7,"pauseOnHover":true,"navUI":false,"nav_visible":"always","nav_style":"simple","nav_shape":"default","nav_size":"small","nav_hide_mobile":true,"dotUI":true,"pag_style":"default","pag_position":"center","pag_width":"full","pag_rounded":true,"pag_space":10,"pag_mgt":10,"pag_hide_mobile":false,"colors_by_section":false,"color_scheme":"","background_opacity":0,"full_width":false,"mg":"","mg_mb":"","pd":"20","pd_mb":",,22px,"}},"collections_list_4i644b":{"type":"collections-list","blocks":{"collection_item_aqNetM":{"type":"_collection_item","settings":{"collection":"skin-care-1","image":"shopify:\/\/shop_images\/skin-care.webp","hdt_collection_list_svg":"","svg_width":60,"svg_width_mb":40,"title":"Skin Care","collection_link":"","col_dk":"6","col_tb":"6","col_mb":"6"},"blocks":{}},"collection_item_fVappw":{"type":"_collection_item","disabled":true,"settings":{"collection":"bodycare","image":"shopify:\/\/shop_images\/bodycare.webp","hdt_collection_list_svg":"","svg_width":60,"svg_width_mb":40,"title":"Body Care","collection_link":"","col_dk":"6","col_tb":"6","col_mb":"6"},"blocks":{}},"collection_item_bChBhn":{"type":"_collection_item","settings":{"collection":"blush","image":"shopify:\/\/shop_images\/blush.webp","hdt_collection_list_svg":"","svg_width":60,"svg_width_mb":40,"title":"Blush","collection_link":"","col_dk":"6","col_tb":"6","col_mb":"6"},"blocks":{}},"collection_item_FELqWg":{"type":"_collection_item","settings":{"collection":"toners","image":"shopify:\/\/shop_images\/toners.webp","hdt_collection_list_svg":"","svg_width":60,"svg_width_mb":40,"title":"Toners","collection_link":"","col_dk":"6","col_tb":"6","col_mb":"6"},"blocks":{}},"collection_item_Uxab4F":{"type":"_collection_item","settings":{"collection":"foundation","image":"shopify:\/\/shop_images\/foundation.webp","hdt_collection_list_svg":"","svg_width":60,"svg_width_mb":40,"title":"Foundation","collection_link":"","col_dk":"6","col_tb":"6","col_mb":"6"},"blocks":{}},"collection_item_tV9p8a":{"type":"_collection_item","settings":{"collection":"makeup","image":"shopify:\/\/shop_images\/makeup.webp","hdt_collection_list_svg":"","svg_width":60,"svg_width_mb":40,"title":"Makeup","collection_link":"","col_dk":"6","col_tb":"6","col_mb":"6"},"blocks":{}},"collection_item_AF7bdr":{"type":"_collection_item","settings":{"collection":"hair-care","image":"shopify:\/\/shop_images\/hair-care.webp","hdt_collection_list_svg":"","svg_width":60,"svg_width_mb":40,"title":"Hair Care","collection_link":"","col_dk":"6","col_tb":"6","col_mb":"6"},"blocks":{}},"collection_item_6HNTnm":{"type":"_collection_item","disabled":true,"settings":{"collection":"scalp-care","image":"shopify:\/\/shop_images\/scalp-care.webp","hdt_collection_list_svg":"","svg_width":60,"svg_width_mb":40,"title":"Scalp Care","collection_link":"","col_dk":"6","col_tb":"6","col_mb":"6"},"blocks":{}},"section-heading-collections-list":{"type":"section-heading","static":true,"settings":{"design_heading":"1","horizontal":false,"alignment":"left","heading_gap":15,"margin_bottom":30},"blocks":{}}},"block_order":["collection_item_aqNetM","collection_item_fVappw","collection_item_bChBhn","collection_item_FELqWg","collection_item_Uxab4F","collection_item_tV9p8a","collection_item_AF7bdr","collection_item_6HNTnm"],"disabled":true,"custom_css":["{max-width: 1600px !important; margin: 0 auto !important;}"],"name":"t:sections.collections-list.name","settings":{"collection_list":[],"collection_des":"5","content_size":"sm","content_weight":"semibold","content_position":"center","content_space":0,"show_count":false,"count_label":"Products","image_rounded":false,"enable_border":false,"image_padding":30,"image_ratio":"adapt_image","image_size":true,"img_effect":"zoom","b_effect":"none","col_dk":"6","col_tb":"3","col_mb":"3","space_items":"x","layout_mode":"carousel","loop":true,"autoplay":4.5,"pauseOnHover":false,"navUI":true,"nav_position":"default","nav_visible":"hover","nav_style":"default","nav_shape":"rounded","nav_size":"small","nav_hide_mobile":true,"dotUI":false,"pag_style":"default","pag_rounded":true,"pag_space":10,"pag_mgt":10,"pag_hide_mobile":false,"colors_by_section":false,"color_scheme":"","background_opacity":0,"section_layout":"full_width","hdt_background_parallax":false,"mg":"0,0,0,0","mg_mb":",,30px,","pd":"","pd_mb":""}},"clean_product_slider_QaCJfK":{"type":"clean-product-slider","custom_css":[],"name":"Clean Product Slider","settings":{"title":"Best Sellers","collection":"best-sellers","view_all_link":"shopify:\/\/collections\/best-sellers","product_limit":10}},"custom_banners_nnxNcF":{"type":"custom-banners","blocks":{"banner_AHxCUT":{"type":"banner","settings":{"image":"shopify:\/\/shop_images\/5_6efdc8e6-520c-427d-827d-92f290518760.webp","image_mobile":"shopify:\/\/shop_images\/6_3b338cfe-906c-49d6-9093-c1a2b286d068.webp","link":"shopify:\/\/products\/arencia-vitamin-c-booster-shot-30ml"}},"banner_BDeqNx":{"type":"banner","settings":{"image":"shopify:\/\/shop_images\/7_84cb6732-13fb-4bb4-bbe4-3d25e101e6b4.webp","image_mobile":"shopify:\/\/shop_images\/8_3cf9e5bd-447a-499f-8e99-9b8e547b2406.webp","link":"shopify:\/\/products\/celimax-the-vita-a-retinal-shot-tightening-booster"}}},"block_order":["banner_AHxCUT","banner_BDeqNx"],"disabled":true,"custom_css":[],"name":"Promo Banners 2","settings":{"banners_per_row":2,"gap":6,"padding_top":5,"padding_bottom":5}},"skin_quiz_WapiKp":{"type":"skin-quiz","blocks":{"combination_eNbnbL":{"type":"combination","settings":{"title":"1","type":"dry","concern":"unset","goal":"unset","age":"unset","pregnancy":"unset","products":["cosrx-hyaluronic-acid-intensive-cream-100g","beauty-of-joseon-relief-sun-cream-aqua-fresh-rice-b5-50ml","some-by-mi-beta-panthenol-repair-gel-cleanser-120ml","anua-birch-moisture-boosting-toner-250ml","anua-pdrn-hyaluron-cream-60ml","axis-y-vegan-collagen-eye-serum-10ml"]}},"combination_GtUtPf":{"type":"combination","settings":{"title":"2","type":"normal","concern":"unset","goal":"unset","age":"unset","pregnancy":"unset","products":["dr-althea-aqua-marine-jelly-mist-100ml","beauty-of-joseon-relief-sun-cream-aqua-fresh-rice-b5-50ml","centella-skin1004-face-wash-ampoule-foam-125ml","axis-y-sunday-morning-refreshing-cleansing-foam-120ml","dr-althea-aqua-marine-watery-cream-50ml","axis-y-vegan-collagen-eye-serum-10ml"]}},"combination_LDwXnT":{"type":"combination","settings":{"title":"3","type":"combo","concern":"unset","goal":"unset","age":"unset","pregnancy":"unset","products":["anua-heartleaf-quercetinol-pore-deep-cleansing-foam-150ml","isntree-hyaluronic-acid-fresh-sun-serum-50ml","centella-skin1004-face-wash-ampoule-foam-125ml","dr-althea-345-relief-cream-mist-100ml","dr-althea-345-relief-cream-50ml","axis-y-vegan-collagen-eye-serum-10ml"]}},"combination_iLWpcn":{"type":"combination","settings":{"title":"4","type":"oily","concern":"unset","goal":"unset","age":"unset","pregnancy":"unset","products":["skin1004-madagascar-centella-hyalu-cica-water-fit-sun-serum-50ml","medicube-zero-pore-clearing-capsule-cleansing-foam","anua-heartleaf-quercetinol-pore-deep-cleansing-foam-150ml","dr-althea-345-relief-cream-mist-100ml","dr-althea-345-relief-cream-50ml"]}},"combination_acE9bf":{"type":"combination","settings":{"title":"5","type":"oily","concern":"unset","goal":"unset","age":"25plus","pregnancy":"unset","products":["axis-y-vegan-collagen-eye-serum-10ml"]}},"combination_mwgRnf":{"type":"combination","settings":{"title":"6","type":"unset","concern":"acne","goal":"unset","age":"unset","pregnancy":"unset","products":["some-by-mi-aha-bha-pha-30-days-miracle-serum-50ml","anua-heartleaf-centella-red-spot-cream-30g","medicube-zero-pore-blackhead-mud-mask-100g","medicube-zero-pore-pads-mild-70-pads-155g"]}},"combination_3rwKjd":{"type":"combination","settings":{"title":"7","type":"unset","concern":"darkspots","goal":"unset","age":"unset","pregnancy":"unset","products":["anua-niacinamide-10-txa-4-dark-spot-correcting-serum","arencia-vitamin-c-booster-shot-30ml","numbuzin-no-5-vitamin-niacinamide-concentrated-pad"]}},"combination_9K4b8C":{"type":"combination","settings":{"title":"8","type":"unset","concern":"darkspots","goal":"unset","age":"unset","pregnancy":"no","products":["medicube-kojic-acid-turmeric-peel-shot-80ml"]}},"combination_YMFVHY":{"type":"combination","settings":{"title":"9","type":"unset","concern":"redness","goal":"unset","age":"unset","pregnancy":"unset","products":["purito-wonder-relief-centella-serum-60ml","axis-y-heartleaf-my-type-calming-cream-60ml","some-by-mi-real-snail-skin-barrier-care-mask-20g","skin1004-madagascar-centella-tea-trica-b5-cream-75ml"]}},"combination_iGLhJg":{"type":"combination","settings":{"title":"10","type":"unset","concern":"aging","goal":"unset","age":"25plus","pregnancy":"no","products":["celimax-the-vita-a-retinal-shot-tightening-booster","some-by-mi-retinol-intense-reactivating-serum-30ml","some-by-mi-retinol-intensive-reactivating-mask-22g"]}},"combination_qgh6zH":{"type":"combination","settings":{"title":"11","type":"unset","concern":"aging","goal":"unset","age":"unset","pregnancy":"unset","products":["cosrx-6-peptide-booster-serum-150ml"]}},"combination_rhwbjV":{"type":"combination","settings":{"title":"12","type":"unset","concern":"dehydration","goal":"unset","age":"unset","pregnancy":"unset","products":["anua-faceserum-30ml-kr-w-pdrn-hyaluronic-acid-capsule-100","medicube-hyaluronic-moisturizing-capsule-cream-55g","arencia-pdrn-hyaluronic-deep-hydration-pads-90ea-200ml","eqqualberry-bouncy-day-collagen-glow-up-hydrogel-mask-30g"]}},"combination_HhbxJN":{"type":"combination","settings":{"title":"13","type":"unset","concern":"dullness","goal":"unset","age":"unset","pregnancy":"unset","products":["eqqualberry-vitamin-illuminating-serum-30ml","numbuzin-no-9-nad-bio-lifting-essence-50ml","skin1004-madagascar-centella-tone-brightening-dark-spot-ampoule-pad-60-pads","eqqualberry-bouncy-day-collagen-glow-up-hydrogel-mask-30g"]}}},"block_order":["combination_eNbnbL","combination_GtUtPf","combination_LDwXnT","combination_iLWpcn","combination_acE9bf","combination_mwgRnf","combination_3rwKjd","combination_9K4b8C","combination_YMFVHY","combination_iGLhJg","combination_qgh6zH","combination_rhwbjV","combination_HhbxJN"],"name":"Nichey Skin Quiz","settings":{"combinations_json":"","enable_signup":true,"signup_heading":"Your recommendations are ready","signup_text":"Enter your name and email to continue to your recommendations.","signup_button":"Continue"}},"clean_product_slider_JVmYzB":{"type":"clean-product-slider","disabled":true,"name":"Clean Product Slider","settings":{"title":"Trending Korean Skincare","collection":"k-beauty","view_all_link":"shopify:\/\/collections\/k-beauty","product_limit":10}},"clean_product_slider_pn4iCt":{"type":"clean-product-slider","name":"Clean Product Slider","settings":{"title":"Skin Concern","collection":"skin-concern-new","view_all_link":"shopify:\/\/collections\/skin-concern-new","product_limit":10}},"luxury_brands_auto_VCCtMp":{"type":"luxury-brands-auto","custom_css":["{max-width: 1600px; margin: 0 auto;}"],"name":"Luxury Brands Auto","settings":{}},"custom_banners_FTYnwd":{"type":"custom-banners","blocks":{"banner_VDBkPR":{"type":"banner","disabled":true,"settings":{"image":"shopify:\/\/shop_images\/1_1_ef355d48-c9b8-48f1-bbb4-4074887828cb.webp","image_mobile":"shopify:\/\/shop_images\/2_1.webp","link":"shopify:\/\/products\/numbuzin-no-9-nad-retinol-volumetox-eye-cream-10ml"}}},"block_order":["banner_VDBkPR"],"name":"Promo Banners","settings":{"banners_per_row":1,"gap":0,"padding_top":5,"padding_bottom":5}},"custom_banners_4CtDQQ":{"type":"custom-banners","blocks":{"banner_ryCUMG":{"type":"banner","disabled":true,"settings":{"link":""}},"banner_fmFp6n":{"type":"banner","settings":{"image":"shopify:\/\/shop_images\/FULL_WIDTH_1.webp","image_mobile":"shopify:\/\/shop_images\/FULL_WIDTH_1_phone_size.webp","link":"shopify:\/\/collections\/all"}}},"block_order":["banner_ryCUMG","banner_fmFp6n"],"custom_css":[],"name":"Promo Banners","settings":{"banners_per_row":1,"gap":0,"padding_top":5,"padding_bottom":5}},"custom_banners_79whPx":{"type":"custom-banners","blocks":{"banner_A4ExzX":{"type":"banner","settings":{"image":"shopify:\/\/shop_images\/klairs_offer.webp","image_mobile":"shopify:\/\/shop_images\/klairs_offer_phone_size.webp","link":"shopify:\/\/collections\/dear-klairs"}},"banner_WtXWWr":{"type":"banner","settings":{"image":"shopify:\/\/shop_images\/beauty_of_joseon_offer.webp","image_mobile":"shopify:\/\/shop_images\/beauty_of_joseon_offer_phone_size.webp","link":"shopify:\/\/collections\/beauty-of-joseon"}}},"block_order":["banner_A4ExzX","banner_WtXWWr"],"disabled":true,"custom_css":[],"name":"Promo Banners 2","settings":{"banners_per_row":2,"gap":6,"padding_top":5,"padding_bottom":5}},"clean_product_slider_rRGtCy":{"type":"clean-product-slider","name":"Clean Product Slider","settings":{"title":"Skin care","collection":"skin-care-1","view_all_link":"shopify:\/\/collections\/skin-care-1","product_limit":10}},"custom_banners_CVpjme":{"type":"custom-banners","blocks":{"banner_idQXti":{"type":"banner","settings":{"image":"shopify:\/\/shop_images\/somebymi_offer.webp","image_mobile":"shopify:\/\/shop_images\/somebymi_offer_phone_size.webp","link":"shopify:\/\/collections\/some-by-mi"}},"banner_xEpkzM":{"type":"banner","settings":{"image":"shopify:\/\/shop_images\/cosrx_offer.webp","image_mobile":"shopify:\/\/shop_images\/cosrx_offer_phone_size.webp","link":"shopify:\/\/collections\/cosrx"}}},"block_order":["banner_idQXti","banner_xEpkzM"],"custom_css":[],"name":"Promo Banners 2","settings":{"banners_per_row":2,"gap":6,"padding_top":5,"padding_bottom":5}},"clean_product_slider_BP4iJh":{"type":"clean-product-slider","custom_css":[],"name":"Clean Product Slider","settings":{"title":"Serums & Treatments","collection":"serums-treatments","view_all_link":"shopify:\/\/collections\/serums-treatments","product_limit":10}},"custom_banners_3jmkGH":{"type":"custom-banners","blocks":{"banner_RFeUpm":{"type":"banner","settings":{"image":"shopify:\/\/shop_images\/FULL_WIDTH_2.webp","image_mobile":"shopify:\/\/shop_images\/FULL_WIDTH_2_phone_size.webp","link":"shopify:\/\/collections\/skin-care-1"}}},"block_order":["banner_RFeUpm"],"name":"Promo Banners","settings":{"banners_per_row":1,"gap":0,"padding_top":5,"padding_bottom":5}},"custom_banners_kpLwRy":{"type":"custom-banners","blocks":{"banner_P9z6Qe":{"type":"banner","settings":{"image":"shopify:\/\/shop_images\/1_2.webp","image_mobile":"shopify:\/\/shop_images\/2_2.webp","link":"shopify:\/\/products\/centella-skin1004-face-wash-ampoule-foam-125ml"}},"banner_HDjxG9":{"type":"banner","settings":{"image":"shopify:\/\/shop_images\/3_1.webp","image_mobile":"shopify:\/\/shop_images\/4_1_cf5957eb-b7f4-4723-a1a5-d6aac61ec478.webp","link":"shopify:\/\/products\/cosrx-6-peptide-booster-serum-150ml"}}},"block_order":["banner_P9z6Qe","banner_HDjxG9"],"disabled":true,"custom_css":[],"name":"Promo Banners 2","settings":{"banners_per_row":2,"gap":6,"padding_top":5,"padding_bottom":5}},"clean_product_slider_kcCnd4":{"type":"clean-product-slider","custom_css":[],"name":"Clean Product Slider","settings":{"title":"Toners & Mists","collection":"toners-mists-new","view_all_link":"shopify:\/\/collections\/toners-mists-new","product_limit":10}},"luxury_reviews_i94nBd":{"type":"luxury-reviews","disabled":true,"custom_css":["{max-width: 1600px; margin: 0 auto;}"],"name":"Luxury Reviews Pro","settings":{}},"ugc_pro_KPWpyd":{"type":"ugc-pro","disabled":true,"custom_css":["{max-width: 1600px; margin: 0 auto;}"],"name":"UGC Pro","settings":{}},"17808312100e02a546":{"type":"apps","blocks":{"judge_me_reviews_videos_carousel_RGLE4f":{"type":"shopify:\/\/apps\/judge-me-reviews\/blocks\/videos_carousel\/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8","disabled":true,"settings":{"show_sample_reviews":true,"reviews_selection":"all","products":[],"filter_pinned":false,"filter_featured":false,"filter_custom_tags":"","star_rating":"all","review_type":"video","max_reviews":20,"show_reviewer_name":true,"stars_size":"medium","text_size":"medium","arrows_position":"bottom","max_width":1600,"corner_styling":"soft","header_text_color":"#000000","card_color":"#7d7d7d","stars_color":"","text_color":"#ffffff","arrows_color":"#000000","show_drop_shadow":false,"show_border":false,"border_color":"#108474","autoplay_media":true,"transition_speed":5,"carousel_style":"highlight","header_text":"customer stories","show_average_rating":true,"rating_display":"default"}},"judge_me_reviews_cards_carousel_t79XUQ":{"type":"shopify:\/\/apps\/judge-me-reviews\/blocks\/cards_carousel\/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8","settings":{"show_sample_reviews":false,"reviews_selection":"all","products":[],"filter_pinned":false,"filter_featured":false,"filter_custom_tags":"","star_rating":"all","show_review_media":true,"display_order":"media_first","no_image_fallback":"product_image","max_reviews":20,"review_length":"medium","text_size":"medium","image_ratio":"1","reviews_shown":5,"show_reviewer_name":true,"show_product_name":true,"hide_arrows_mobile":false,"arrows_position":"sides","max_width":1600,"corner_styling":"soft","header_text_color":"#000000","text_color":"#000000","card_color":"#f9f9f9","stars_color":"#ffa41c","arrows_color":"#000000","transition_speed":7,"header_text":"Customers are saying","show_average_rating":true,"rating_display":"default"}}},"block_order":["judge_me_reviews_videos_carousel_RGLE4f","judge_me_reviews_cards_carousel_t79XUQ"],"settings":{"include_margins":true}},"mo_whatsapp_float_RChTwg":{"type":"Mo-whatsapp-float","disabled":true,"name":"Mo Floating WhatsApp","settings":{}}},"order":["slideshow_EVrUzi","collections_list_4i644b","clean_product_slider_QaCJfK","custom_banners_nnxNcF","skin_quiz_WapiKp","clean_product_slider_JVmYzB","clean_product_slider_pn4iCt","luxury_brands_auto_VCCtMp","custom_banners_FTYnwd","custom_banners_4CtDQQ","custom_banners_79whPx","clean_product_slider_rRGtCy","custom_banners_CVpjme","clean_product_slider_BP4iJh","custom_banners_3jmkGH","custom_banners_kpLwRy","clean_product_slider_kcCnd4","luxury_reviews_i94nBd","ugc_pro_KPWpyd","17808312100e02a546","mo_whatsapp_float_RChTwg"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "slideshow_EVrUzi": {
+      "type": "slideshow",
+      "blocks": {
+        "slide_item_GJUjrM": {
+          "type": "_slide-item",
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/1_6feb956d-222e-4f80-b1ca-e8ca2b276a43.webp",
+            "image_mb": "shopify://shop_images/3_ccf62b7c-b90f-4773-ae3d-634dde272235.webp",
+            "url": "/collections/all?sort_by=best-selling",
+            "banner_target": true,
+            "color_scheme": "scheme-77e4ef58-56a9-4631-876a-12098ba7d57d",
+            "content_position_type": "container",
+            "position_x": 50,
+            "position_y": 50,
+            "content_position": "center-start",
+            "alignment": "center",
+            "position_x_mb": 50,
+            "position_y_mb": 50,
+            "content_position_mb": "start",
+            "alignment_mb": "center",
+            "overlay_content": false,
+            "overlay_color": "#000000",
+            "overlay_opacity": 0,
+            "background_content": false,
+            "background_content_color": "#ffffff",
+            "bg_opacity": 0,
+            "box_square": false,
+            "content_rounded": false,
+            "use_border_content": false,
+            "border_color": "#ffffff",
+            "background_border": "#ffffff",
+            "border_opacity": 0,
+            "border_style": "none",
+            "border_pd_dk": 0,
+            "padding_vertical": 30,
+            "padding_horizontal": 30,
+            "min_width_content": 350,
+            "border_pd": 0
+          },
+          "blocks": {}
+        },
+        "slide_item_jUJpMh": {
+          "type": "_slide-item",
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/Pc_ar.webp",
+            "image_mb": "shopify://shop_images/Mob_en.webp",
+            "url": "shopify://pages/offers",
+            "banner_target": true,
+            "color_scheme": "scheme-77e4ef58-56a9-4631-876a-12098ba7d57d",
+            "content_position_type": "container",
+            "position_x": 50,
+            "position_y": 50,
+            "content_position": "center-start",
+            "alignment": "left",
+            "position_x_mb": 50,
+            "position_y_mb": 50,
+            "content_position_mb": "start",
+            "alignment_mb": "left",
+            "overlay_content": false,
+            "overlay_color": "#000000",
+            "overlay_opacity": 35,
+            "background_content": false,
+            "background_content_color": "#ffffff",
+            "bg_opacity": 0,
+            "box_square": false,
+            "content_rounded": false,
+            "use_border_content": false,
+            "border_color": "#ffffff",
+            "background_border": "#ffffff",
+            "border_opacity": 0,
+            "border_style": "none",
+            "border_pd_dk": 0,
+            "padding_vertical": 30,
+            "padding_horizontal": 30,
+            "min_width_content": 350,
+            "border_pd": 0
+          },
+          "blocks": {}
+        },
+        "slide_item_AWt94T": {
+          "type": "_slide-item",
+          "disabled": true,
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/2_3.webp",
+            "image_mb": "shopify://shop_images/4_1_656d4c68-8dbe-4c5e-b53c-571a4603a679.webp",
+            "url": "shopify://pages/offers",
+            "banner_target": true,
+            "color_scheme": "scheme-77e4ef58-56a9-4631-876a-12098ba7d57d",
+            "content_position_type": "container",
+            "position_x": 50,
+            "position_y": 50,
+            "content_position": "center-start",
+            "alignment": "left",
+            "position_x_mb": 50,
+            "position_y_mb": 50,
+            "content_position_mb": "start",
+            "alignment_mb": "left",
+            "overlay_content": false,
+            "overlay_color": "#000000",
+            "overlay_opacity": 35,
+            "background_content": false,
+            "background_content_color": "#ffffff",
+            "bg_opacity": 0,
+            "box_square": false,
+            "content_rounded": false,
+            "use_border_content": false,
+            "border_color": "#ffffff",
+            "background_border": "#ffffff",
+            "border_opacity": 0,
+            "border_style": "none",
+            "border_pd_dk": 0,
+            "padding_vertical": 30,
+            "padding_horizontal": 30,
+            "min_width_content": 350,
+            "border_pd": 0
+          },
+          "blocks": {}
+        },
+        "slide_item_c3yt4f": {
+          "type": "_slide-item",
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/2_4.webp",
+            "image_mb": "shopify://shop_images/4_2_2.webp",
+            "url": "shopify://pages/offers",
+            "banner_target": true,
+            "color_scheme": "scheme-77e4ef58-56a9-4631-876a-12098ba7d57d",
+            "content_position_type": "container",
+            "position_x": 50,
+            "position_y": 50,
+            "content_position": "center-start",
+            "alignment": "left",
+            "position_x_mb": 50,
+            "position_y_mb": 50,
+            "content_position_mb": "start",
+            "alignment_mb": "left",
+            "overlay_content": false,
+            "overlay_color": "#000000",
+            "overlay_opacity": 35,
+            "background_content": false,
+            "background_content_color": "#ffffff",
+            "bg_opacity": 0,
+            "box_square": false,
+            "content_rounded": false,
+            "use_border_content": false,
+            "border_color": "#ffffff",
+            "background_border": "#ffffff",
+            "border_opacity": 0,
+            "border_style": "none",
+            "border_pd_dk": 0,
+            "padding_vertical": 30,
+            "padding_horizontal": 30,
+            "min_width_content": 350,
+            "border_pd": 0
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "slide_item_GJUjrM",
+        "slide_item_jUJpMh",
+        "slide_item_AWt94T",
+        "slide_item_c3yt4f"
+      ],
+      "custom_css": [
+        ".hdt-slideshow,.hdt-slideshow img {border-radius: 6px !important; overflow: hidden !important;}",
+        ".hdt-slider__dots {position: absolute !important; left: 50% !important; transform: translateX(-50%) !important; display: flex !important; justify-content: center !important; width: auto !important;}"
+      ],
+      "name": "Hero Section",
+      "settings": {
+        "image_height": "adapt_image",
+        "fixed_height": 400,
+        "image_height_mb": "fixed",
+        "fixed_height_mb": 200,
+        "is_fade": false,
+        "loop": true,
+        "autoplay": 7,
+        "pauseOnHover": true,
+        "navUI": false,
+        "nav_visible": "always",
+        "nav_style": "simple",
+        "nav_shape": "default",
+        "nav_size": "small",
+        "nav_hide_mobile": true,
+        "dotUI": true,
+        "pag_style": "default",
+        "pag_position": "center",
+        "pag_width": "full",
+        "pag_rounded": true,
+        "pag_space": 10,
+        "pag_mgt": 10,
+        "pag_hide_mobile": false,
+        "colors_by_section": false,
+        "color_scheme": "",
+        "background_opacity": 0,
+        "full_width": false,
+        "mg": "",
+        "mg_mb": "",
+        "pd": "20",
+        "pd_mb": ",,22px,"
+      }
+    },
+    "collections_list_4i644b": {
+      "type": "collections-list",
+      "blocks": {
+        "collection_item_aqNetM": {
+          "type": "_collection_item",
+          "settings": {
+            "collection": "skin-care",
+            "image": "shopify://shop_images/skin-care.webp",
+            "hdt_collection_list_svg": "",
+            "svg_width": 60,
+            "svg_width_mb": 40,
+            "title": "Skin Care",
+            "collection_link": "",
+            "col_dk": "6",
+            "col_tb": "6",
+            "col_mb": "6"
+          },
+          "blocks": {}
+        },
+        "collection_item_fVappw": {
+          "type": "_collection_item",
+          "disabled": true,
+          "settings": {
+            "collection": "bodycare",
+            "image": "shopify://shop_images/bodycare.webp",
+            "hdt_collection_list_svg": "",
+            "svg_width": 60,
+            "svg_width_mb": 40,
+            "title": "Body Care",
+            "collection_link": "",
+            "col_dk": "6",
+            "col_tb": "6",
+            "col_mb": "6"
+          },
+          "blocks": {}
+        },
+        "collection_item_bChBhn": {
+          "type": "_collection_item",
+          "settings": {
+            "collection": "blush",
+            "image": "shopify://shop_images/blush.webp",
+            "hdt_collection_list_svg": "",
+            "svg_width": 60,
+            "svg_width_mb": 40,
+            "title": "Blush",
+            "collection_link": "",
+            "col_dk": "6",
+            "col_tb": "6",
+            "col_mb": "6"
+          },
+          "blocks": {}
+        },
+        "collection_item_FELqWg": {
+          "type": "_collection_item",
+          "settings": {
+            "collection": "toners",
+            "image": "shopify://shop_images/toners.webp",
+            "hdt_collection_list_svg": "",
+            "svg_width": 60,
+            "svg_width_mb": 40,
+            "title": "Toners",
+            "collection_link": "",
+            "col_dk": "6",
+            "col_tb": "6",
+            "col_mb": "6"
+          },
+          "blocks": {}
+        },
+        "collection_item_Uxab4F": {
+          "type": "_collection_item",
+          "settings": {
+            "collection": "foundation",
+            "image": "shopify://shop_images/foundation.webp",
+            "hdt_collection_list_svg": "",
+            "svg_width": 60,
+            "svg_width_mb": 40,
+            "title": "Foundation",
+            "collection_link": "",
+            "col_dk": "6",
+            "col_tb": "6",
+            "col_mb": "6"
+          },
+          "blocks": {}
+        },
+        "collection_item_tV9p8a": {
+          "type": "_collection_item",
+          "settings": {
+            "collection": "makeup",
+            "image": "shopify://shop_images/makeup.webp",
+            "hdt_collection_list_svg": "",
+            "svg_width": 60,
+            "svg_width_mb": 40,
+            "title": "Makeup",
+            "collection_link": "",
+            "col_dk": "6",
+            "col_tb": "6",
+            "col_mb": "6"
+          },
+          "blocks": {}
+        },
+        "collection_item_AF7bdr": {
+          "type": "_collection_item",
+          "settings": {
+            "collection": "hair-care",
+            "image": "shopify://shop_images/hair-care.webp",
+            "hdt_collection_list_svg": "",
+            "svg_width": 60,
+            "svg_width_mb": 40,
+            "title": "Hair Care",
+            "collection_link": "",
+            "col_dk": "6",
+            "col_tb": "6",
+            "col_mb": "6"
+          },
+          "blocks": {}
+        },
+        "collection_item_6HNTnm": {
+          "type": "_collection_item",
+          "disabled": true,
+          "settings": {
+            "collection": "scalp-care",
+            "image": "shopify://shop_images/scalp-care.webp",
+            "hdt_collection_list_svg": "",
+            "svg_width": 60,
+            "svg_width_mb": 40,
+            "title": "Scalp Care",
+            "collection_link": "",
+            "col_dk": "6",
+            "col_tb": "6",
+            "col_mb": "6"
+          },
+          "blocks": {}
+        },
+        "section-heading-collections-list": {
+          "type": "section-heading",
+          "static": true,
+          "settings": {
+            "design_heading": "1",
+            "horizontal": false,
+            "alignment": "left",
+            "heading_gap": 15,
+            "margin_bottom": 30
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "collection_item_aqNetM",
+        "collection_item_fVappw",
+        "collection_item_bChBhn",
+        "collection_item_FELqWg",
+        "collection_item_Uxab4F",
+        "collection_item_tV9p8a",
+        "collection_item_AF7bdr",
+        "collection_item_6HNTnm"
+      ],
+      "disabled": true,
+      "custom_css": [
+        "{max-width: 1600px !important; margin: 0 auto !important;}"
+      ],
+      "name": "t:sections.collections-list.name",
+      "settings": {
+        "collection_list": [],
+        "collection_des": "5",
+        "content_size": "sm",
+        "content_weight": "semibold",
+        "content_position": "center",
+        "content_space": 0,
+        "show_count": false,
+        "count_label": "Products",
+        "image_rounded": false,
+        "enable_border": false,
+        "image_padding": 30,
+        "image_ratio": "adapt_image",
+        "image_size": true,
+        "img_effect": "zoom",
+        "b_effect": "none",
+        "col_dk": "6",
+        "col_tb": "3",
+        "col_mb": "3",
+        "space_items": "x",
+        "layout_mode": "carousel",
+        "loop": true,
+        "autoplay": 4.5,
+        "pauseOnHover": false,
+        "navUI": true,
+        "nav_position": "default",
+        "nav_visible": "hover",
+        "nav_style": "default",
+        "nav_shape": "rounded",
+        "nav_size": "small",
+        "nav_hide_mobile": true,
+        "dotUI": false,
+        "pag_style": "default",
+        "pag_rounded": true,
+        "pag_space": 10,
+        "pag_mgt": 10,
+        "pag_hide_mobile": false,
+        "colors_by_section": false,
+        "color_scheme": "",
+        "background_opacity": 0,
+        "section_layout": "full_width",
+        "hdt_background_parallax": false,
+        "mg": "0,0,0,0",
+        "mg_mb": ",,30px,",
+        "pd": "",
+        "pd_mb": ""
+      }
+    },
+    "clean_product_slider_QaCJfK": {
+      "type": "clean-product-slider",
+      "custom_css": [],
+      "name": "Clean Product Slider",
+      "settings": {
+        "title": "Best Sellers",
+        "collection": "best-sellers",
+        "view_all_link": "shopify://collections/best-sellers",
+        "product_limit": 10
+      }
+    },
+    "custom_banners_nnxNcF": {
+      "type": "custom-banners",
+      "blocks": {
+        "banner_AHxCUT": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify://shop_images/5_6efdc8e6-520c-427d-827d-92f290518760.webp",
+            "image_mobile": "shopify://shop_images/6_3b338cfe-906c-49d6-9093-c1a2b286d068.webp",
+            "link": "shopify://products/arencia-vitamin-c-booster-shot-30ml"
+          }
+        },
+        "banner_BDeqNx": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify://shop_images/7_84cb6732-13fb-4bb4-bbe4-3d25e101e6b4.webp",
+            "image_mobile": "shopify://shop_images/8_3cf9e5bd-447a-499f-8e99-9b8e547b2406.webp",
+            "link": "shopify://products/celimax-the-vita-a-retinal-shot-tightening-booster"
+          }
+        }
+      },
+      "block_order": [
+        "banner_AHxCUT",
+        "banner_BDeqNx"
+      ],
+      "disabled": true,
+      "custom_css": [],
+      "name": "Promo Banners 2",
+      "settings": {
+        "banners_per_row": 2,
+        "gap": 6,
+        "padding_top": 5,
+        "padding_bottom": 5
+      }
+    },
+    "skin_quiz_WapiKp": {
+      "type": "skin-quiz",
+      "blocks": {
+        "combination_eNbnbL": {
+          "type": "combination",
+          "settings": {
+            "title": "1",
+            "type": "dry",
+            "concern": "unset",
+            "goal": "unset",
+            "age": "unset",
+            "pregnancy": "unset",
+            "products": [
+              "cosrx-hyaluronic-acid-intensive-cream-100g",
+              "beauty-of-joseon-relief-sun-cream-aqua-fresh-rice-b5-50ml",
+              "some-by-mi-beta-panthenol-repair-gel-cleanser-120ml",
+              "anua-birch-moisture-boosting-toner-250ml",
+              "anua-pdrn-hyaluron-cream-60ml",
+              "axis-y-vegan-collagen-eye-serum-10ml"
+            ]
+          }
+        },
+        "combination_GtUtPf": {
+          "type": "combination",
+          "settings": {
+            "title": "2",
+            "type": "normal",
+            "concern": "unset",
+            "goal": "unset",
+            "age": "unset",
+            "pregnancy": "unset",
+            "products": [
+              "dr-althea-aqua-marine-jelly-mist-100ml",
+              "beauty-of-joseon-relief-sun-cream-aqua-fresh-rice-b5-50ml",
+              "centella-skin1004-face-wash-ampoule-foam-125ml",
+              "axis-y-sunday-morning-refreshing-cleansing-foam-120ml",
+              "dr-althea-aqua-marine-watery-cream-50ml",
+              "axis-y-vegan-collagen-eye-serum-10ml"
+            ]
+          }
+        },
+        "combination_LDwXnT": {
+          "type": "combination",
+          "settings": {
+            "title": "3",
+            "type": "combo",
+            "concern": "unset",
+            "goal": "unset",
+            "age": "unset",
+            "pregnancy": "unset",
+            "products": [
+              "anua-heartleaf-quercetinol-pore-deep-cleansing-foam-150ml",
+              "isntree-hyaluronic-acid-fresh-sun-serum-50ml",
+              "centella-skin1004-face-wash-ampoule-foam-125ml",
+              "dr-althea-345-relief-cream-mist-100ml",
+              "dr-althea-345-relief-cream-50ml",
+              "axis-y-vegan-collagen-eye-serum-10ml"
+            ]
+          }
+        },
+        "combination_iLWpcn": {
+          "type": "combination",
+          "settings": {
+            "title": "4",
+            "type": "oily",
+            "concern": "unset",
+            "goal": "unset",
+            "age": "unset",
+            "pregnancy": "unset",
+            "products": [
+              "skin1004-madagascar-centella-hyalu-cica-water-fit-sun-serum-50ml",
+              "medicube-zero-pore-clearing-capsule-cleansing-foam",
+              "anua-heartleaf-quercetinol-pore-deep-cleansing-foam-150ml",
+              "dr-althea-345-relief-cream-mist-100ml",
+              "dr-althea-345-relief-cream-50ml"
+            ]
+          }
+        },
+        "combination_acE9bf": {
+          "type": "combination",
+          "settings": {
+            "title": "5",
+            "type": "oily",
+            "concern": "unset",
+            "goal": "unset",
+            "age": "25plus",
+            "pregnancy": "unset",
+            "products": [
+              "axis-y-vegan-collagen-eye-serum-10ml"
+            ]
+          }
+        },
+        "combination_mwgRnf": {
+          "type": "combination",
+          "settings": {
+            "title": "6",
+            "type": "unset",
+            "concern": "acne",
+            "goal": "unset",
+            "age": "unset",
+            "pregnancy": "unset",
+            "products": [
+              "some-by-mi-aha-bha-pha-30-days-miracle-serum-50ml",
+              "anua-heartleaf-centella-red-spot-cream-30g",
+              "medicube-zero-pore-blackhead-mud-mask-100g",
+              "medicube-zero-pore-pads-mild-70-pads-155g"
+            ]
+          }
+        },
+        "combination_3rwKjd": {
+          "type": "combination",
+          "settings": {
+            "title": "7",
+            "type": "unset",
+            "concern": "darkspots",
+            "goal": "unset",
+            "age": "unset",
+            "pregnancy": "unset",
+            "products": [
+              "anua-niacinamide-10-txa-4-dark-spot-correcting-serum",
+              "arencia-vitamin-c-booster-shot-30ml",
+              "numbuzin-no-5-vitamin-niacinamide-concentrated-pad"
+            ]
+          }
+        },
+        "combination_9K4b8C": {
+          "type": "combination",
+          "settings": {
+            "title": "8",
+            "type": "unset",
+            "concern": "darkspots",
+            "goal": "unset",
+            "age": "unset",
+            "pregnancy": "no",
+            "products": [
+              "medicube-kojic-acid-turmeric-peel-shot-80ml"
+            ]
+          }
+        },
+        "combination_YMFVHY": {
+          "type": "combination",
+          "settings": {
+            "title": "9",
+            "type": "unset",
+            "concern": "redness",
+            "goal": "unset",
+            "age": "unset",
+            "pregnancy": "unset",
+            "products": [
+              "purito-wonder-relief-centella-serum-60ml",
+              "axis-y-heartleaf-my-type-calming-cream-60ml",
+              "some-by-mi-real-snail-skin-barrier-care-mask-20g",
+              "skin1004-madagascar-centella-tea-trica-b5-cream-75ml"
+            ]
+          }
+        },
+        "combination_iGLhJg": {
+          "type": "combination",
+          "settings": {
+            "title": "10",
+            "type": "unset",
+            "concern": "aging",
+            "goal": "unset",
+            "age": "25plus",
+            "pregnancy": "no",
+            "products": [
+              "celimax-the-vita-a-retinal-shot-tightening-booster",
+              "some-by-mi-retinol-intense-reactivating-serum-30ml",
+              "some-by-mi-retinol-intensive-reactivating-mask-22g"
+            ]
+          }
+        },
+        "combination_qgh6zH": {
+          "type": "combination",
+          "settings": {
+            "title": "11",
+            "type": "unset",
+            "concern": "aging",
+            "goal": "unset",
+            "age": "unset",
+            "pregnancy": "unset",
+            "products": [
+              "cosrx-6-peptide-booster-serum-150ml"
+            ]
+          }
+        },
+        "combination_rhwbjV": {
+          "type": "combination",
+          "settings": {
+            "title": "12",
+            "type": "unset",
+            "concern": "dehydration",
+            "goal": "unset",
+            "age": "unset",
+            "pregnancy": "unset",
+            "products": [
+              "anua-faceserum-30ml-kr-w-pdrn-hyaluronic-acid-capsule-100",
+              "medicube-hyaluronic-moisturizing-capsule-cream-55g",
+              "arencia-pdrn-hyaluronic-deep-hydration-pads-90ea-200ml",
+              "eqqualberry-bouncy-day-collagen-glow-up-hydrogel-mask-30g"
+            ]
+          }
+        },
+        "combination_HhbxJN": {
+          "type": "combination",
+          "settings": {
+            "title": "13",
+            "type": "unset",
+            "concern": "dullness",
+            "goal": "unset",
+            "age": "unset",
+            "pregnancy": "unset",
+            "products": [
+              "eqqualberry-vitamin-illuminating-serum-30ml",
+              "numbuzin-no-9-nad-bio-lifting-essence-50ml",
+              "skin1004-madagascar-centella-tone-brightening-dark-spot-ampoule-pad-60-pads",
+              "eqqualberry-bouncy-day-collagen-glow-up-hydrogel-mask-30g"
+            ]
+          }
+        }
+      },
+      "block_order": [
+        "combination_eNbnbL",
+        "combination_GtUtPf",
+        "combination_LDwXnT",
+        "combination_iLWpcn",
+        "combination_acE9bf",
+        "combination_mwgRnf",
+        "combination_3rwKjd",
+        "combination_9K4b8C",
+        "combination_YMFVHY",
+        "combination_iGLhJg",
+        "combination_qgh6zH",
+        "combination_rhwbjV",
+        "combination_HhbxJN"
+      ],
+      "name": "Nichey Skin Quiz",
+      "settings": {
+        "combinations_json": "",
+        "enable_signup": true,
+        "signup_heading": "Your recommendations are ready",
+        "signup_text": "Enter your name and email to continue to your recommendations.",
+        "signup_button": "Continue"
+      }
+    },
+    "clean_product_slider_JVmYzB": {
+      "type": "clean-product-slider",
+      "disabled": true,
+      "name": "Clean Product Slider",
+      "settings": {
+        "title": "Trending Korean Skincare",
+        "collection": "k-beauty",
+        "view_all_link": "shopify://collections/k-beauty",
+        "product_limit": 10
+      }
+    },
+    "clean_product_slider_pn4iCt": {
+      "type": "clean-product-slider",
+      "name": "Clean Product Slider",
+      "settings": {
+        "title": "Skin Concern",
+        "collection": "skin-concern-new",
+        "view_all_link": "shopify://collections/skin-concern-new",
+        "product_limit": 10
+      }
+    },
+    "luxury_brands_auto_VCCtMp": {
+      "type": "luxury-brands-auto",
+      "custom_css": [
+        "{max-width: 1600px; margin: 0 auto;}"
+      ],
+      "name": "Luxury Brands Auto",
+      "settings": {}
+    },
+    "custom_banners_FTYnwd": {
+      "type": "custom-banners",
+      "blocks": {
+        "banner_VDBkPR": {
+          "type": "banner",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/1_1_ef355d48-c9b8-48f1-bbb4-4074887828cb.webp",
+            "image_mobile": "shopify://shop_images/2_1.webp",
+            "link": "shopify://products/numbuzin-no-9-nad-retinol-volumetox-eye-cream-10ml"
+          }
+        }
+      },
+      "block_order": [
+        "banner_VDBkPR"
+      ],
+      "name": "Promo Banners",
+      "settings": {
+        "banners_per_row": 1,
+        "gap": 0,
+        "padding_top": 5,
+        "padding_bottom": 5
+      }
+    },
+    "custom_banners_4CtDQQ": {
+      "type": "custom-banners",
+      "blocks": {
+        "banner_ryCUMG": {
+          "type": "banner",
+          "disabled": true,
+          "settings": {
+            "link": ""
+          }
+        },
+        "banner_fmFp6n": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify://shop_images/FULL_WIDTH_1.webp",
+            "image_mobile": "shopify://shop_images/FULL_WIDTH_1_phone_size.webp",
+            "link": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "banner_ryCUMG",
+        "banner_fmFp6n"
+      ],
+      "custom_css": [],
+      "name": "Promo Banners",
+      "settings": {
+        "banners_per_row": 1,
+        "gap": 0,
+        "padding_top": 5,
+        "padding_bottom": 5
+      }
+    },
+    "custom_banners_79whPx": {
+      "type": "custom-banners",
+      "blocks": {
+        "banner_A4ExzX": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify://shop_images/klairs_offer.webp",
+            "image_mobile": "shopify://shop_images/klairs_offer_phone_size.webp",
+            "link": "shopify://collections/dear-klairs"
+          }
+        },
+        "banner_WtXWWr": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify://shop_images/beauty_of_joseon_offer.webp",
+            "image_mobile": "shopify://shop_images/beauty_of_joseon_offer_phone_size.webp",
+            "link": "shopify://collections/beauty-of-joseon"
+          }
+        }
+      },
+      "block_order": [
+        "banner_A4ExzX",
+        "banner_WtXWWr"
+      ],
+      "disabled": true,
+      "custom_css": [],
+      "name": "Promo Banners 2",
+      "settings": {
+        "banners_per_row": 2,
+        "gap": 6,
+        "padding_top": 5,
+        "padding_bottom": 5
+      }
+    },
+    "clean_product_slider_rRGtCy": {
+      "type": "clean-product-slider",
+      "name": "Clean Product Slider",
+      "settings": {
+        "title": "Skin care",
+        "collection": "skin-care",
+        "view_all_link": "shopify://collections/skin-care",
+        "product_limit": 10
+      }
+    },
+    "custom_banners_CVpjme": {
+      "type": "custom-banners",
+      "blocks": {
+        "banner_idQXti": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify://shop_images/somebymi_offer.webp",
+            "image_mobile": "shopify://shop_images/somebymi_offer_phone_size.webp",
+            "link": "shopify://collections/some-by-mi"
+          }
+        },
+        "banner_xEpkzM": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify://shop_images/cosrx_offer.webp",
+            "image_mobile": "shopify://shop_images/cosrx_offer_phone_size.webp",
+            "link": "shopify://collections/cosrx"
+          }
+        }
+      },
+      "block_order": [
+        "banner_idQXti",
+        "banner_xEpkzM"
+      ],
+      "custom_css": [],
+      "name": "Promo Banners 2",
+      "settings": {
+        "banners_per_row": 2,
+        "gap": 6,
+        "padding_top": 5,
+        "padding_bottom": 5
+      }
+    },
+    "clean_product_slider_BP4iJh": {
+      "type": "clean-product-slider",
+      "custom_css": [],
+      "name": "Clean Product Slider",
+      "settings": {
+        "title": "Serums & Treatments",
+        "collection": "serums-treatments",
+        "view_all_link": "shopify://collections/serums-treatments",
+        "product_limit": 10
+      }
+    },
+    "custom_banners_3jmkGH": {
+      "type": "custom-banners",
+      "blocks": {
+        "banner_RFeUpm": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify://shop_images/FULL_WIDTH_2.webp",
+            "image_mobile": "shopify://shop_images/FULL_WIDTH_2_phone_size.webp",
+            "link": "shopify://collections/skin-care"
+          }
+        }
+      },
+      "block_order": [
+        "banner_RFeUpm"
+      ],
+      "name": "Promo Banners",
+      "settings": {
+        "banners_per_row": 1,
+        "gap": 0,
+        "padding_top": 5,
+        "padding_bottom": 5
+      }
+    },
+    "custom_banners_kpLwRy": {
+      "type": "custom-banners",
+      "blocks": {
+        "banner_P9z6Qe": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify://shop_images/1_2.webp",
+            "image_mobile": "shopify://shop_images/2_2.webp",
+            "link": "shopify://products/centella-skin1004-face-wash-ampoule-foam-125ml"
+          }
+        },
+        "banner_HDjxG9": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify://shop_images/3_1.webp",
+            "image_mobile": "shopify://shop_images/4_1_cf5957eb-b7f4-4723-a1a5-d6aac61ec478.webp",
+            "link": "shopify://products/cosrx-6-peptide-booster-serum-150ml"
+          }
+        }
+      },
+      "block_order": [
+        "banner_P9z6Qe",
+        "banner_HDjxG9"
+      ],
+      "disabled": true,
+      "custom_css": [],
+      "name": "Promo Banners 2",
+      "settings": {
+        "banners_per_row": 2,
+        "gap": 6,
+        "padding_top": 5,
+        "padding_bottom": 5
+      }
+    },
+    "clean_product_slider_kcCnd4": {
+      "type": "clean-product-slider",
+      "custom_css": [],
+      "name": "Clean Product Slider",
+      "settings": {
+        "title": "Toners & Mists",
+        "collection": "toners-mists",
+        "view_all_link": "shopify://collections/toners-mists",
+        "product_limit": 10
+      }
+    },
+    "luxury_reviews_i94nBd": {
+      "type": "luxury-reviews",
+      "disabled": true,
+      "custom_css": [
+        "{max-width: 1600px; margin: 0 auto;}"
+      ],
+      "name": "Luxury Reviews Pro",
+      "settings": {}
+    },
+    "ugc_pro_KPWpyd": {
+      "type": "ugc-pro",
+      "disabled": true,
+      "custom_css": [
+        "{max-width: 1600px; margin: 0 auto;}"
+      ],
+      "name": "UGC Pro",
+      "settings": {}
+    },
+    "17808312100e02a546": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_videos_carousel_RGLE4f": {
+          "type": "shopify://apps/judge-me-reviews/blocks/videos_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "disabled": true,
+          "settings": {
+            "show_sample_reviews": true,
+            "reviews_selection": "all",
+            "products": [],
+            "filter_pinned": false,
+            "filter_featured": false,
+            "filter_custom_tags": "",
+            "star_rating": "all",
+            "review_type": "video",
+            "max_reviews": 20,
+            "show_reviewer_name": true,
+            "stars_size": "medium",
+            "text_size": "medium",
+            "arrows_position": "bottom",
+            "max_width": 1600,
+            "corner_styling": "soft",
+            "header_text_color": "#000000",
+            "card_color": "#7d7d7d",
+            "stars_color": "",
+            "text_color": "#ffffff",
+            "arrows_color": "#000000",
+            "show_drop_shadow": false,
+            "show_border": false,
+            "border_color": "#108474",
+            "autoplay_media": true,
+            "transition_speed": 5,
+            "carousel_style": "highlight",
+            "header_text": "customer stories",
+            "show_average_rating": true,
+            "rating_display": "default"
+          }
+        },
+        "judge_me_reviews_cards_carousel_t79XUQ": {
+          "type": "shopify://apps/judge-me-reviews/blocks/cards_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "show_sample_reviews": false,
+            "reviews_selection": "all",
+            "products": [],
+            "filter_pinned": false,
+            "filter_featured": false,
+            "filter_custom_tags": "",
+            "star_rating": "all",
+            "show_review_media": true,
+            "display_order": "media_first",
+            "no_image_fallback": "product_image",
+            "max_reviews": 20,
+            "review_length": "medium",
+            "text_size": "medium",
+            "image_ratio": "1",
+            "reviews_shown": 5,
+            "show_reviewer_name": true,
+            "show_product_name": true,
+            "hide_arrows_mobile": false,
+            "arrows_position": "sides",
+            "max_width": 1600,
+            "corner_styling": "soft",
+            "header_text_color": "#000000",
+            "text_color": "#000000",
+            "card_color": "#f9f9f9",
+            "stars_color": "#ffa41c",
+            "arrows_color": "#000000",
+            "transition_speed": 7,
+            "header_text": "Customers are saying",
+            "show_average_rating": true,
+            "rating_display": "default"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_videos_carousel_RGLE4f",
+        "judge_me_reviews_cards_carousel_t79XUQ"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "mo_whatsapp_float_RChTwg": {
+      "type": "Mo-whatsapp-float",
+      "disabled": true,
+      "name": "Mo Floating WhatsApp",
+      "settings": {}
+    }
+  },
+  "order": [
+    "slideshow_EVrUzi",
+    "collections_list_4i644b",
+    "clean_product_slider_QaCJfK",
+    "custom_banners_nnxNcF",
+    "skin_quiz_WapiKp",
+    "clean_product_slider_JVmYzB",
+    "clean_product_slider_pn4iCt",
+    "luxury_brands_auto_VCCtMp",
+    "custom_banners_FTYnwd",
+    "custom_banners_4CtDQQ",
+    "custom_banners_79whPx",
+    "clean_product_slider_rRGtCy",
+    "custom_banners_CVpjme",
+    "clean_product_slider_BP4iJh",
+    "custom_banners_3jmkGH",
+    "custom_banners_kpLwRy",
+    "clean_product_slider_kcCnd4",
+    "luxury_reviews_i94nBd",
+    "ugc_pro_KPWpyd",
+    "17808312100e02a546",
+    "mo_whatsapp_float_RChTwg"
+  ]
+}
